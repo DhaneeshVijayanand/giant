@@ -16,7 +16,9 @@ import {
   StarlinkScenario,
   StarlinkTracker,
   StarlinkEvidenceFeed,
-  IndustryReport
+  IndustryReport,
+  PowerBIEmbedConfig,
+  PowerBIStatus
 } from '../types';
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1';
@@ -302,3 +304,41 @@ export function getReportPdfExportUrl(
   if (company) params.append('company', company);
   return `${API_BASE}/reports/export/pdf?${params.toString()}`;
 }
+
+// ================= MILESTONE 5: MICROSOFT POWER BI INTEGRATION =================
+
+export async function fetchPowerBIEmbedConfig(industry?: string): Promise<PowerBIEmbedConfig> {
+  const query = industry ? `?industry=${encodeURIComponent(industry)}` : '';
+  const res = await fetch(`${API_BASE}/powerbi/embed-config${query}`);
+  if (!res.ok) {
+    throw new Error('Failed to fetch Power BI embed configuration');
+  }
+  return res.json();
+}
+
+export async function refreshPowerBIEmbedToken(industry?: string): Promise<PowerBIEmbedConfig> {
+  const query = industry ? `?industry=${encodeURIComponent(industry)}` : '';
+  const res = await fetch(`${API_BASE}/powerbi/refresh-token${query}`, {
+    method: 'POST'
+  });
+  if (!res.ok) {
+    throw new Error('Failed to renew Power BI embed token');
+  }
+  return res.json();
+}
+
+export async function fetchPowerBIStatus(): Promise<PowerBIStatus> {
+  const res = await fetch(`${API_BASE}/powerbi/status`);
+  if (!res.ok) {
+    throw new Error('Failed to fetch Power BI status');
+  }
+  return res.json();
+}
+
+export function getPowerBIDataFeedUrl(industry?: string, format: 'json' | 'csv' = 'json'): string {
+  const params = new URLSearchParams();
+  if (industry) params.append('industry', industry);
+  if (format) params.append('format', format);
+  return `${API_BASE}/powerbi/data-feed?${params.toString()}`;
+}
+

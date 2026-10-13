@@ -35,6 +35,7 @@ class Settings(BaseSettings):
     POWERBI_TENANT_ID: str = ""
     POWERBI_WORKSPACE_ID: str = ""
     POWERBI_REPORT_ID: str = ""
+    POWERBI_DATASET_ID: str = ""
 
 settings = Settings()
 

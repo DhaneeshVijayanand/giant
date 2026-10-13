@@ -331,3 +331,39 @@ export interface IndustryReport {
     topics: string[];
   }>;
 }
+
+// Milestone 5 Types: Power BI Integration
+export interface PowerBIEmbedConfig {
+  is_configured: boolean;
+  report_id?: string;
+  embed_url?: string;
+  embed_token?: string;
+  token_expiry?: string;
+  last_refresh_time?: string | null;
+  dataset_id?: string;
+  industry_filter?: string;
+  view_mode?: string;
+  error?: string;
+  missing_items?: string[];
+  prerequisites?: Record<string, {
+    title: string;
+    requirement: string;
+    how_to_obtain: string;
+  }>;
+}
+
+export interface PowerBIStatus {
+  is_configured: boolean;
+  missing_items: string[];
+  configured_items: string[];
+  prerequisites: Record<string, {
+    title: string;
+    requirement: string;
+    how_to_obtain: string;
+  }>;
+  workspace_id?: string | null;
+  report_id?: string | null;
+  dataset_id?: string | null;
+  tenant_id?: string | null;
+}
+
