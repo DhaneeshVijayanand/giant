@@ -11,7 +11,12 @@ import {
   AIChatMessage,
   AIRecommendation,
   ChurnDatasetMetadata,
-  ChurnEvaluationResult
+  ChurnEvaluationResult,
+  StarlinkTopic,
+  StarlinkScenario,
+  StarlinkTracker,
+  StarlinkEvidenceFeed,
+  IndustryReport
 } from '../types';
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1';
@@ -223,4 +228,77 @@ export async function deleteChurnDataset(): Promise<boolean> {
     method: 'DELETE'
   });
   return res.ok;
+}
+
+// ================= MILESTONE 4: STARLINK CASE STUDY =================
+
+export async function fetchStarlinkCaseStudy(): Promise<{
+  title: string;
+  industry: string;
+  total_topics: number;
+  topics: StarlinkTopic[];
+  disclaimer: string;
+}> {
+  const res = await fetch(`${API_BASE}/starlink/case-study`);
+  if (!res.ok) throw new Error('Failed to fetch Starlink case study topics');
+  return res.json();
+}
+
+export async function fetchStarlinkScenarios(): Promise<{
+  scenarios: StarlinkScenario[];
+  tracker: StarlinkTracker;
+}> {
+  const res = await fetch(`${API_BASE}/starlink/scenarios`);
+  if (!res.ok) throw new Error('Failed to fetch Starlink scenario models');
+  return res.json();
+}
+
+export async function fetchStarlinkEvidence(limit: number = 20): Promise<StarlinkEvidenceFeed> {
+  const res = await fetch(`${API_BASE}/starlink/evidence?limit=${limit}`);
+  if (!res.ok) throw new Error('Failed to fetch live Starlink evidence articles');
+  return res.json();
+}
+
+// ================= MILESTONE 4: REPORTS AND EXPORTS =================
+
+export async function fetchIndustryReport(
+  industry: string = 'telecom',
+  startDate?: string,
+  endDate?: string,
+  company?: string
+): Promise<IndustryReport> {
+  const params = new URLSearchParams({ industry });
+  if (startDate) params.append('start_date', startDate);
+  if (endDate) params.append('end_date', endDate);
+  if (company) params.append('company', company);
+
+  const res = await fetch(`${API_BASE}/reports/generate?${params.toString()}`);
+  if (!res.ok) throw new Error('Failed to generate industry intelligence report');
+  return res.json();
+}
+
+export function getReportCsvExportUrl(
+  industry: string = 'telecom',
+  startDate?: string,
+  endDate?: string,
+  company?: string
+): string {
+  const params = new URLSearchParams({ industry });
+  if (startDate) params.append('start_date', startDate);
+  if (endDate) params.append('end_date', endDate);
+  if (company) params.append('company', company);
+  return `${API_BASE}/reports/export/csv?${params.toString()}`;
+}
+
+export function getReportPdfExportUrl(
+  industry: string = 'telecom',
+  startDate?: string,
+  endDate?: string,
+  company?: string
+): string {
+  const params = new URLSearchParams({ industry });
+  if (startDate) params.append('start_date', startDate);
+  if (endDate) params.append('end_date', endDate);
+  if (company) params.append('company', company);
+  return `${API_BASE}/reports/export/pdf?${params.toString()}`;
 }

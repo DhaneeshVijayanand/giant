@@ -353,3 +353,27 @@ def train_and_evaluate_churn_model(df: pd.DataFrame) -> Dict[str, Any]:
             "Individual predictions must be combined with customer service context before taking contractual action."
         ]
     }
+
+ACTIVE_CHURN_META: Optional[Dict[str, Any]] = None
+ACTIVE_CHURN_RESULT: Optional[Dict[str, Any]] = None
+
+def set_active_churn_model(meta: Dict[str, Any], evaluation: Dict[str, Any]):
+    global ACTIVE_CHURN_META, ACTIVE_CHURN_RESULT
+    ACTIVE_CHURN_META = meta
+    ACTIVE_CHURN_RESULT = evaluation
+
+def clear_active_churn_model():
+    global ACTIVE_CHURN_META, ACTIVE_CHURN_RESULT, ACTIVE_CHURN_DF
+    ACTIVE_CHURN_META = None
+    ACTIVE_CHURN_RESULT = None
+    ACTIVE_CHURN_DF = None
+
+def get_active_churn_status() -> Dict[str, Any]:
+    global ACTIVE_CHURN_META, ACTIVE_CHURN_RESULT
+    if ACTIVE_CHURN_META and ACTIVE_CHURN_RESULT:
+        return {
+            "is_active": True,
+            "metadata": ACTIVE_CHURN_META,
+            "evaluation": ACTIVE_CHURN_RESULT
+        }
+    return {"is_active": False}

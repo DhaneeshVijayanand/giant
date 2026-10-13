@@ -9,6 +9,8 @@ from app.services.churn_service import (
     generate_ibm_telco_demo_data,
     validate_and_clean_dataframe,
     train_and_evaluate_churn_model,
+    set_active_churn_model,
+    clear_active_churn_model,
     ACTIVE_CHURN_DF
 )
 
@@ -71,6 +73,7 @@ def load_demo_dataset(db: Session = Depends(get_db)):
     meta["id"] = db_meta.id
     LATEST_DATASET_META = meta
     LATEST_CHURN_RESULT = eval_result
+    set_active_churn_model(meta, eval_result)
 
     # Data preview (first 5 rows with PII masked)
     preview = cleaned_df.head(5).to_dict(orient="records")
@@ -160,6 +163,7 @@ async def upload_custom_dataset(
     meta["id"] = db_meta.id
     LATEST_DATASET_META = meta
     LATEST_CHURN_RESULT = eval_result
+    set_active_churn_model(meta, eval_result)
 
     preview = cleaned_df.head(5).to_dict(orient="records")
 
@@ -237,6 +241,7 @@ def delete_churn_dataset(db: Session = Depends(get_db)):
     LATEST_CHURN_RESULT = None
     LATEST_DATASET_META = None
     ACTIVE_CHURN_DF = None
+    clear_active_churn_model()
 
     db.query(ChurnDatasetMeta).delete()
     db.commit()

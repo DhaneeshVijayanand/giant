@@ -227,3 +227,107 @@ export interface ChurnEvaluationResult {
   }>;
   business_caveats: string[];
 }
+
+// Milestone 4 Types
+export interface StarlinkTopic {
+  id: string;
+  title: string;
+  status: string;
+  has_evidence: boolean;
+  is_assumption: boolean;
+  official_source: string;
+  source_date: string;
+  source_url: string;
+  last_updated: string;
+  summary: string;
+  category: string;
+}
+
+export interface StarlinkValidationKPI {
+  kpi: string;
+  condition: string;
+  status: 'Supported' | 'Not yet supported' | 'Contradicted' | 'No data';
+  evidence_note: string;
+}
+
+export interface StarlinkScenario {
+  id: string;
+  name: string;
+  probability_label: string;
+  narrative: string;
+  assumptions: string[];
+  winners: string[];
+  losers: string[];
+  segments_switching: string[];
+  business_opportunities: string[];
+  risks_to_incumbents: string[];
+  strategic_recommendations: string[];
+  validation_kpis: StarlinkValidationKPI[];
+}
+
+export interface StarlinkTracker {
+  most_supported_scenario: string;
+  confidence_reasoning: string;
+  key_evidence_pillars: Array<{
+    pillar: string;
+    status: string;
+  }>;
+  disclaimer: string;
+}
+
+export interface StarlinkEvidenceFeed {
+  total_matched: number;
+  articles: Article[];
+  last_checked_at: string;
+  search_keywords_used: string[];
+}
+
+export interface IndustryReport {
+  report_id: string;
+  industry_slug: string;
+  industry_name: string;
+  regulator: string;
+  scope: string;
+  generated_at: string;
+  date_range: {
+    start: string;
+    end: string;
+  };
+  filters_applied: {
+    company: string;
+    total_articles_analyzed: number;
+  };
+  executive_summary: {
+    part_1_verified_facts: string[];
+    part_2_evidence_interpretation: string;
+    part_3_predictions_and_assumptions: string[];
+    part_4_recommended_actions: string[];
+    source_citation: string;
+  };
+  competitor_metrics: {
+    source: string;
+    unit: string;
+    period: string;
+    table: Array<{
+      entity: string;
+      metric: string;
+      value: number;
+      unit: string;
+      period: string;
+    }>;
+  };
+  churn_findings?: {
+    metadata: ChurnDatasetMetadata;
+    evaluation: ChurnEvaluationResult;
+  } | null;
+  recommendations: AIRecommendation[];
+  key_news: Array<{
+    id: number;
+    title: string;
+    source_name: string;
+    url: string;
+    published_at: string;
+    impact_rating: string;
+    topics: string[];
+  }>;
+}

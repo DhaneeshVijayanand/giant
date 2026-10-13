@@ -27,6 +27,8 @@ import { CompetitorTrackerTab } from '../components/CompetitorTrackerTab';
 import { AIAnalystTab } from '../components/AIAnalystTab';
 import { AIRecommendationsTab } from '../components/AIRecommendationsTab';
 import { CustomerChurnTab } from '../components/CustomerChurnTab';
+import { StarlinkCaseStudyTab } from '../components/StarlinkCaseStudyTab';
+import { ReportsExportsTab } from '../components/ReportsExportsTab';
 import { 
   fetchIndustryOverview, 
   fetchNewsArticles, 
@@ -161,16 +163,16 @@ export const DashboardPage: React.FC = () => {
     }
   };
 
-  const tabs = [
+  const tabs: Array<{ id: string; label: string; icon: React.ReactNode; badge?: string }> = [
     { id: 'overview', label: 'Industry Overview', icon: <Layers className="w-4 h-4" /> },
     { id: 'news', label: 'Live Industry News', icon: <Radio className="w-4 h-4" /> },
     { id: 'market-leaders', label: 'Market Leaders', icon: <TrendingUp className="w-4 h-4" /> },
     { id: 'competitor-tracker', label: 'Competitor Tracker', icon: <Users className="w-4 h-4" /> },
     { id: 'ai-analyst', label: 'AI Business Analyst', icon: <Bot className="w-4 h-4" /> },
     { id: 'churn', label: 'Customer Churn', icon: <ShieldAlert className="w-4 h-4" /> },
-    ...(slug === 'telecom' ? [{ id: 'starlink', label: 'Starlink Case Study', icon: <Globe2 className="w-4 h-4" />, badge: 'Milestone 4' }] : []),
+    ...(slug === 'telecom' ? [{ id: 'starlink', label: 'Starlink Case Study', icon: <Globe2 className="w-4 h-4" /> }] : []),
     { id: 'recommendations', label: 'AI Recommendations', icon: <Sparkles className="w-4 h-4" /> },
-    { id: 'reports', label: 'Reports & Exports', icon: <FileSpreadsheet className="w-4 h-4" />, badge: 'Milestone 4' },
+    { id: 'reports', label: 'Reports & Exports', icon: <FileSpreadsheet className="w-4 h-4" /> },
   ];
 
   return (
@@ -611,28 +613,14 @@ export const DashboardPage: React.FC = () => {
           <AIRecommendationsTab industrySlug={slug} />
         )}
 
-        {/* ================= SHELLS FOR FUTURE MILESTONES (M4) ================= */}
-        {['starlink', 'reports'].includes(activeTab) && (
-          <div className="p-10 rounded-2xl bg-navy-900/40 border border-navy-800 text-center max-w-2xl mx-auto my-12">
-            <div className="w-12 h-12 rounded-xl bg-accent-blue/10 text-accent-blue flex items-center justify-center mx-auto mb-4 border border-accent-blue/20">
-              <Sparkles className="w-6 h-6" />
-            </div>
-            <h2 className="text-lg font-bold text-white mb-2">
-              {tabs.find(t => t.id === activeTab)?.label}
-            </h2>
-            <div className="inline-block px-3 py-1 rounded-full bg-navy-800 text-accent-blue border border-navy-700 text-xs font-semibold mb-4">
-              Scheduled for {tabs.find(t => t.id === activeTab)?.badge || 'Upcoming Milestone'}
-            </div>
-            <p className="text-xs text-slate-400 leading-relaxed mb-6">
-              This module will be activated in the next milestone according to the master plan. The underlying database schema and architecture have been primed to connect seamlessly.
-            </p>
-            <button
-              onClick={() => setActiveTab('news')}
-              className="px-4 py-2 rounded-lg bg-accent-blue hover:bg-blue-600 text-white text-xs font-semibold"
-            >
-              Return to Live News Radar
-            </button>
-          </div>
+        {/* ================= TAB 8: STARLINK CASE STUDY (MILESTONE 4) ================= */}
+        {activeTab === 'starlink' && slug === 'telecom' && (
+          <StarlinkCaseStudyTab />
+        )}
+
+        {/* ================= TAB 9: REPORTS AND EXPORTS (MILESTONE 4) ================= */}
+        {activeTab === 'reports' && (
+          <ReportsExportsTab industrySlug={slug} />
         )}
 
       </main>
