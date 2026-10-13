@@ -25,6 +25,15 @@ export default {
           red: '#FF3B30',    // iOS System Red
           teal: '#30B0C7',   // iOS System Teal
           indigo: '#5856D6', // iOS System Indigo
+        },
+        ios: {
+          blue: '#007AFF',
+          indigo: '#5856D6',
+          purple: '#AF52DE',
+          teal: '#30B0C7',
+          green: '#34C759',
+          orange: '#FF9500',
+          red: '#FF3B30',
         }
       },
       fontFamily: {

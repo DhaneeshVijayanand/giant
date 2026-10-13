@@ -66,51 +66,85 @@ export const MarketLeadersTab: React.FC<MarketLeadersTabProps> = ({ industrySlug
       </div>
 
       {/* Historical Trend Chart Card */}
-      {historicalMetrics.length > 0 && (
-        <div className="p-6 sm:p-7 rounded-3xl glass-raised space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-            <div>
-              <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                <TrendingUp className="w-4 h-4 text-ios-blue" />
-                6-Month Historical Progression (Official Periodic Series)
-              </h3>
-              <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
-                Official monthly metric trajectories across verified filing cycles.
-              </p>
-            </div>
-            <div className="text-[11px] font-mono text-slate-600 dark:text-slate-400 glass-control px-3 py-1 rounded-full w-fit">
-              Source: {historicalMetrics[0]?.source}
-            </div>
-          </div>
+      {historicalMetrics.length > 0 && (() => {
+        const displayedMetrics = historicalMetrics.slice(0, 12);
+        const maxVal = Math.max(...displayedMetrics.map(m => m.value), 1);
 
-          {/* Clean Responsive Trend Visualization */}
-          <div className="h-48 w-full flex items-end gap-3 pt-6 pb-2 px-2 border-b border-glass-border">
-            {historicalMetrics.slice(0, 12).map((item, idx) => {
-              // Normalized height percent (base 100)
-              const maxVal = Math.max(...historicalMetrics.map(m => m.value), 1);
-              const heightPct = Math.max(15, (item.value / maxVal) * 100);
+        return (
+          <div className="p-6 sm:p-7 rounded-3xl glass-raised space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                  <TrendingUp className="w-5 h-5 text-sky-500 dark:text-sky-400" />
+                  6-Month Historical Progression (Official Periodic Series)
+                </h3>
+                <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
+                  Official monthly metric trajectories across verified filing cycles.
+                </p>
+              </div>
+              <div className="text-[11px] font-mono text-slate-700 dark:text-slate-300 glass-control px-3.5 py-1.5 rounded-full border border-glass-border w-fit shadow-sm">
+                Source: {displayedMetrics[0]?.source}
+              </div>
+            </div>
 
-              return (
-                <div key={idx} className="flex-1 flex flex-col items-center justify-end h-full group">
-                  <div className="text-[10px] font-mono tabular-nums text-slate-700 dark:text-slate-200 opacity-0 group-hover:opacity-100 transition-opacity mb-1">
-                    {item.value}{item.unit}
-                  </div>
-                  <div 
-                    className="w-full max-w-[42px] rounded-t-xl bg-gradient-to-t from-ios-blue/30 to-ios-blue group-hover:from-ios-indigo/40 group-hover:to-ios-indigo transition-all shadow-sm"
-                    style={{ height: `${heightPct}%` }}
-                  />
-                  <span className="text-[10px] text-slate-600 dark:text-slate-400 font-medium mt-2 truncate w-full text-center">
-                    {item.period}
-                  </span>
-                  <span className="text-[9px] text-slate-500 dark:text-slate-400 truncate w-full text-center font-mono">
-                    {item.entity_name}
+            {/* High-Visibility Modern Glass Bar Chart */}
+            <div className="rounded-2xl glass-base p-4 sm:p-6 border border-glass-border space-y-3">
+              {/* Plotting Canvas with Reference Grid */}
+              <div className="relative h-60 w-full flex items-end gap-2 sm:gap-4 pt-10 pb-1 px-2 border-b-2 border-slate-300/50 dark:border-white/25">
+                
+                {/* Horizontal Guide Lines */}
+                <div className="absolute inset-x-0 top-4 border-b border-dashed border-slate-300/30 dark:border-white/10 pointer-events-none flex justify-between px-2">
+                  <span className="text-[10px] font-mono text-slate-400 dark:text-slate-400 -mt-2.5">
+                    Max: {maxVal.toLocaleString()}
                   </span>
                 </div>
-              );
-            })}
+                <div className="absolute inset-x-0 top-1/2 border-b border-dashed border-slate-300/30 dark:border-white/10 pointer-events-none flex justify-between px-2">
+                  <span className="text-[10px] font-mono text-slate-400 dark:text-slate-400 -mt-2.5">
+                    Mid: {Math.round(maxVal / 2).toLocaleString()}
+                  </span>
+                </div>
+
+                {/* Bars */}
+                {displayedMetrics.map((item, idx) => {
+                  const heightPct = Math.min(100, Math.max(18, (item.value / maxVal) * 100));
+
+                  return (
+                    <div 
+                      key={idx} 
+                      className="flex-1 flex flex-col items-center justify-end h-full z-10 group cursor-pointer"
+                    >
+                      {/* Persistent High-Contrast Value Badge */}
+                      <div className="mb-2.5 px-2 py-0.5 rounded-lg bg-white/95 dark:bg-slate-900/95 border border-slate-300/80 dark:border-cyan-400/40 text-[10px] sm:text-[11px] font-mono font-bold tabular-nums text-slate-900 dark:text-cyan-300 shadow-md group-hover:scale-110 group-hover:border-cyan-400 transition-transform whitespace-nowrap">
+                        {item.value.toLocaleString()} {item.unit}
+                      </div>
+
+                      {/* Solid Luminous Gradient Bar with High-Contrast Border & Glow */}
+                      <div 
+                        className="w-full max-w-[46px] rounded-t-xl bg-gradient-to-t from-blue-600 via-sky-500 to-cyan-400 dark:from-blue-600 dark:via-sky-400 dark:to-cyan-300 border-t-2 border-x border-cyan-200/60 shadow-lg shadow-sky-500/30 group-hover:brightness-125 group-hover:shadow-cyan-400/60 transition-all duration-200"
+                        style={{ height: `${heightPct}%` }}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Dedicated Label Row Below Baseline */}
+              <div className="flex items-start justify-between gap-2 sm:gap-4 px-2 pt-1.5 text-center">
+                {displayedMetrics.map((item, idx) => (
+                  <div key={idx} className="flex-1 min-w-0">
+                    <div className="text-[11px] sm:text-xs font-bold text-slate-800 dark:text-slate-200 truncate">
+                      {item.period}
+                    </div>
+                    <div className="text-[9px] sm:text-[10px] font-mono text-sky-600 dark:text-sky-400 font-semibold truncate mt-0.5">
+                      {item.entity_name}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
 
       {/* Main Competitor Benchmark Table */}
       <div className="p-6 sm:p-7 rounded-3xl glass-raised space-y-4">
