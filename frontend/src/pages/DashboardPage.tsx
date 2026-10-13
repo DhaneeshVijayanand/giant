@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import { 
   Building2, 
@@ -18,11 +18,21 @@ import {
   Globe2, 
   Layers, 
   Sparkles,
-  ArrowUpRight
+  ArrowUpRight,
+  Share2
 } from 'lucide-react';
 import { Navbar } from '../components/Navbar';
-import { fetchIndustryOverview, fetchNewsArticles, fetchIndustryCompanies, triggerManualRefresh } from '../services/api';
-import { Article, IndustryOverview } from '../types';
+import { MarketLeadersTab } from '../components/MarketLeadersTab';
+import { CompetitorTrackerTab } from '../components/CompetitorTrackerTab';
+import { 
+  fetchIndustryOverview, 
+  fetchNewsArticles, 
+  fetchIndustryCompanies, 
+  triggerManualRefresh,
+  fetchSourceHealth,
+  fetchSchedulerStatus
+} from '../services/api';
+import { Article, IndustryOverview, SourceHealthItem, SchedulerStatus } from '../types';
 
 export const DashboardPage: React.FC = () => {
   const { slug = 'telecom' } = useParams<{ slug: string }>();
@@ -43,20 +53,29 @@ export const DashboardPage: React.FC = () => {
   const [selectedTopic, setSelectedTopic] = useState<string>('');
   const [selectedImpact, setSelectedImpact] = useState<string>('');
 
-  const loadData = async () => {
+  // Source Health & Scheduler State (Milestone 2)
+  const [sourcesHealth, setSourcesHealth] = useState<SourceHealthItem[]>([]);
+  const [schedulerStatus, setSchedulerStatus] = useState<SchedulerStatus | null>(null);
+  const [autoRefreshEnabled, setAutoRefreshEnabled] = useState<boolean>(true);
+
+  const loadData = useCallback(async () => {
     try {
-      const [ovData, compList] = await Promise.all([
+      const [ovData, compList, healthData, schedData] = await Promise.all([
         fetchIndustryOverview(slug),
-        fetchIndustryCompanies(slug)
+        fetchIndustryCompanies(slug),
+        fetchSourceHealth(slug),
+        fetchSchedulerStatus()
       ]);
       setOverview(ovData);
       setCompanies(compList);
+      setSourcesHealth(healthData);
+      setSchedulerStatus(schedData);
     } catch (err) {
-      console.error("Error loading overview:", err);
+      console.error("Error loading overview / health:", err);
     }
-  };
+  }, [slug]);
 
-  const loadArticles = async () => {
+  const loadArticles = useCallback(async () => {
     try {
       setLoadingNews(true);
       const data = await fetchNewsArticles({
@@ -73,15 +92,27 @@ export const DashboardPage: React.FC = () => {
     } finally {
       setLoadingNews(false);
     }
-  };
+  }, [slug, selectedCompany, selectedTopic, searchQuery, selectedImpact]);
 
   useEffect(() => {
     loadData();
-  }, [slug]);
+  }, [loadData]);
 
   useEffect(() => {
     loadArticles();
-  }, [slug, selectedCompany, selectedTopic, searchQuery, selectedImpact]);
+  }, [loadArticles]);
+
+  // Frontend Auto-Refresh (Polling every 30 seconds when enabled)
+  useEffect(() => {
+    if (!autoRefreshEnabled) return;
+
+    const interval = setInterval(() => {
+      loadData();
+      loadArticles();
+    }, 30000);
+
+    return () => clearInterval(interval);
+  }, [autoRefreshEnabled, loadData, loadArticles]);
 
   const handleRefresh = async () => {
     try {
@@ -102,6 +133,20 @@ export const DashboardPage: React.FC = () => {
     return Array.from(set);
   }, [articles]);
 
+  const failingSources = sourcesHealth.filter(s => s.status === 'failing' || s.is_stale);
+
+  // Compute next check time from scheduler jobs or source health
+  const nextCheckTimestamp = useMemo(() => {
+    if (sourcesHealth.length > 0) {
+      const valid = sourcesHealth.map(s => s.next_check_at).filter(Boolean);
+      if (valid.length > 0) return valid[0];
+    }
+    if (schedulerStatus?.jobs?.length) {
+      return schedulerStatus.jobs[0].next_run_time;
+    }
+    return null;
+  }, [sourcesHealth, schedulerStatus]);
+
   const formatDateTime = (timestamp: string | null) => {
     if (!timestamp) return 'N/A';
     try {
@@ -116,8 +161,8 @@ export const DashboardPage: React.FC = () => {
   const tabs = [
     { id: 'overview', label: 'Industry Overview', icon: <Layers className="w-4 h-4" /> },
     { id: 'news', label: 'Live Industry News', icon: <Radio className="w-4 h-4" /> },
-    { id: 'market-leaders', label: 'Market Leaders', icon: <TrendingUp className="w-4 h-4" />, badge: 'Milestone 2' },
-    { id: 'competitor-tracker', label: 'Competitor Tracker', icon: <Users className="w-4 h-4" />, badge: 'Milestone 2' },
+    { id: 'market-leaders', label: 'Market Leaders', icon: <TrendingUp className="w-4 h-4" /> },
+    { id: 'competitor-tracker', label: 'Competitor Tracker', icon: <Users className="w-4 h-4" /> },
     { id: 'ai-analyst', label: 'AI Business Analyst', icon: <Bot className="w-4 h-4" />, badge: 'Milestone 3' },
     { id: 'churn', label: 'Customer Churn', icon: <ShieldAlert className="w-4 h-4" />, badge: 'Milestone 3' },
     ...(slug === 'telecom' ? [{ id: 'starlink', label: 'Starlink Case Study', icon: <Globe2 className="w-4 h-4" />, badge: 'Milestone 4' }] : []),
@@ -128,13 +173,17 @@ export const DashboardPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-navy-950 flex flex-col">
       
-      {/* Persistent Navigation */}
+      {/* Persistent Navigation with All 4 Timestamps & Auto-Refresh */}
       <Navbar
         currentIndustry={slug}
         industryName={overview?.name}
         lastSyncTime={overview?.last_sync_time}
+        nextCheckTime={nextCheckTimestamp}
         onRefresh={handleRefresh}
         isRefreshing={isRefreshing}
+        autoRefreshEnabled={autoRefreshEnabled}
+        onToggleAutoRefresh={() => setAutoRefreshEnabled(!autoRefreshEnabled)}
+        hasStaleSource={failingSources.length > 0}
       />
 
       {/* Sub-header / Industry Banner */}
@@ -167,15 +216,33 @@ export const DashboardPage: React.FC = () => {
             </div>
             <div className="h-7 w-px bg-navy-800" />
             <div>
-              <span className="text-[10px] uppercase font-bold text-slate-400 block">Integrity Status</span>
+              <span className="text-[10px] uppercase font-bold text-slate-400 block">Scheduler Engine</span>
               <span className="text-xs font-semibold text-emerald-400 flex items-center gap-1 mt-0.5">
                 <CheckCircle2 className="w-3.5 h-3.5" />
-                Verified
+                APScheduler Active
               </span>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Stale Source & Degradation Warning Banner (Milestone 2) */}
+      {failingSources.length > 0 && (
+        <div className="bg-amber-950/40 border-b border-amber-800/60 px-4 sm:px-6 lg:px-8 py-3">
+          <div className="max-w-7xl mx-auto flex items-start sm:items-center justify-between gap-3 text-xs text-amber-200">
+            <div className="flex items-center space-x-2.5">
+              <AlertTriangle className="w-4 h-4 text-amber-400 flex-shrink-0" />
+              <span>
+                <strong>Source Notice:</strong> One or more feeds ({failingSources.map(s => s.source_name).join(', ')}) reported connection issues. 
+                <strong className="text-white ml-1">Retaining and displaying last-known-good verified data.</strong>
+              </span>
+            </div>
+            <span className="text-[10px] text-amber-400 font-mono hidden md:inline">
+              Scheduler will retry with exponential backoff
+            </span>
+          </div>
+        </div>
+      )}
 
       {/* Horizontal Tabs Navigation */}
       <div className="bg-navy-950 border-b border-navy-800/80 sticky top-16 z-40 backdrop-blur-md">
@@ -208,7 +275,7 @@ export const DashboardPage: React.FC = () => {
       {/* Main Content Area */}
       <main className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 flex-1">
         
-        {/* ================= SECTION 8.C: LIVE INDUSTRY NEWS ================= */}
+        {/* ================= TAB 1: LIVE INDUSTRY NEWS ================= */}
         {activeTab === 'news' && (
           <div className="space-y-6">
             
@@ -284,7 +351,7 @@ export const DashboardPage: React.FC = () => {
 
             </div>
 
-            {/* Articles List / Grid */}
+            {/* Articles Stream */}
             {loadingNews ? (
               <div className="space-y-4">
                 {[1, 2, 3, 4].map(n => (
@@ -317,6 +384,8 @@ export const DashboardPage: React.FC = () => {
                     article.sentiment === 'positive' ? 'text-emerald-400' :
                     article.sentiment === 'negative' ? 'text-rose-400' : 'text-slate-400';
 
+                  const clusterCount = article.cluster_sources ? article.cluster_sources.length : 1;
+
                   return (
                     <article
                       key={article.id}
@@ -346,6 +415,14 @@ export const DashboardPage: React.FC = () => {
                             <CheckCircle2 className="w-3 h-3" />
                             {article.verification_status}
                           </span>
+
+                          {/* Multi-source Event Clustering Badge (Milestone 2) */}
+                          {clusterCount > 1 && (
+                            <span className="px-2 py-0.5 rounded bg-purple-500/15 text-purple-300 border border-purple-500/30 text-[10px] font-semibold flex items-center gap-1">
+                              <Share2 className="w-3 h-3" />
+                              Clustered Event ({clusterCount} Sources)
+                            </span>
+                          )}
                         </div>
 
                         {/* Title with link */}
@@ -361,6 +438,25 @@ export const DashboardPage: React.FC = () => {
                           <p className="text-xs sm:text-sm text-slate-300 leading-relaxed line-clamp-3">
                             {article.summary}
                           </p>
+                        )}
+
+                        {/* Clustered Secondary Sources Links if merged */}
+                        {article.cluster_sources && article.cluster_sources.length > 1 && (
+                          <div className="p-2.5 rounded-lg bg-navy-950/70 border border-navy-800 text-[11px] text-slate-400">
+                            <span className="text-slate-300 font-semibold mr-1.5">Additional Source Reports:</span>
+                            {article.cluster_sources.slice(1).map((s, idx) => (
+                              <a
+                                key={idx}
+                                href={s.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-accent-blue hover:underline inline-flex items-center gap-1 mr-3"
+                              >
+                                <span>{s.source}</span>
+                                <ExternalLink className="w-2.5 h-2.5" />
+                              </a>
+                            ))}
+                          </div>
                         )}
 
                         {/* Tagged Companies & Topics */}
@@ -379,7 +475,7 @@ export const DashboardPage: React.FC = () => {
 
                       </div>
 
-                      {/* Right Timestamp Box */}
+                      {/* Right Timestamp Box with All Separate Timestamps */}
                       <div className="md:w-56 p-3 rounded-lg bg-navy-950/80 border border-navy-800/80 flex flex-col justify-between text-[11px] text-slate-400 space-y-2 flex-shrink-0">
                         <div>
                           <div className="flex items-center space-x-1 text-slate-400 mb-0.5">
@@ -421,7 +517,23 @@ export const DashboardPage: React.FC = () => {
           </div>
         )}
 
-        {/* ================= SECTION 8.A: OVERVIEW TAB ================= */}
+        {/* ================= TAB 2: MARKET LEADERS (ACTIVE MILESTONE 2) ================= */}
+        {activeTab === 'market-leaders' && (
+          <MarketLeadersTab
+            industrySlug={slug}
+            trackedCompanies={companies}
+          />
+        )}
+
+        {/* ================= TAB 3: COMPETITOR TRACKER & WATCHLIST (ACTIVE MILESTONE 2) ================= */}
+        {activeTab === 'competitor-tracker' && (
+          <CompetitorTrackerTab
+            industrySlug={slug}
+            allCompanies={companies}
+          />
+        )}
+
+        {/* ================= TAB 4: INDUSTRY OVERVIEW ================= */}
         {activeTab === 'overview' && (
           <div className="space-y-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -455,8 +567,8 @@ export const DashboardPage: React.FC = () => {
                     <span className="font-mono text-slate-200">{formatDateTime(overview?.last_sync_time || null)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-slate-400">Integrity Classification:</span>
-                    <span className="font-semibold text-emerald-400">Zero Simulated Data</span>
+                    <span className="text-slate-400">Next Scheduled Check:</span>
+                    <span className="font-mono text-accent-blue">{formatDateTime(nextCheckTimestamp)}</span>
                   </div>
                 </div>
               </div>
@@ -467,13 +579,13 @@ export const DashboardPage: React.FC = () => {
                   Business Intelligence Directives
                 </h3>
                 <p className="text-xs text-slate-300 leading-relaxed mb-4">
-                  This intelligence dashboard extracts real-time competitive signals, regulatory shifts, and pricing models directly from authorized RSS and official portal sources.
+                  This intelligence dashboard extracts competitive signals, regulatory shifts, and pricing models directly from authorized RSS and official portal sources.
                 </p>
                 <button
-                  onClick={() => setActiveTab('news')}
+                  onClick={() => setActiveTab('market-leaders')}
                   className="px-3 py-1.5 rounded-lg bg-navy-800 hover:bg-navy-700 text-accent-blue text-xs font-semibold"
                 >
-                  View Live News Feed →
+                  View Market Leaders & Benchmarks →
                 </button>
               </div>
 
@@ -481,8 +593,8 @@ export const DashboardPage: React.FC = () => {
           </div>
         )}
 
-        {/* ================= SHELL PLACEHOLDERS FOR FUTURE MILESTONES ================= */}
-        {['market-leaders', 'competitor-tracker', 'ai-analyst', 'churn', 'starlink', 'recommendations', 'reports'].includes(activeTab) && (
+        {/* ================= SHELLS FOR FUTURE MILESTONES (M3, M4) ================= */}
+        {['ai-analyst', 'churn', 'starlink', 'recommendations', 'reports'].includes(activeTab) && (
           <div className="p-10 rounded-2xl bg-navy-900/40 border border-navy-800 text-center max-w-2xl mx-auto my-12">
             <div className="w-12 h-12 rounded-xl bg-accent-blue/10 text-accent-blue flex items-center justify-center mx-auto mb-4 border border-accent-blue/20">
               <Sparkles className="w-6 h-6" />
@@ -494,7 +606,7 @@ export const DashboardPage: React.FC = () => {
               Scheduled for {tabs.find(t => t.id === activeTab)?.badge || 'Upcoming Milestone'}
             </div>
             <p className="text-xs text-slate-400 leading-relaxed mb-6">
-              This module will be fully activated in the next milestone according to the master plan. The underlying database schema and architecture have been primed to connect seamlessly.
+              This module will be activated in the next milestone according to the master plan. The underlying database schema and architecture have been primed to connect seamlessly.
             </p>
             <button
               onClick={() => setActiveTab('news')}

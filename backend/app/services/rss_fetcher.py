@@ -7,6 +7,7 @@ from typing import List, Dict, Any, Optional
 import httpx
 import feedparser
 from app.services.tagger import tag_article
+from app.services.deduplicator import normalize_url
 
 CLEANR = re.compile('<.*?>')
 
@@ -32,6 +33,7 @@ def parse_entry_time(entry: Any) -> datetime:
 async def fetch_feed_articles(feed_config: Dict[str, Any], industry_slug: str) -> List[Dict[str, Any]]:
     """
     Fetches an RSS feed asynchronously, parses articles, and tags them.
+    Raises exception on failure so caller can record source health.
     """
     feed_url = feed_config["url"]
     source_name = feed_config["name"]
@@ -41,16 +43,11 @@ async def fetch_feed_articles(feed_config: Dict[str, Any], industry_slug: str) -
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 GiantIndustryIntelligence/1.0"
     }
 
-    try:
-        async with httpx.AsyncClient(timeout=10.0, follow_redirects=True) as client:
-            resp = await client.get(feed_url, headers=headers)
-            if resp.status_code != 200:
-                print(f"[RSS Fetcher] Warning: {source_name} returned status {resp.status_code}")
-                return []
-            content = resp.text
-    except Exception as e:
-        print(f"[RSS Fetcher] Error connecting to {source_name} ({feed_url}): {e}")
-        return []
+    async with httpx.AsyncClient(timeout=10.0, follow_redirects=True) as client:
+        resp = await client.get(feed_url, headers=headers)
+        if resp.status_code != 200:
+            raise RuntimeError(f"{source_name} returned HTTP status {resp.status_code}")
+        content = resp.text
 
     parsed = feedparser.parse(content)
     if not parsed.entries:
@@ -58,7 +55,7 @@ async def fetch_feed_articles(feed_config: Dict[str, Any], industry_slug: str) -
 
     now_utc = datetime.now(timezone.utc)
 
-    for entry in parsed.entries[:25]: # Take top 25 newest entries per feed
+    for entry in parsed.entries[:25]:
         title = clean_html(getattr(entry, "title", "")).strip()
         link = getattr(entry, "link", "").strip()
         if not title or not link:
@@ -71,6 +68,7 @@ async def fetch_feed_articles(feed_config: Dict[str, Any], industry_slug: str) -
 
         pub_time = parse_entry_time(entry)
         guid = compute_guid(link, title)
+        canonical = normalize_url(link)
 
         companies, topics, sentiment, business_impact = tag_article(title, summary, industry_slug)
 
@@ -80,6 +78,7 @@ async def fetch_feed_articles(feed_config: Dict[str, Any], industry_slug: str) -
             "summary": summary,
             "source": source_name,
             "url": link,
+            "canonical_url": canonical,
             "published_at": pub_time,
             "retrieved_at": now_utc,
             "industry": industry_slug,

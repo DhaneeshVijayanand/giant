@@ -8,23 +8,35 @@ import {
   ChevronRight,
   Building2,
   Zap,
-  Smartphone
+  Smartphone,
+  AlertTriangle,
+  Clock,
+  Play,
+  Pause
 } from 'lucide-react';
 
 interface NavbarProps {
   currentIndustry?: string;
   industryName?: string;
   lastSyncTime?: string | null;
+  nextCheckTime?: string | null;
   onRefresh?: () => void;
   isRefreshing?: boolean;
+  autoRefreshEnabled?: boolean;
+  onToggleAutoRefresh?: () => void;
+  hasStaleSource?: boolean;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
   currentIndustry,
   industryName,
   lastSyncTime,
+  nextCheckTime,
   onRefresh,
   isRefreshing = false,
+  autoRefreshEnabled = true,
+  onToggleAutoRefresh,
+  hasStaleSource = false,
 }) => {
   const navigate = useNavigate();
 
@@ -41,7 +53,7 @@ export const Navbar: React.FC<NavbarProps> = ({
     }
   };
 
-  const formatSyncTime = (timestamp?: string | null) => {
+  const formatTimeOnly = (timestamp?: string | null) => {
     if (!timestamp) return 'No sync recorded';
     try {
       const date = new Date(timestamp);
@@ -52,7 +64,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-navy-950/85 backdrop-blur-md border-b border-navy-800">
+    <header className="sticky top-0 z-50 bg-navy-950/90 backdrop-blur-md border-b border-navy-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         
         {/* Brand & Industry Breadcrumb */}
@@ -87,17 +99,55 @@ export const Navbar: React.FC<NavbarProps> = ({
           )}
         </div>
 
-        {/* Action Controls & Real-Time Indicators */}
-        <div className="flex items-center space-x-2 sm:space-x-4">
+        {/* Action Controls & Timestamps */}
+        <div className="flex items-center space-x-2 sm:space-x-3">
           
-          {/* Data Freshness Indicator */}
-          <div className="hidden md:flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-navy-900/90 border border-navy-800 text-xs text-slate-300">
-            <Radio className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
-            <span>Feed Freshness:</span>
-            <span className="font-mono text-slate-100 font-medium">
-              {formatSyncTime(lastSyncTime)}
-            </span>
+          {/* Stale Warning Indicator */}
+          {hasStaleSource && (
+            <div className="hidden lg:flex items-center space-x-1.5 px-2.5 py-1 rounded-md bg-amber-500/15 border border-amber-500/30 text-[11px] text-amber-300">
+              <AlertTriangle className="w-3.5 h-3.5" />
+              <span>Source Degraded (Showing Last-Good)</span>
+            </div>
+          )}
+
+          {/* Separate Timestamps: Last Sync & Next Scheduled Check */}
+          <div className="hidden md:flex items-center space-x-3 px-3 py-1.5 rounded-lg bg-navy-900/90 border border-navy-800 text-xs text-slate-300">
+            <div className="flex items-center space-x-1.5">
+              <Radio className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
+              <span className="text-slate-400">Last Sync:</span>
+              <span className="font-mono text-slate-100 font-medium">
+                {formatTimeOnly(lastSyncTime)}
+              </span>
+            </div>
+            {nextCheckTime && (
+              <>
+                <span className="text-slate-600">•</span>
+                <div className="flex items-center space-x-1.5">
+                  <Clock className="w-3.5 h-3.5 text-accent-blue" />
+                  <span className="text-slate-400">Next Check:</span>
+                  <span className="font-mono text-slate-200 font-medium">
+                    {formatTimeOnly(nextCheckTime)}
+                  </span>
+                </div>
+              </>
+            )}
           </div>
+
+          {/* Auto Refresh Toggle Button */}
+          {onToggleAutoRefresh && (
+            <button
+              onClick={onToggleAutoRefresh}
+              className={`hidden sm:flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-medium transition-colors ${
+                autoRefreshEnabled 
+                  ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/20' 
+                  : 'bg-navy-900 border-navy-700 text-slate-400 hover:text-white'
+              }`}
+              title={autoRefreshEnabled ? 'Auto-refresh active (polls every 30s)' : 'Auto-refresh paused'}
+            >
+              {autoRefreshEnabled ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3" />}
+              <span className="text-[11px]">{autoRefreshEnabled ? 'Auto (30s)' : 'Paused'}</span>
+            </button>
+          )}
 
           {/* Power BI Page 3.1 Link */}
           {currentIndustry && (
@@ -110,7 +160,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             </Link>
           )}
 
-          {/* Manual Refresh Trigger */}
+          {/* Manual Refresh Trigger connected to Scheduler */}
           {onRefresh && (
             <button
               onClick={onRefresh}
