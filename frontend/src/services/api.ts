@@ -7,7 +7,11 @@ import {
   SchedulerStatus,
   CompetitorMetric,
   CompetitorDevelopment,
-  WatchlistItem
+  WatchlistItem,
+  AIChatMessage,
+  AIRecommendation,
+  ChurnDatasetMetadata,
+  ChurnEvaluationResult
 } from '../types';
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1';
@@ -138,6 +142,84 @@ export async function addToWatchlist(company_name: string, industry: string, not
 
 export async function removeFromWatchlist(itemId: number): Promise<boolean> {
   const res = await fetch(`${API_BASE}/competitors/watchlist/${itemId}`, {
+    method: 'DELETE'
+  });
+  return res.ok;
+}
+
+// ================= MILESTONE 3: AI ANALYST & RECOMMENDATIONS =================
+
+export async function sendAIChat(query: string, industry: string): Promise<AIChatMessage> {
+  const res = await fetch(`${API_BASE}/ai/chat`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query, industry })
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.detail || 'Failed to communicate with AI Business Analyst');
+  }
+  return res.json();
+}
+
+export async function fetchAIRecommendations(industry: string, regenerate: boolean = false): Promise<AIRecommendation[]> {
+  const res = await fetch(`${API_BASE}/ai/recommendations?industry=${encodeURIComponent(industry)}&regenerate=${regenerate}`);
+  if (!res.ok) {
+    throw new Error('Failed to fetch AI business recommendations');
+  }
+  return res.json();
+}
+
+export async function fetchAISpendStatus(): Promise<{ allowed: boolean; current_spend_usd: number; spend_cap_usd: number; spend_cap_exceeded: boolean }> {
+  const res = await fetch(`${API_BASE}/ai/spend`);
+  if (!res.ok) return { allowed: true, current_spend_usd: 0, spend_cap_usd: 10, spend_cap_exceeded: false };
+  return res.json();
+}
+
+// ================= MILESTONE 3: CUSTOMER CHURN INTELLIGENCE =================
+
+export interface ChurnDatasetResponse {
+  metadata: ChurnDatasetMetadata;
+  quality_summary: any;
+  preview: any[];
+  evaluation: ChurnEvaluationResult;
+}
+
+export async function loadChurnDemoDataset(): Promise<ChurnDatasetResponse> {
+  const res = await fetch(`${API_BASE}/churn/load-demo`, {
+    method: 'POST'
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.detail || 'Failed to load IBM Telco demonstration dataset');
+  }
+  return res.json();
+}
+
+export async function uploadChurnDataset(file: File, targetColumn: string = 'Churn'): Promise<ChurnDatasetResponse> {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('target_column', targetColumn);
+
+  const res = await fetch(`${API_BASE}/churn/upload`, {
+    method: 'POST',
+    body: formData
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.detail || 'Failed to upload and validate CSV dataset');
+  }
+  return res.json();
+}
+
+export async function fetchChurnStatus(): Promise<{ is_active: boolean; metadata?: ChurnDatasetMetadata; evaluation?: ChurnEvaluationResult }> {
+  const res = await fetch(`${API_BASE}/churn/status`);
+  if (!res.ok) return { is_active: false };
+  return res.json();
+}
+
+export async function deleteChurnDataset(): Promise<boolean> {
+  const res = await fetch(`${API_BASE}/churn/dataset`, {
     method: 'DELETE'
   });
   return res.ok;

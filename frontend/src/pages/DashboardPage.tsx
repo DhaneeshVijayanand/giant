@@ -24,6 +24,9 @@ import {
 import { Navbar } from '../components/Navbar';
 import { MarketLeadersTab } from '../components/MarketLeadersTab';
 import { CompetitorTrackerTab } from '../components/CompetitorTrackerTab';
+import { AIAnalystTab } from '../components/AIAnalystTab';
+import { AIRecommendationsTab } from '../components/AIRecommendationsTab';
+import { CustomerChurnTab } from '../components/CustomerChurnTab';
 import { 
   fetchIndustryOverview, 
   fetchNewsArticles, 
@@ -163,10 +166,10 @@ export const DashboardPage: React.FC = () => {
     { id: 'news', label: 'Live Industry News', icon: <Radio className="w-4 h-4" /> },
     { id: 'market-leaders', label: 'Market Leaders', icon: <TrendingUp className="w-4 h-4" /> },
     { id: 'competitor-tracker', label: 'Competitor Tracker', icon: <Users className="w-4 h-4" /> },
-    { id: 'ai-analyst', label: 'AI Business Analyst', icon: <Bot className="w-4 h-4" />, badge: 'Milestone 3' },
-    { id: 'churn', label: 'Customer Churn', icon: <ShieldAlert className="w-4 h-4" />, badge: 'Milestone 3' },
+    { id: 'ai-analyst', label: 'AI Business Analyst', icon: <Bot className="w-4 h-4" /> },
+    { id: 'churn', label: 'Customer Churn', icon: <ShieldAlert className="w-4 h-4" /> },
     ...(slug === 'telecom' ? [{ id: 'starlink', label: 'Starlink Case Study', icon: <Globe2 className="w-4 h-4" />, badge: 'Milestone 4' }] : []),
-    { id: 'recommendations', label: 'AI Recommendations', icon: <Sparkles className="w-4 h-4" />, badge: 'Milestone 3' },
+    { id: 'recommendations', label: 'AI Recommendations', icon: <Sparkles className="w-4 h-4" /> },
     { id: 'reports', label: 'Reports & Exports', icon: <FileSpreadsheet className="w-4 h-4" />, badge: 'Milestone 4' },
   ];
 
@@ -593,8 +596,23 @@ export const DashboardPage: React.FC = () => {
           </div>
         )}
 
-        {/* ================= SHELLS FOR FUTURE MILESTONES (M3, M4) ================= */}
-        {['ai-analyst', 'churn', 'starlink', 'recommendations', 'reports'].includes(activeTab) && (
+        {/* ================= TAB 5: AI BUSINESS ANALYST (MILESTONE 3) ================= */}
+        {activeTab === 'ai-analyst' && (
+          <AIAnalystTab industrySlug={slug} />
+        )}
+
+        {/* ================= TAB 6: CUSTOMER CHURN INTELLIGENCE (MILESTONE 3) ================= */}
+        {activeTab === 'churn' && (
+          <CustomerChurnTab />
+        )}
+
+        {/* ================= TAB 7: AI RECOMMENDATIONS (MILESTONE 3) ================= */}
+        {activeTab === 'recommendations' && (
+          <AIRecommendationsTab industrySlug={slug} />
+        )}
+
+        {/* ================= SHELLS FOR FUTURE MILESTONES (M4) ================= */}
+        {['starlink', 'reports'].includes(activeTab) && (
           <div className="p-10 rounded-2xl bg-navy-900/40 border border-navy-800 text-center max-w-2xl mx-auto my-12">
             <div className="w-12 h-12 rounded-xl bg-accent-blue/10 text-accent-blue flex items-center justify-center mx-auto mb-4 border border-accent-blue/20">
               <Sparkles className="w-6 h-6" />

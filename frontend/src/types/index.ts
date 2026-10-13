@@ -123,3 +123,107 @@ export interface CompetitorDevelopment {
   source_url?: string;
   published_date: string;
 }
+
+// Milestone 3 Types
+export interface AIChatMessage {
+  id?: number;
+  role: 'user' | 'assistant';
+  query?: string;
+  facts?: string;
+  interpretation?: string;
+  predictions?: string;
+  actions?: string;
+  sources?: Array<{
+    title: string;
+    source: string;
+    url: string;
+    published_at: string;
+  }>;
+  evidence_found?: boolean;
+  spend_cap_exceeded?: boolean;
+}
+
+export interface AIRecommendation {
+  id: number;
+  industry: string;
+  title: string;
+  business_problem: string;
+  supporting_evidence: string;
+  suggested_action: string;
+  expected_benefit: string;
+  potential_risks: string;
+  kpi_metric: string;
+  confidence_level: string;
+  correlation_vs_causation_note: string;
+  sources: Array<{
+    title: string;
+    source: string;
+    url: string;
+  }>;
+  suggested_review_date: string;
+  created_at?: string;
+}
+
+export interface ChurnDatasetMetadata {
+  id?: number;
+  dataset_name: string;
+  filename: string;
+  total_rows: number;
+  total_columns: number;
+  columns_list: string[];
+  target_column: string;
+  is_demo: boolean;
+  attribution?: string;
+}
+
+export interface ChurnModelMetrics {
+  name: string;
+  accuracy: number;
+  precision: number;
+  recall: number;
+  f1_score: number;
+  roc_auc: number;
+  confusion_matrix: {
+    true_negatives: number;
+    false_positives: number;
+    false_negatives: number;
+    true_positives: number;
+  };
+}
+
+export interface ChurnEvaluationResult {
+  data_leakage_prevented_columns: string[];
+  sample_size_evaluated: number;
+  test_split_size: number;
+  models: {
+    baseline_logistic_regression: ChurnModelMetrics;
+    random_forest: ChurnModelMetrics;
+  };
+  risk_distribution: {
+    low_risk_count: number;
+    low_risk_pct: number;
+    medium_risk_count: number;
+    medium_risk_pct: number;
+    high_risk_count: number;
+    high_risk_pct: number;
+  };
+  feature_drivers: Array<{
+    feature: string;
+    importance: number;
+    percentage: number;
+  }>;
+  segment_comparisons: Array<{
+    segment_name: string;
+    categories: Array<{
+      name: string;
+      churn_rate_pct: number;
+    }>;
+  }>;
+  suggested_retention_actions: Array<{
+    priority: string;
+    action: string;
+    rationale: string;
+    expected_impact: string;
+  }>;
+  business_caveats: string[];
+}

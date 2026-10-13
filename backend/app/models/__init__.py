@@ -1,5 +1,6 @@
 from app.models.article import Article, SyncLog, SourceHealth
 from app.models.competitor import OfficialMetric, WatchlistItem, CompetitorDevelopment
+from app.models.ai_models import AIChatLog, AISpendTracker, AIRecommendationItem, ChurnDatasetMeta
 
 __all__ = [
     "Article", 
@@ -7,5 +8,9 @@ __all__ = [
     "SourceHealth",
     "OfficialMetric", 
     "WatchlistItem", 
-    "CompetitorDevelopment"
+    "CompetitorDevelopment",
+    "AIChatLog",
+    "AISpendTracker",
+    "AIRecommendationItem",
+    "ChurnDatasetMeta"
 ]
