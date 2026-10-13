@@ -135,7 +135,10 @@ export const WelcomePage: React.FC = () => {
           </div>
 
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight mb-4 leading-tight text-slate-900 dark:text-white">
-            HELLO, <span className="bg-gradient-to-r from-accent-blue via-indigo-500 to-accent-purple bg-clip-text text-transparent">BUSINESS ANALYST!</span>
+            HELLO,{' '}
+            <span className="bg-gradient-to-r from-blue-600 via-sky-600 to-indigo-600 dark:from-sky-400 dark:via-cyan-300 dark:to-sky-200 bg-clip-text text-transparent font-black filter dark:drop-shadow-[0_2px_16px_rgba(56,189,248,0.35)]">
+              BUSINESS ANALYST!
+            </span>
           </h1>
 
           <p className="text-base sm:text-xl text-slate-600 dark:text-slate-300 font-normal max-w-2xl mb-10 leading-relaxed">
