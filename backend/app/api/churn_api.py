@@ -97,17 +97,38 @@ async def upload_custom_dataset(
     """
     global LATEST_CHURN_RESULT, LATEST_DATASET_META
 
-    # File format validation
-    if not file.filename.lower().endswith(".csv"):
+    # 1. Filename & Path traversal check
+    import os
+    safe_filename = os.path.basename(file.filename or "")
+    if not safe_filename.lower().endswith(".csv"):
         raise HTTPException(
             status_code=400, 
-            detail=f"Invalid file format: '{file.filename}'. Only authorized CSV files are accepted."
+            detail=f"Invalid file format: '{safe_filename}'. Only authorized CSV files are accepted."
+        )
+
+    # 2. Content-Type check (if provided by client)
+    allowed_content_types = {
+        "text/csv", "application/csv", "text/plain", 
+        "text/comma-separated-values", "application/vnd.ms-excel",
+        "application/octet-stream"
+    }
+    if file.content_type and file.content_type.lower() not in allowed_content_types:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Invalid MIME content-type: '{file.content_type}'. Expected CSV format."
         )
 
     content = await file.read()
-    # 10 MB size limit
+    # 3. 10 MB size limit
     if len(content) > 10 * 1024 * 1024:
         raise HTTPException(status_code=400, detail="File size exceeds maximum permitted limit (10 MB).")
+
+    # 4. Binary executable / Null-byte protection (disallow binary payloads)
+    if b"\x00" in content[:4096]:
+        raise HTTPException(
+            status_code=400,
+            detail="File content security violation: Binary or corrupted data detected. Only plain text CSV files are allowed."
+        )
 
     try:
         df = pd.read_csv(io.BytesIO(content))

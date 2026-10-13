@@ -4,12 +4,56 @@ import html
 from datetime import datetime, timezone
 import time
 from typing import List, Dict, Any, Optional
+import ipaddress
+from urllib.parse import urlparse
 import httpx
 import feedparser
+from app.config import INDUSTRIES_CONFIG
 from app.services.tagger import tag_article
 from app.services.deduplicator import normalize_url
 
 CLEANR = re.compile('<.*?>')
+
+def get_allowed_feed_domains() -> set:
+    allowed = set()
+    for ind in INDUSTRIES_CONFIG.values():
+        for feed in ind.get("rss_feeds", []):
+            parsed = urlparse(feed.get("url", ""))
+            if parsed.hostname:
+                allowed.add(parsed.hostname.lower())
+    return allowed
+
+def is_private_or_loopback(hostname: str) -> bool:
+    if hostname.lower() in ("localhost", "127.0.0.1", "0.0.0.0", "::1"):
+        return True
+    try:
+        ip = ipaddress.ip_address(hostname)
+        return ip.is_private or ip.is_loopback or ip.is_reserved or ip.is_link_local
+    except ValueError:
+        return False
+
+def validate_feed_url(url: str) -> None:
+    """
+    SSRF Protection:
+    Ensures feed URLs use http/https, do not resolve to loopback/private RFC1918 subnets,
+    and belong to the authorized RSS domains allowlist.
+    """
+    parsed = urlparse(url)
+    if parsed.scheme not in ("http", "https"):
+        raise ValueError(f"Security SSRF: Disallowed protocol '{parsed.scheme}'. Only HTTP/HTTPS permitted.")
+    hostname = parsed.hostname
+    if not hostname:
+        raise ValueError("Security SSRF: Missing hostname in feed URL.")
+    if is_private_or_loopback(hostname):
+        raise ValueError(f"Security SSRF: Blocked target '{hostname}' (private or loopback IP).")
+    
+    allowed_domains = get_allowed_feed_domains()
+    is_allowed = any(
+        hostname.lower() == d or hostname.lower().endswith("." + d)
+        for d in allowed_domains
+    )
+    if not is_allowed:
+        raise ValueError(f"Security SSRF: Host '{hostname}' is not in configured RSS source allowlist.")
 
 def clean_html(raw_html: Optional[str]) -> str:
     if not raw_html:
@@ -38,6 +82,9 @@ async def fetch_feed_articles(feed_config: Dict[str, Any], industry_slug: str) -
     feed_url = feed_config["url"]
     source_name = feed_config["name"]
     articles: List[Dict[str, Any]] = []
+
+    # SSRF verification: checks protocol, non-routable/private IP, and source allowlist
+    validate_feed_url(feed_url)
 
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 GiantIndustryIntelligence/1.0"

@@ -7,5 +7,16 @@ export default defineConfig({
   server: {
     port: 5173,
     host: true,
+  },
+  build: {
+    chunkSizeWarningLimit: 600,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom', 'lucide-react', 'clsx', 'tailwind-merge'],
+          powerbi: ['powerbi-client']
+        }
+      }
+    }
   }
 })

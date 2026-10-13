@@ -49,3 +49,9 @@ wheels/
 .DS_Store
 Thumbs.db
 *.log
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+backups/

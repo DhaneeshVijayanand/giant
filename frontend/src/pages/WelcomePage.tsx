@@ -87,10 +87,11 @@ export const WelcomePage: React.FC = () => {
 
           <button
             onClick={handleSkip}
-            className="group flex items-center space-x-1.5 px-3.5 py-1.5 rounded-lg bg-navy-800/80 hover:bg-navy-700 border border-navy-700 hover:border-slate-500 text-xs font-semibold text-slate-200 transition-all"
+            aria-label={`Skip countdown and proceed to industry selection (${secondsLeft} seconds remaining)`}
+            className="group flex items-center space-x-1.5 px-3.5 py-1.5 rounded-lg bg-navy-800/80 hover:bg-navy-700 border border-navy-700 hover:border-slate-500 text-xs font-semibold text-slate-200 transition-all focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2 focus:ring-offset-navy-950"
           >
             <span>Skip ({secondsLeft}s)</span>
-            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform motion-reduce:transform-none" />
           </button>
         </div>
       </header>
@@ -100,7 +101,7 @@ export const WelcomePage: React.FC = () => {
         
         {/* Subtle pill badge */}
         <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-accent-blue/10 border border-accent-blue/25 text-accent-blue text-xs font-semibold mb-6">
-          <Activity className="w-3.5 h-3.5 animate-pulse" />
+          <Activity className="w-3.5 h-3.5 animate-pulse motion-reduce:animate-none" />
           <span>Real-Time Market Radar & Churn Analytics</span>
         </div>
 
@@ -143,13 +144,14 @@ export const WelcomePage: React.FC = () => {
         <div className="flex flex-col sm:flex-row items-center gap-4">
           <button
             onClick={handleSkip}
-            className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-accent-blue to-accent-violet hover:from-blue-600 hover:to-violet-600 text-white font-semibold text-sm shadow-lg shadow-accent-blue/25 hover:shadow-accent-blue/40 flex items-center justify-center space-x-2 transition-all transform hover:-translate-y-0.5"
+            aria-label="Proceed to Industry Selection"
+            className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-accent-blue to-accent-violet hover:from-blue-600 hover:to-violet-600 text-white font-semibold text-sm shadow-lg shadow-accent-blue/25 hover:shadow-accent-blue/40 flex items-center justify-center space-x-2 transition-all transform hover:-translate-y-0.5 motion-reduce:transform-none focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2 focus:ring-offset-navy-950"
           >
             <span>Proceed to Industry Selection</span>
             <ArrowRight className="w-4 h-4" />
           </button>
 
-          <span className="text-xs text-slate-400">
+          <span className="text-xs text-slate-400" aria-live="polite">
             Auto-advancing in <strong className="text-white font-mono">{secondsLeft}s</strong>
           </span>
         </div>

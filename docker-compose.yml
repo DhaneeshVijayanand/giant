@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: giant-backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - ENVIRONMENT=production
+      - DEBUG=false
+      - HOST=0.0.0.0
+      - PORT=8000
+      - DATABASE_URL=postgresql://giant_admin:giant_secure_password@db:5432/giant_db
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - LLM_SPEND_CAP_USD=${LLM_SPEND_CAP_USD:-10.0}
+      - POWERBI_CLIENT_ID=${POWERBI_CLIENT_ID:-}
+      - POWERBI_CLIENT_SECRET=${POWERBI_CLIENT_SECRET:-}
+      - POWERBI_TENANT_ID=${POWERBI_TENANT_ID:-}
+      - POWERBI_WORKSPACE_ID=${POWERBI_WORKSPACE_ID:-}
+      - POWERBI_REPORT_ID=${POWERBI_REPORT_ID:-}
+      - POWERBI_DATASET_ID=${POWERBI_DATASET_ID:-}
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - backend_data:/app/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: giant-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  db:
+    image: postgres:16-alpine
+    container_name: giant-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: giant_db
+      POSTGRES_USER: giant_admin
+      POSTGRES_PASSWORD: giant_secure_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U giant_admin -d giant_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+volumes:
+  pgdata:
+    driver: local
+  backend_data:
+    driver: local

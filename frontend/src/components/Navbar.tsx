@@ -137,7 +137,8 @@ export const Navbar: React.FC<NavbarProps> = ({
           {onToggleAutoRefresh && (
             <button
               onClick={onToggleAutoRefresh}
-              className={`hidden sm:flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-medium transition-colors ${
+              aria-label={autoRefreshEnabled ? 'Pause auto-refresh polling' : 'Enable auto-refresh polling every 30 seconds'}
+              className={`hidden sm:flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2 focus:ring-offset-navy-950 ${
                 autoRefreshEnabled 
                   ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300 hover:bg-emerald-500/20' 
                   : 'bg-navy-900 border-navy-700 text-slate-400 hover:text-white'
@@ -153,7 +154,8 @@ export const Navbar: React.FC<NavbarProps> = ({
           {currentIndustry && (
             <Link
               to={`/industry/${currentIndustry}/news-bi`}
-              className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-navy-800/80 hover:bg-navy-700/80 border border-accent-violet/30 hover:border-accent-violet text-xs font-semibold text-purple-300 transition-all shadow-sm shadow-purple-500/10"
+              aria-label="Navigate to Power BI Analytics View"
+              className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-navy-800/80 hover:bg-navy-700/80 border border-accent-violet/30 hover:border-accent-violet text-xs font-semibold text-purple-300 transition-all shadow-sm shadow-purple-500/10 focus:outline-none focus:ring-2 focus:ring-accent-violet focus:ring-offset-2 focus:ring-offset-navy-950"
             >
               <BarChart3 className="w-3.5 h-3.5 text-accent-violet" />
               <span className="hidden sm:inline">Power BI View</span>
@@ -165,7 +167,8 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               onClick={onRefresh}
               disabled={isRefreshing}
-              className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-accent-blue hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50 text-white text-xs font-medium transition-all shadow-md shadow-accent-blue/20"
+              aria-label="Refresh latest RSS and official data feeds"
+              className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-accent-blue hover:bg-blue-600 active:bg-blue-700 disabled:opacity-50 text-white text-xs font-medium transition-all shadow-md shadow-accent-blue/20 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2 focus:ring-offset-navy-950"
               title="Poll latest RSS and official feeds now"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin' : ''}`} />
