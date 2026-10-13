@@ -4,6 +4,7 @@ export default {
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -16,14 +17,37 @@ export default {
           600: '#334155',
         },
         accent: {
-          blue: '#3B82F6',
-          violet: '#8B5CF6',
-          indigo: '#6366F1',
-          cyan: '#06B6D4',
+          blue: '#007AFF', // iOS System Blue
+          violet: '#8E44AD',
+          purple: '#AF52DE', // iOS System Purple
+          green: '#34C759',  // iOS System Green
+          orange: '#FF9500', // iOS System Orange
+          red: '#FF3B30',    // iOS System Red
+          teal: '#30B0C7',   // iOS System Teal
+          indigo: '#5856D6', // iOS System Indigo
         }
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+        sans: [
+          '-apple-system',
+          'BlinkMacSystemFont',
+          '"SF Pro Display"',
+          '"SF Pro Text"',
+          'Inter',
+          'system-ui',
+          'sans-serif'
+        ],
+      },
+      borderRadius: {
+        '2xl': '20px',
+        '3xl': '26px',
+        '4xl': '32px',
+      },
+      boxShadow: {
+        'glass-sm': '0 2px 10px 0 rgba(0, 0, 0, 0.08), inset 0 1px 0 0 rgba(255, 255, 255, 0.12)',
+        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.2), inset 0 1px 0 0 rgba(255, 255, 255, 0.15)',
+        'glass-lg': '0 16px 48px 0 rgba(0, 0, 0, 0.28), inset 0 1px 0 0 rgba(255, 255, 255, 0.2)',
+        'glass-light': '0 8px 30px 0 rgba(0, 0, 0, 0.06), inset 0 1px 0 0 rgba(255, 255, 255, 0.8)',
       }
     },
   },

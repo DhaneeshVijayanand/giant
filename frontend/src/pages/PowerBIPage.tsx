@@ -201,7 +201,7 @@ export const PowerBIPage: React.FC = () => {
   const jsonFeedUrl = getPowerBIDataFeedUrl(slug, 'json');
 
   return (
-    <div className="min-h-screen bg-navy-950 flex flex-col">
+    <div className="min-h-screen text-slate-900 dark:text-slate-100 flex flex-col">
       <Navbar
         currentIndustry={slug}
         industryName={overview?.name}
@@ -211,47 +211,47 @@ export const PowerBIPage: React.FC = () => {
       />
 
       {/* Header Bar */}
-      <div className="bg-navy-900/60 border-b border-navy-800 py-6 px-4 sm:px-6 lg:px-8">
+      <div className="glass-base border-b border-glass-border py-6 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
             <Link
               to={`/industry/${slug}`}
-              className="inline-flex items-center space-x-1.5 text-xs text-accent-blue hover:underline mb-2"
+              className="inline-flex items-center space-x-1.5 text-xs text-ios-blue hover:underline mb-2"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
               <span>Back to {overview?.name || slug.toUpperCase()} Dashboard</span>
             </Link>
             
-            <div className="flex items-center space-x-3">
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            <div className="flex flex-wrap items-center gap-3">
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
                 LIVE NEWS INTELLIGENCE: POWER BI
               </h1>
               {embedConfig?.is_configured ? (
-                <span className="text-xs px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-semibold flex items-center gap-1">
+                <span className="text-xs px-3 py-0.5 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-300 border border-emerald-500/30 font-semibold flex items-center gap-1">
                   <CheckCircle2 className="w-3.5 h-3.5" />
                   Service Principal Active
                 </span>
               ) : (
-                <span className="text-xs px-2.5 py-0.5 rounded-full bg-purple-500/15 text-purple-300 border border-purple-500/30 font-semibold">
+                <span className="text-xs px-3 py-0.5 rounded-full bg-ios-indigo/15 text-ios-indigo border border-ios-indigo/30 font-semibold">
                   Native Fallback Active
                 </span>
               )}
             </div>
 
-            <p className="text-xs text-slate-300 mt-1">
-              Sector: <strong className="text-white">{overview?.name}</strong> • Reporting Data Layer Powered by Giant Pipeline
+            <p className="text-xs text-slate-600 dark:text-slate-400 mt-1">
+              Sector: <strong className="text-slate-900 dark:text-white">{overview?.name}</strong> • Reporting Data Layer Powered by Giant Pipeline
             </p>
           </div>
 
-          {/* Mode Switcher Buttons */}
-          <div className="flex items-center space-x-2">
+          {/* Mode Switcher Buttons (iOS Segmented Style) */}
+          <div className="flex items-center p-1 rounded-2xl glass-control">
             {embedConfig?.is_configured && (
               <button
                 onClick={() => setViewMode('embedded')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all ${
                   viewMode === 'embedded'
-                    ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20'
-                    : 'bg-navy-900 text-slate-400 hover:text-white border border-navy-700'
+                    ? 'bg-emerald-600 text-white shadow-sm'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
                 Embedded Power BI Report
@@ -260,10 +260,10 @@ export const PowerBIPage: React.FC = () => {
 
             <button
               onClick={() => setViewMode('fallback')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all ${
                 viewMode === 'fallback'
-                  ? 'bg-accent-violet text-white shadow-md shadow-accent-violet/20'
-                  : 'bg-navy-900 text-slate-400 hover:text-white border border-navy-700'
+                  ? 'bg-ios-indigo text-white shadow-sm'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
               Native BI Fallback
@@ -271,10 +271,10 @@ export const PowerBIPage: React.FC = () => {
 
             <button
               onClick={() => setViewMode('setup')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center space-x-1 ${
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all flex items-center space-x-1.5 ${
                 viewMode === 'setup'
-                  ? 'bg-accent-blue text-white shadow-md shadow-accent-blue/20'
-                  : 'bg-navy-900 text-slate-400 hover:text-white border border-navy-700'
+                  ? 'bg-ios-blue text-white shadow-sm'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
               <Settings className="w-3.5 h-3.5" />
@@ -288,8 +288,8 @@ export const PowerBIPage: React.FC = () => {
       <main className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 flex-1">
         
         {loading ? (
-          <div className="py-24 text-center text-slate-400 text-xs">
-            <div className="w-8 h-8 border-2 border-accent-blue border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+          <div className="py-24 text-center text-slate-500 dark:text-slate-400 text-xs">
+            <div className="w-8 h-8 border-2 border-ios-blue border-t-transparent rounded-full animate-spin mx-auto mb-3" />
             Connecting to Power BI Service & Reporting Layer...
           </div>
         ) : (
@@ -299,29 +299,29 @@ export const PowerBIPage: React.FC = () => {
               <div className="space-y-4">
                 
                 {/* Embed Metadata & Freshness Banner */}
-                <div className="p-4 rounded-xl bg-navy-900/80 border border-navy-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+                <div className="p-4 rounded-2xl glass-base flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
                   <div className="flex items-center space-x-2.5">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                    <CheckCircle2 className="w-4 h-4 text-emerald-500 dark:text-emerald-400 flex-shrink-0" />
                     <div>
-                      <span className="font-bold text-white">
+                      <span className="font-bold text-slate-900 dark:text-white">
                         Authenticated Microsoft Power BI Embed Session
                       </span>
-                      <span className="text-slate-400 ml-2">
-                        (Workspace: <code className="text-accent-blue font-mono">{powerBIStatus?.workspace_id?.slice(0, 8)}...</code>)
+                      <span className="text-slate-600 dark:text-slate-400 ml-2">
+                        (Workspace: <code className="text-ios-blue font-mono">{powerBIStatus?.workspace_id?.slice(0, 8)}...</code>)
                       </span>
                     </div>
                   </div>
 
-                  <div className="flex items-center space-x-4 text-[11px] text-slate-300 font-mono">
+                  <div className="flex items-center space-x-4 text-[11px] text-slate-600 dark:text-slate-300 font-mono">
                     <div className="flex items-center space-x-1.5">
-                      <Clock className="w-3.5 h-3.5 text-accent-blue" />
+                      <Clock className="w-3.5 h-3.5 text-ios-blue" />
                       <span>
                         Service Data-Refresh: <strong>{formatDateTime(embedConfig.last_refresh_time)}</strong>
                       </span>
                     </div>
 
                     {tokenRenewing && (
-                      <span className="text-amber-400 flex items-center gap-1">
+                      <span className="text-amber-500 flex items-center gap-1">
                         <RefreshCw className="w-3 h-3 animate-spin" />
                         Renewing token...
                       </span>
@@ -330,8 +330,8 @@ export const PowerBIPage: React.FC = () => {
                 </div>
 
                 {embedError && (
-                  <div className="p-3.5 rounded-lg bg-red-950/40 border border-red-800 text-xs text-red-200 flex items-center space-x-2">
-                    <AlertTriangle className="w-4 h-4 text-red-400 flex-shrink-0" />
+                  <div className="p-4 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-xs text-rose-600 dark:text-rose-200 flex items-center space-x-2">
+                    <AlertTriangle className="w-4 h-4 text-rose-500 flex-shrink-0" />
                     <span>{embedError}</span>
                   </div>
                 )}
@@ -339,7 +339,7 @@ export const PowerBIPage: React.FC = () => {
                 {/* Power BI Embed Container */}
                 <div 
                   ref={embedContainerRef}
-                  className="w-full h-[750px] rounded-2xl bg-navy-900/40 border border-navy-800 shadow-2xl overflow-hidden"
+                  className="w-full h-[750px] rounded-3xl glass-raised border border-glass-border shadow-glass-overlay overflow-hidden"
                 />
 
               </div>
@@ -350,18 +350,18 @@ export const PowerBIPage: React.FC = () => {
               <div className="space-y-6">
                 
                 {/* Mandatory Fallback Banner */}
-                <div className="p-4 rounded-xl bg-purple-950/40 border border-purple-800/60 flex items-start space-x-3 text-xs text-purple-200">
-                  <BarChart3 className="w-5 h-5 text-accent-violet flex-shrink-0 mt-0.5" />
+                <div className="p-4 sm:p-5 rounded-2xl bg-ios-indigo/10 border border-ios-indigo/25 flex items-start space-x-3 text-xs text-slate-800 dark:text-slate-200">
+                  <BarChart3 className="w-5 h-5 text-ios-indigo flex-shrink-0 mt-0.5" />
                   <div className="space-y-1">
-                    <p className="font-bold text-purple-300 uppercase tracking-wide text-[11px]">
+                    <p className="font-bold text-ios-indigo uppercase tracking-wider text-[11px]">
                       Native dashboard (Power BI not connected)
                     </p>
-                    <p className="text-purple-100/90 leading-relaxed font-medium">
+                    <p className="leading-relaxed font-medium">
                       Per project rules, this native dashboard is explicitly identified as our local high-fidelity fallback. Authentic Microsoft Power BI Service embedding requires Azure tenant credentials. All metrics below are computed directly from the real database.
                     </p>
                     {!embedConfig?.is_configured && (
-                      <p className="text-[11px] text-purple-300/80">
-                        Missing Azure credentials: <code className="text-accent-blue font-mono font-bold">{(powerBIStatus?.missing_items || []).join(', ') || 'Azure Service Principal'}</code>. Switch to <strong>Setup & Prerequisites</strong> for configuration details.
+                      <p className="text-[11px] text-slate-600 dark:text-slate-400">
+                        Missing Azure credentials: <code className="text-ios-blue font-mono font-bold">{(powerBIStatus?.missing_items || []).join(', ') || 'Azure Service Principal'}</code>. Switch to <strong>Setup & Prerequisites</strong> for configuration details.
                       </p>
                     )}
                   </div>
@@ -371,18 +371,18 @@ export const PowerBIPage: React.FC = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                   
                   {/* Sentiment Distribution */}
-                  <div className="p-5 rounded-2xl bg-navy-900/60 border border-navy-800">
-                    <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-4 flex items-center gap-2">
-                      <PieIcon className="w-4 h-4 text-accent-blue" />
+                  <div className="p-6 sm:p-7 rounded-3xl glass-raised space-y-4">
+                    <h3 className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider flex items-center gap-2">
+                      <PieIcon className="w-4 h-4 text-ios-blue" />
                       Sentiment Classification
                     </h3>
-                    <div className="space-y-3 text-xs">
+                    <div className="space-y-3.5 text-xs">
                       <div>
-                        <div className="flex justify-between mb-1">
-                          <span className="text-emerald-400 font-semibold">Positive</span>
-                          <span className="font-mono text-white">{sentimentBreakdown['positive'] || 0}</span>
+                        <div className="flex justify-between mb-1.5">
+                          <span className="text-emerald-600 dark:text-emerald-400 font-semibold">Positive</span>
+                          <span className="font-mono tabular-nums text-slate-900 dark:text-white font-bold">{sentimentBreakdown['positive'] || 0}</span>
                         </div>
-                        <div className="h-1.5 w-full bg-navy-950 rounded-full overflow-hidden">
+                        <div className="h-2 w-full glass-control rounded-full overflow-hidden">
                           <div 
                             className="h-full bg-emerald-500 rounded-full" 
                             style={{ width: `${(sentimentBreakdown['positive'] || 0) / (articles.length || 1) * 100}%` }}
@@ -391,11 +391,11 @@ export const PowerBIPage: React.FC = () => {
                       </div>
 
                       <div>
-                        <div className="flex justify-between mb-1">
-                          <span className="text-slate-400 font-semibold">Neutral</span>
-                          <span className="font-mono text-white">{sentimentBreakdown['neutral'] || 0}</span>
+                        <div className="flex justify-between mb-1.5">
+                          <span className="text-slate-600 dark:text-slate-400 font-semibold">Neutral</span>
+                          <span className="font-mono tabular-nums text-slate-900 dark:text-white font-bold">{sentimentBreakdown['neutral'] || 0}</span>
                         </div>
-                        <div className="h-1.5 w-full bg-navy-950 rounded-full overflow-hidden">
+                        <div className="h-2 w-full glass-control rounded-full overflow-hidden">
                           <div 
                             className="h-full bg-slate-400 rounded-full" 
                             style={{ width: `${(sentimentBreakdown['neutral'] || 0) / (articles.length || 1) * 100}%` }}
@@ -404,11 +404,11 @@ export const PowerBIPage: React.FC = () => {
                       </div>
 
                       <div>
-                        <div className="flex justify-between mb-1">
-                          <span className="text-rose-400 font-semibold">Negative</span>
-                          <span className="font-mono text-white">{sentimentBreakdown['negative'] || 0}</span>
+                        <div className="flex justify-between mb-1.5">
+                          <span className="text-rose-500 dark:text-rose-400 font-semibold">Negative</span>
+                          <span className="font-mono tabular-nums text-slate-900 dark:text-white font-bold">{sentimentBreakdown['negative'] || 0}</span>
                         </div>
-                        <div className="h-1.5 w-full bg-navy-950 rounded-full overflow-hidden">
+                        <div className="h-2 w-full glass-control rounded-full overflow-hidden">
                           <div 
                             className="h-full bg-rose-500 rounded-full" 
                             style={{ width: `${(sentimentBreakdown['negative'] || 0) / (articles.length || 1) * 100}%` }}
@@ -419,18 +419,18 @@ export const PowerBIPage: React.FC = () => {
                   </div>
 
                   {/* Business Impact Distribution */}
-                  <div className="p-5 rounded-2xl bg-navy-900/60 border border-navy-800">
-                    <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-4 flex items-center gap-2">
-                      <TrendingUp className="w-4 h-4 text-amber-400" />
+                  <div className="p-6 sm:p-7 rounded-3xl glass-raised space-y-4">
+                    <h3 className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider flex items-center gap-2">
+                      <TrendingUp className="w-4 h-4 text-amber-500" />
                       Business Impact Distribution
                     </h3>
-                    <div className="space-y-3 text-xs">
+                    <div className="space-y-3.5 text-xs">
                       <div>
-                        <div className="flex justify-between mb-1">
-                          <span className="text-rose-400 font-semibold">High Impact</span>
-                          <span className="font-mono text-white">{impactBreakdown['high'] || 0}</span>
+                        <div className="flex justify-between mb-1.5">
+                          <span className="text-rose-500 dark:text-rose-400 font-semibold">High Impact</span>
+                          <span className="font-mono tabular-nums text-slate-900 dark:text-white font-bold">{impactBreakdown['high'] || 0}</span>
                         </div>
-                        <div className="h-1.5 w-full bg-navy-950 rounded-full overflow-hidden">
+                        <div className="h-2 w-full glass-control rounded-full overflow-hidden">
                           <div 
                             className="h-full bg-rose-500 rounded-full" 
                             style={{ width: `${(impactBreakdown['high'] || 0) / (articles.length || 1) * 100}%` }}
@@ -439,11 +439,11 @@ export const PowerBIPage: React.FC = () => {
                       </div>
 
                       <div>
-                        <div className="flex justify-between mb-1">
-                          <span className="text-amber-400 font-semibold">Medium Impact</span>
-                          <span className="font-mono text-white">{impactBreakdown['medium'] || 0}</span>
+                        <div className="flex justify-between mb-1.5">
+                          <span className="text-amber-500 dark:text-amber-400 font-semibold">Medium Impact</span>
+                          <span className="font-mono tabular-nums text-slate-900 dark:text-white font-bold">{impactBreakdown['medium'] || 0}</span>
                         </div>
-                        <div className="h-1.5 w-full bg-navy-950 rounded-full overflow-hidden">
+                        <div className="h-2 w-full glass-control rounded-full overflow-hidden">
                           <div 
                             className="h-full bg-amber-500 rounded-full" 
                             style={{ width: `${(impactBreakdown['medium'] || 0) / (articles.length || 1) * 100}%` }}
@@ -452,13 +452,13 @@ export const PowerBIPage: React.FC = () => {
                       </div>
 
                       <div>
-                        <div className="flex justify-between mb-1">
-                          <span className="text-slate-400 font-semibold">Low Impact</span>
-                          <span className="font-mono text-white">{impactBreakdown['low'] || 0}</span>
+                        <div className="flex justify-between mb-1.5">
+                          <span className="text-slate-600 dark:text-slate-400 font-semibold">Low Impact</span>
+                          <span className="font-mono tabular-nums text-slate-900 dark:text-white font-bold">{impactBreakdown['low'] || 0}</span>
                         </div>
-                        <div className="h-1.5 w-full bg-navy-950 rounded-full overflow-hidden">
+                        <div className="h-2 w-full glass-control rounded-full overflow-hidden">
                           <div 
-                            className="h-full bg-slate-600 rounded-full" 
+                            className="h-full bg-slate-500 rounded-full" 
                             style={{ width: `${(impactBreakdown['low'] || 0) / (articles.length || 1) * 100}%` }}
                           />
                         </div>
@@ -467,19 +467,19 @@ export const PowerBIPage: React.FC = () => {
                   </div>
 
                   {/* Most-Mentioned Companies */}
-                  <div className="p-5 rounded-2xl bg-navy-900/60 border border-navy-800">
-                    <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider mb-4 flex items-center gap-2">
-                      <Building2 className="w-4 h-4 text-accent-violet" />
+                  <div className="p-6 sm:p-7 rounded-3xl glass-raised space-y-4">
+                    <h3 className="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider flex items-center gap-2">
+                      <Building2 className="w-4 h-4 text-ios-indigo" />
                       Top Mentioned Entities
                     </h3>
                     {topCompanies.length === 0 ? (
-                      <p className="text-xs text-slate-400">No entity mentions recorded yet.</p>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">No entity mentions recorded yet.</p>
                     ) : (
-                      <div className="space-y-2 text-xs">
+                      <div className="space-y-2.5 text-xs">
                         {topCompanies.map(([comp, count]) => (
-                          <div key={comp} className="flex items-center justify-between p-2 rounded-lg bg-navy-950/60 border border-navy-800">
-                            <span className="text-slate-200 font-medium truncate max-w-[150px]">{comp}</span>
-                            <span className="font-mono text-accent-blue font-bold">{count} mentions</span>
+                          <div key={comp} className="flex items-center justify-between p-2.5 rounded-2xl glass-base border border-glass-border">
+                            <span className="text-slate-900 dark:text-slate-200 font-medium truncate max-w-[150px]">{comp}</span>
+                            <span className="font-mono tabular-nums text-ios-blue font-bold">{count} mentions</span>
                           </div>
                         ))}
                       </div>
@@ -489,13 +489,13 @@ export const PowerBIPage: React.FC = () => {
                 </div>
 
                 {/* Live Data Feed Stream Table */}
-                <div className="p-5 rounded-2xl bg-navy-900/60 border border-navy-800 space-y-3">
+                <div className="p-6 sm:p-7 rounded-3xl glass-raised space-y-4">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <div>
-                      <h3 className="text-xs font-bold text-white uppercase tracking-wider">
+                      <h3 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
                         Live Reporting Data Layer Stream ({articles.length} verified records available)
                       </h3>
-                      <p className="text-[11px] text-slate-400">
+                      <p className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">
                         Sanitized view feeds Power BI Desktop and Service without customer PII.
                       </p>
                     </div>
@@ -504,50 +504,50 @@ export const PowerBIPage: React.FC = () => {
                       <a
                         href={csvFeedUrl}
                         download
-                        className="px-3 py-1 rounded-lg bg-navy-800 hover:bg-navy-700 border border-navy-700 text-slate-200 text-xs font-semibold flex items-center space-x-1"
+                        className="px-3.5 py-1.5 rounded-xl glass-control hover:bg-white/10 dark:hover:bg-white/10 text-slate-800 dark:text-slate-200 text-xs font-semibold flex items-center space-x-1.5 transition-all"
                       >
-                        <Download className="w-3 h-3 text-emerald-400" />
+                        <Download className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" />
                         <span>Download Feed CSV</span>
                       </a>
                     </div>
                   </div>
 
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-left text-xs text-slate-300">
-                      <thead className="bg-navy-950 text-slate-400 uppercase text-[10px] font-bold border-b border-navy-800">
+                  <div className="overflow-x-auto rounded-2xl border border-glass-border">
+                    <table className="w-full text-left text-xs text-slate-700 dark:text-slate-300">
+                      <thead className="glass-control text-slate-700 dark:text-slate-300 uppercase text-[10px] font-bold border-b border-glass-border">
                         <tr>
-                          <th className="py-2.5 px-3">Headline</th>
-                          <th className="py-2.5 px-3">Source</th>
-                          <th className="py-2.5 px-3">Impact</th>
-                          <th className="py-2.5 px-3">Sentiment</th>
-                          <th className="py-2.5 px-3">Published</th>
-                          <th className="py-2.5 px-3 text-right">Action</th>
+                          <th className="py-3 px-3.5">Headline</th>
+                          <th className="py-3 px-3.5">Source</th>
+                          <th className="py-3 px-3.5">Impact</th>
+                          <th className="py-3 px-3.5">Sentiment</th>
+                          <th className="py-3 px-3.5">Published</th>
+                          <th className="py-3 px-3.5 text-right">Action</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-navy-800/60">
+                      <tbody className="divide-y divide-glass-border">
                         {articles.slice(0, 8).map((a) => (
-                          <tr key={a.id} className="hover:bg-navy-950/40">
-                            <td className="py-2.5 px-3 font-medium text-white max-w-md truncate">{a.title}</td>
-                            <td className="py-2.5 px-3 font-semibold text-accent-blue">{a.source}</td>
-                            <td className="py-2.5 px-3">
-                              <span className={`px-2 py-0.5 rounded text-[10px] uppercase font-bold ${
-                                a.business_impact === 'high' ? 'bg-rose-500/15 text-rose-300' :
-                                a.business_impact === 'medium' ? 'bg-amber-500/15 text-amber-300' :
-                                'bg-slate-700/30 text-slate-400'
+                          <tr key={a.id} className="hover:bg-white/10 dark:hover:bg-white/5 transition-colors">
+                            <td className="py-3 px-3.5 font-medium text-slate-900 dark:text-white max-w-md truncate">{a.title}</td>
+                            <td className="py-3 px-3.5 font-semibold text-ios-blue">{a.source}</td>
+                            <td className="py-3 px-3.5">
+                              <span className={`px-2.5 py-0.5 rounded-full text-[10px] uppercase font-bold tracking-wider ${
+                                a.business_impact === 'high' ? 'bg-rose-500/15 text-rose-500 dark:text-rose-300 border border-rose-500/30' :
+                                a.business_impact === 'medium' ? 'bg-amber-500/15 text-amber-500 dark:text-amber-300 border border-amber-500/30' :
+                                'glass-control text-slate-600 dark:text-slate-400 border border-glass-border'
                               }`}>
                                 {a.business_impact}
                               </span>
                             </td>
-                            <td className="py-2.5 px-3 capitalize text-slate-300">{a.sentiment}</td>
-                            <td className="py-2.5 px-3 font-mono text-[11px] text-slate-400">
+                            <td className="py-3 px-3.5 capitalize text-slate-800 dark:text-slate-300">{a.sentiment}</td>
+                            <td className="py-3 px-3.5 font-mono tabular-nums text-[11px] text-slate-600 dark:text-slate-400">
                               {formatDateTime(a.published_at)}
                             </td>
-                            <td className="py-2.5 px-3 text-right">
+                            <td className="py-3 px-3.5 text-right">
                               <a
                                 href={a.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="text-accent-blue hover:underline inline-flex items-center gap-1 font-semibold"
+                                className="text-ios-blue hover:underline inline-flex items-center gap-1 font-semibold"
                               >
                                 <span>Open</span>
                                 <ExternalLink className="w-3 h-3" />
@@ -565,33 +565,33 @@ export const PowerBIPage: React.FC = () => {
 
             {/* ================= VIEW 3: SETUP & PREREQUISITES CHECKLIST ================= */}
             {viewMode === 'setup' && (
-              <div className="max-w-4xl mx-auto p-6 sm:p-8 rounded-2xl bg-navy-900/60 border border-navy-800 space-y-6 text-xs">
+              <div className="max-w-4xl mx-auto p-6 sm:p-8 rounded-3xl glass-raised space-y-6 text-xs">
                 
-                <div className="flex items-center space-x-3 text-accent-blue">
+                <div className="flex items-center space-x-3 text-ios-blue">
                   <Settings className="w-6 h-6" />
                   <div>
-                    <h2 className="text-lg sm:text-xl font-bold text-white">
+                    <h2 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">
                       Microsoft Power BI Integration Setup & Prerequisites
                     </h2>
-                    <p className="text-slate-400 text-xs">
+                    <p className="text-slate-600 dark:text-slate-400 text-xs mt-0.5">
                       Step-by-step checklist to configure server-side Azure AD embedding.
                     </p>
                   </div>
                 </div>
 
                 {/* Configuration Health Status */}
-                <div className={`p-4 rounded-xl border flex items-start space-x-3 ${
+                <div className={`p-5 rounded-2xl border flex items-start space-x-3 ${
                   powerBIStatus?.is_configured
-                    ? 'bg-emerald-950/20 border-emerald-800/40 text-emerald-200'
-                    : 'bg-amber-950/20 border-amber-800/40 text-amber-200'
+                    ? 'bg-emerald-500/10 border-emerald-500/25 text-emerald-800 dark:text-emerald-200'
+                    : 'bg-amber-500/10 border-amber-500/25 text-amber-800 dark:text-amber-200'
                 }`}>
                   {powerBIStatus?.is_configured ? (
-                    <CheckCircle2 className="w-5 h-5 text-emerald-400 flex-shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-5 h-5 text-emerald-500 dark:text-emerald-400 flex-shrink-0 mt-0.5" />
                   ) : (
-                    <AlertTriangle className="w-5 h-5 text-amber-400 flex-shrink-0 mt-0.5" />
+                    <AlertTriangle className="w-5 h-5 text-amber-500 dark:text-amber-400 flex-shrink-0 mt-0.5" />
                   )}
                   <div className="space-y-1">
-                    <p className="font-bold text-white">
+                    <p className="font-bold text-slate-900 dark:text-white">
                       {powerBIStatus?.is_configured ? 'All Credentials Configured' : 'Credentials Missing in Environment'}
                     </p>
                     <p className="leading-relaxed">
@@ -604,8 +604,8 @@ export const PowerBIPage: React.FC = () => {
 
                 {/* Prerequisites Checklist */}
                 <div className="space-y-4">
-                  <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                    <ShieldCheck className="w-4 h-4 text-accent-blue" />
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                    <ShieldCheck className="w-4 h-4 text-ios-blue" />
                     Prerequisite Checklist (How to Obtain Each Item)
                   </h3>
 
@@ -617,29 +617,29 @@ export const PowerBIPage: React.FC = () => {
                     );
 
                     return (
-                      <div key={key} className="p-4 rounded-xl bg-navy-950 border border-navy-800 space-y-1.5">
+                      <div key={key} className="p-5 rounded-2xl glass-base border border-glass-border space-y-2">
                         <div className="flex items-center justify-between">
-                          <h4 className="font-bold text-white text-xs flex items-center gap-2">
+                          <h4 className="font-bold text-slate-900 dark:text-white text-xs flex items-center gap-2">
                             {isConfigured ? (
-                              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" />
                             ) : (
                               <div className="w-2 h-2 rounded-full bg-amber-400" />
                             )}
                             {item.title}
                           </h4>
-                          <span className={`text-[10px] px-2 py-0.5 rounded font-mono ${
+                          <span className={`text-[10px] px-2.5 py-0.5 rounded-full font-mono font-semibold ${
                             isConfigured
-                              ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/30'
-                              : 'bg-amber-500/15 text-amber-300 border border-amber-500/30'
+                              ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-300 border border-emerald-500/30'
+                              : 'bg-amber-500/15 text-amber-600 dark:text-amber-300 border border-amber-500/30'
                           }`}>
                             {isConfigured ? 'Provided' : 'Action Required'}
                           </span>
                         </div>
 
-                        <p className="text-slate-300 text-[11px] leading-relaxed">
+                        <p className="text-slate-700 dark:text-slate-300 text-[11px] leading-relaxed">
                           <strong>Requirement:</strong> {item.requirement}
                         </p>
-                        <p className="text-slate-400 text-[11px] leading-relaxed bg-navy-900/40 p-2.5 rounded-lg border border-navy-800/80">
+                        <p className="text-slate-600 dark:text-slate-400 text-[11px] leading-relaxed glass-control p-3 rounded-xl border border-glass-border">
                           <strong>How to obtain:</strong> {item.how_to_obtain}
                         </p>
                       </div>
@@ -648,24 +648,24 @@ export const PowerBIPage: React.FC = () => {
                 </div>
 
                 {/* Data Ingestion Feed Endpoints for Desktop */}
-                <div className="p-4 rounded-xl bg-navy-950/80 border border-navy-800 space-y-3">
-                  <h4 className="font-bold text-white flex items-center gap-2">
-                    <Radio className="w-4 h-4 text-emerald-400" />
+                <div className="p-5 rounded-2xl glass-base border border-glass-border space-y-3">
+                  <h4 className="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                    <Radio className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
                     Direct Power BI Desktop Data Feed URLs
                   </h4>
-                  <p className="text-slate-400 text-[11px]">
+                  <p className="text-slate-600 dark:text-slate-400 text-[11px]">
                     In Power BI Desktop, select <em>Get Data &gt; Web</em> and paste either endpoint below:
                   </p>
 
                   <div className="space-y-2 font-mono text-[11px]">
-                    <div className="p-2.5 rounded bg-navy-900 border border-navy-800 flex items-center justify-between">
-                      <span className="text-accent-blue truncate">{jsonFeedUrl}</span>
-                      <span className="text-slate-400 text-[10px] ml-2">JSON Format</span>
+                    <div className="p-3 rounded-xl glass-control border border-glass-border flex items-center justify-between">
+                      <span className="text-ios-blue truncate">{jsonFeedUrl}</span>
+                      <span className="text-slate-500 dark:text-slate-400 text-[10px] ml-2">JSON Format</span>
                     </div>
 
-                    <div className="p-2.5 rounded bg-navy-900 border border-navy-800 flex items-center justify-between">
-                      <span className="text-accent-blue truncate">{csvFeedUrl}</span>
-                      <span className="text-slate-400 text-[10px] ml-2">CSV Format</span>
+                    <div className="p-3 rounded-xl glass-control border border-glass-border flex items-center justify-between">
+                      <span className="text-ios-blue truncate">{csvFeedUrl}</span>
+                      <span className="text-slate-500 dark:text-slate-400 text-[10px] ml-2">CSV Format</span>
                     </div>
                   </div>
                 </div>
@@ -673,14 +673,14 @@ export const PowerBIPage: React.FC = () => {
                 <div className="pt-2 flex justify-between">
                   <button
                     onClick={() => setViewMode('fallback')}
-                    className="px-4 py-2 rounded-lg bg-navy-800 hover:bg-navy-700 text-slate-200 text-xs font-semibold"
+                    className="px-4 py-2.5 rounded-xl glass-control hover:bg-white/10 dark:hover:bg-white/10 text-slate-800 dark:text-slate-200 text-xs font-semibold transition-all"
                   >
                     Return to Native Dashboard
                   </button>
 
                   <Link
                     to={`/industry/${slug}`}
-                    className="px-4 py-2 rounded-lg bg-accent-blue hover:bg-blue-600 text-white text-xs font-semibold"
+                    className="px-5 py-2.5 rounded-xl bg-ios-blue hover:bg-ios-blue/90 active:scale-[0.98] text-white text-xs font-semibold shadow-md shadow-ios-blue/20 transition-all"
                   >
                     Back to Industry Radar
                   </Link>

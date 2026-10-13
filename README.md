@@ -187,6 +187,30 @@ docker compose up -d --build
 
 ---
 
+## 5. iOS-Style Glass Design System & Style Guide
+
+The Giant interface features a modern translucent frosted-glass aesthetic inspired by iOS design language, prioritizing visual calmness, clarity, and layered spatial depth.
+
+### Design Principles & Visual Hierarchy
+- **Layered Glass Depths**: Frosted glass surfaces float over a subtle, hardware-accelerated gradient mesh background with deep navy, blue, violet, and teal tones.
+  - `glass-base` (Depth 1): `backdrop-filter: blur(20px)` with 8–10% white in dark mode, 55% in light mode (data cards, chips, standard rows).
+  - `glass-raised` (Depth 2): `backdrop-filter: blur(32px)` with 12–15% white in dark mode, 70% in light mode (main containers, tab shells, segmented controls).
+  - `glass-overlay` (Depth 3): `backdrop-filter: blur(40px)` with 18–22% white in dark mode, 85% in light mode (modals, floating navbar capsule, sheets).
+- **Continuous Curvature**: Generous rounded corners matching modern Apple hardware standards (`rounded-2xl`: 20px, `rounded-3xl`: 26px, `rounded-4xl`: 32px).
+- **Translucent Borders & Inner Highlights**: 1px delicate translucent boundary (`rgba(255, 255, 255, 0.12)`) paired with faint top highlights for realistic physical refraction.
+- **Tabular Figures**: All numerical data, timestamps, KPI metrics, subscriber figures, and monetary values strictly utilize `tabular-nums` for precise column alignment.
+- **Micro-Interactions**: Spring-damped hover and active states (`active:scale-[0.98]`, subtle shadow enlargement).
+
+### Theme & Accessibility Support
+- **Light & Dark Mode**: Seamless support for both themes with automatic system detection (`prefers-color-scheme`) and manual toggle stored in `localStorage`.
+- **Contrast Ratios**: Verified WCAG AA contrast for text, labels, and icons across both light and dark surfaces.
+- **Accessibility Fallbacks**:
+  - Fallback solid backgrounds for browsers lacking `backdrop-filter` support.
+  - `@media (prefers-reduced-transparency: reduce)` increases surface opacity to 92%+ for improved readability.
+  - `@media (prefers-reduced-motion: reduce)` automatically suspends gradient mesh and orb animations.
+
+---
+
 ## 6. Automated Testing & Verification Results
 
 ### Backend Test Suite (Pytest)

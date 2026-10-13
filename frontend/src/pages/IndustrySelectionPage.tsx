@@ -9,13 +9,17 @@ import {
   Newspaper, 
   RefreshCw, 
   AlertCircle,
-  Layers
+  Layers,
+  Sun,
+  Moon
 } from 'lucide-react';
+import { useTheme } from '../context/ThemeContext';
 import { fetchIndustryCards, triggerManualRefresh } from '../services/api';
 import { IndustryCard } from '../types';
 
 export const IndustrySelectionPage: React.FC = () => {
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
   const [cards, setCards] = useState<IndustryCard[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -55,30 +59,30 @@ export const IndustrySelectionPage: React.FC = () => {
       case 'telecom':
         return {
           icon: <Smartphone className="w-6 h-6 text-accent-blue" />,
-          accentBg: 'bg-accent-blue/10 border-accent-blue/30',
-          hoverBorder: 'group-hover:border-accent-blue/60',
-          gradientBadge: 'from-blue-600/20 to-blue-400/10 text-blue-400'
+          accentBg: 'bg-accent-blue/15 border-accent-blue/30',
+          hoverBorder: 'group-hover:border-accent-blue/50',
+          badgeStyle: 'bg-accent-blue/15 text-accent-blue border-accent-blue/30'
         };
       case 'fintech':
         return {
-          icon: <Zap className="w-6 h-6 text-emerald-400" />,
-          accentBg: 'bg-emerald-500/10 border-emerald-500/30',
-          hoverBorder: 'group-hover:border-emerald-500/60',
-          gradientBadge: 'from-emerald-600/20 to-emerald-400/10 text-emerald-400'
+          icon: <Zap className="w-6 h-6 text-accent-green" />,
+          accentBg: 'bg-emerald-500/15 border-emerald-500/30',
+          hoverBorder: 'group-hover:border-emerald-500/50',
+          badgeStyle: 'bg-emerald-500/15 text-accent-green border-emerald-500/30'
         };
       case 'ev':
         return {
-          icon: <Car className="w-6 h-6 text-purple-400" />,
-          accentBg: 'bg-purple-500/10 border-purple-500/30',
-          hoverBorder: 'group-hover:border-purple-500/60',
-          gradientBadge: 'from-purple-600/20 to-purple-400/10 text-purple-400'
+          icon: <Car className="w-6 h-6 text-accent-purple" />,
+          accentBg: 'bg-purple-500/15 border-purple-500/30',
+          hoverBorder: 'group-hover:border-purple-500/50',
+          badgeStyle: 'bg-purple-500/15 text-accent-purple border-purple-500/30'
         };
       default:
         return {
           icon: <Layers className="w-6 h-6 text-slate-400" />,
-          accentBg: 'bg-slate-500/10 border-slate-500/30',
-          hoverBorder: 'group-hover:border-slate-500/60',
-          gradientBadge: 'from-slate-600/20 to-slate-400/10 text-slate-400'
+          accentBg: 'bg-slate-500/15 border-slate-500/30',
+          hoverBorder: 'group-hover:border-slate-500/50',
+          badgeStyle: 'bg-slate-500/15 text-slate-400 border-slate-500/30'
         };
     }
   };
@@ -95,40 +99,55 @@ export const IndustrySelectionPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-navy-950 flex flex-col justify-between">
+    <div className="relative min-h-screen flex flex-col justify-between select-none">
       
-      {/* Header */}
-      <header className="border-b border-navy-800 bg-navy-900/60 backdrop-blur-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center space-x-2.5">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-accent-blue to-accent-violet flex items-center justify-center font-bold text-white text-base">
+      {/* Floating Glass Top Bar */}
+      <div className="sticky top-3 z-50 px-3 sm:px-6 max-w-7xl mx-auto w-full pt-2">
+        <header className="glass-raised rounded-2xl sm:rounded-full px-4 sm:px-6 py-2.5 flex items-center justify-between">
+          <Link to="/" className="flex items-center space-x-2.5 group">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-accent-blue via-indigo-500 to-accent-purple flex items-center justify-center font-bold text-white text-base shadow-md shadow-accent-blue/25 group-hover:scale-105 transition-transform">
               G
             </div>
-            <span className="font-extrabold text-base tracking-wider text-white">GIANT</span>
+            <span className="font-extrabold text-base tracking-wider text-slate-900 dark:text-white">GIANT</span>
           </Link>
 
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-2.5">
+            {/* Theme Toggle */}
+            <button
+              onClick={toggleTheme}
+              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+              className="p-2 rounded-full glass-pill text-slate-700 dark:text-slate-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue"
+              title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            >
+              {theme === 'dark' ? (
+                <Sun className="w-4 h-4 text-amber-400" />
+              ) : (
+                <Moon className="w-4 h-4 text-indigo-600" />
+              )}
+            </button>
+
+            {/* Manual Sync Button */}
             <button
               onClick={handleManualRefresh}
               disabled={isRefreshing}
-              className="flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-navy-800 hover:bg-navy-700 border border-navy-700 text-xs font-medium text-slate-200 transition-colors disabled:opacity-50"
+              className="ios-btn-primary flex items-center space-x-1.5 px-4 py-2 text-xs font-semibold disabled:opacity-50"
             >
-              <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin text-accent-blue' : ''}`} />
+              <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin' : ''}`} />
               <span>{isRefreshing ? 'Syncing Feeds...' : 'Sync Sources Now'}</span>
             </button>
           </div>
-        </div>
-      </header>
+        </header>
+      </div>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10 sm:py-16 my-auto">
+      <main className="relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10 sm:py-16 my-auto">
         
         {/* Title & Subtitle */}
-        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-          <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight mb-3">
+        <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
+          <h1 className="text-3xl sm:text-5xl font-black tracking-tight mb-3 text-slate-900 dark:text-white">
             CHOOSE YOUR INDUSTRY
           </h1>
-          <p className="text-slate-300 text-sm sm:text-base font-normal">
+          <p className="text-slate-600 dark:text-slate-300 text-sm sm:text-base font-normal">
             Discover What's Happening. Understand Your Competitors. Make Smarter Decisions.
           </p>
         </div>
@@ -137,13 +156,13 @@ export const IndustrySelectionPage: React.FC = () => {
         {loading && (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
             {[1, 2, 3].map((n) => (
-              <div key={n} className="p-6 rounded-2xl bg-navy-900/50 border border-navy-800 animate-pulse h-96 flex flex-col justify-between">
+              <div key={n} className="p-6 rounded-3xl glass-raised animate-pulse h-96 flex flex-col justify-between">
                 <div className="space-y-4">
-                  <div className="w-12 h-12 rounded-xl bg-navy-800" />
-                  <div className="w-3/4 h-6 bg-navy-800 rounded" />
-                  <div className="w-full h-16 bg-navy-800/60 rounded" />
+                  <div className="w-12 h-12 rounded-2xl glass-base" />
+                  <div className="w-3/4 h-6 glass-base rounded-lg" />
+                  <div className="w-full h-16 glass-base rounded-xl" />
                 </div>
-                <div className="w-full h-10 bg-navy-800 rounded" />
+                <div className="w-full h-10 glass-base rounded-full" />
               </div>
             ))}
           </div>
@@ -151,13 +170,13 @@ export const IndustrySelectionPage: React.FC = () => {
 
         {/* Error State */}
         {error && !loading && (
-          <div className="max-w-xl mx-auto p-6 rounded-2xl bg-red-950/40 border border-red-800 text-center">
-            <AlertCircle className="w-8 h-8 text-red-400 mx-auto mb-3" />
-            <h2 className="text-base font-bold text-white mb-1">Backend Connection Notice</h2>
-            <p className="text-xs text-red-200 mb-4">{error}</p>
+          <div className="max-w-xl mx-auto p-6 rounded-3xl glass-overlay border-red-500/40 text-center">
+            <AlertCircle className="w-8 h-8 text-red-500 mx-auto mb-3" />
+            <h2 className="text-base font-bold text-slate-900 dark:text-white mb-1">Backend Connection Notice</h2>
+            <p className="text-xs text-red-400 dark:text-red-300 mb-4">{error}</p>
             <button
               onClick={loadCards}
-              className="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-500 text-white text-xs font-semibold"
+              className="ios-btn-primary px-5 py-2.5 text-xs font-semibold"
             >
               Retry Loading
             </button>
@@ -173,54 +192,54 @@ export const IndustrySelectionPage: React.FC = () => {
                 <div
                   key={card.slug}
                   onClick={() => navigate(`/industry/${card.slug}`)}
-                  className={`group cursor-pointer rounded-2xl bg-navy-900/80 border border-navy-800 ${visual.hoverBorder} transition-all duration-200 p-6 flex flex-col justify-between shadow-xl hover:shadow-2xl hover:scale-[1.01]`}
+                  className={`group cursor-pointer rounded-3xl glass-raised ${visual.hoverBorder} hover:-translate-y-2 hover:scale-[1.01] transition-all duration-300 p-6 sm:p-7 flex flex-col justify-between shadow-lg hover:shadow-2xl`}
                 >
                   <div>
                     {/* Top Header */}
                     <div className="flex items-start justify-between mb-4">
-                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center border ${visual.accentBg}`}>
+                      <div className={`w-12 h-12 rounded-2xl flex items-center justify-center border shadow-sm ${visual.accentBg}`}>
                         {visual.icon}
                       </div>
-                      <span className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full border bg-gradient-to-r ${visual.gradientBadge}`}>
+                      <span className={`text-[11px] font-semibold px-3 py-1 rounded-full border shadow-sm ${visual.badgeStyle}`}>
                         {card.badge}
                       </span>
                     </div>
 
                     {/* Title & Description */}
-                    <h2 className="text-xl font-bold text-white group-hover:text-accent-blue transition-colors mb-2">
+                    <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white group-hover:text-accent-blue transition-colors mb-2">
                       {card.name}
                     </h2>
-                    <p className="text-xs text-slate-300 line-clamp-2 leading-relaxed mb-6">
+                    <p className="text-xs text-slate-600 dark:text-slate-300 line-clamp-2 leading-relaxed mb-6">
                       {card.description}
                     </p>
 
                     {/* Live Metric Stats */}
-                    <div className="grid grid-cols-2 gap-2.5 py-3 px-3.5 rounded-xl bg-navy-950/70 border border-navy-800/80 mb-5 text-xs">
+                    <div className="grid grid-cols-2 gap-3 py-3 px-4 rounded-2xl glass-base mb-5 text-xs">
                       <div>
-                        <span className="text-[10px] uppercase font-semibold text-slate-400 block">Total Articles</span>
-                        <span className="text-sm font-extrabold text-white font-mono">{card.total_articles_count}</span>
+                        <span className="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400 block tracking-wider">Total Articles</span>
+                        <span className="text-base font-black text-slate-900 dark:text-white font-mono tabular-nums">{card.total_articles_count}</span>
                       </div>
                       <div>
-                        <span className="text-[10px] uppercase font-semibold text-slate-400 block">Last 24h New</span>
-                        <span className="text-sm font-extrabold text-emerald-400 font-mono">+{card.new_articles_count_24h}</span>
+                        <span className="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400 block tracking-wider">Last 24h New</span>
+                        <span className="text-base font-black text-accent-green font-mono tabular-nums">+{card.new_articles_count_24h}</span>
                       </div>
                     </div>
 
                     {/* Latest Real Headline or Explicit Empty State */}
-                    <div className="p-3.5 rounded-xl bg-navy-950/50 border border-navy-800/60 mb-6">
-                      <div className="flex items-center space-x-1.5 text-[11px] text-slate-400 mb-1.5">
-                        <Newspaper className="w-3 h-3 text-accent-blue" />
-                        <span className="font-semibold uppercase tracking-wider">Latest Live Headline</span>
+                    <div className="p-4 rounded-2xl glass-base mb-6">
+                      <div className="flex items-center space-x-1.5 text-[11px] text-slate-500 dark:text-slate-400 mb-2">
+                        <Newspaper className="w-3.5 h-3.5 text-accent-blue" />
+                        <span className="font-bold uppercase tracking-wider text-[10px]">Latest Live Headline</span>
                       </div>
 
                       {card.latest_headline ? (
                         <div>
-                          <p className="text-xs font-medium text-slate-200 line-clamp-2 leading-snug mb-1.5">
+                          <p className="text-xs font-semibold text-slate-800 dark:text-slate-100 line-clamp-2 leading-snug mb-2">
                             "{card.latest_headline}"
                           </p>
-                          <div className="flex items-center justify-between text-[10px] text-slate-400">
-                            <span>Source: {card.latest_source || 'Verified Feed'}</span>
-                            <span className="font-mono">{formatTimestamp(card.latest_published_at)}</span>
+                          <div className="flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400">
+                            <span className="truncate max-w-[55%]">Source: {card.latest_source || 'Verified Feed'}</span>
+                            <span className="font-mono tabular-nums">{formatTimestamp(card.latest_published_at)}</span>
                           </div>
                         </div>
                       ) : (
@@ -232,20 +251,20 @@ export const IndustrySelectionPage: React.FC = () => {
                   </div>
 
                   {/* Bottom Action & Sync Timestamp */}
-                  <div className="pt-4 border-t border-navy-800/80">
-                    <div className="flex items-center justify-between text-[11px] text-slate-400 mb-4">
+                  <div className="pt-4 border-t border-slate-200/40 dark:border-white/10">
+                    <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 mb-4">
                       <span className="flex items-center space-x-1">
-                        <Clock className="w-3 h-3 text-slate-400" />
+                        <Clock className="w-3.5 h-3.5" />
                         <span>Last sync:</span>
                       </span>
-                      <span className="font-mono text-slate-300">{formatTimestamp(card.last_sync_time)}</span>
+                      <span className="font-mono tabular-nums font-medium text-slate-700 dark:text-slate-300">{formatTimestamp(card.last_sync_time)}</span>
                     </div>
 
                     <button
-                      className="w-full py-2.5 px-4 rounded-xl bg-navy-800 hover:bg-accent-blue group-hover:bg-accent-blue text-white text-xs font-semibold flex items-center justify-center space-x-2 transition-all shadow-md group-hover:shadow-accent-blue/20"
+                      className="ios-btn-primary w-full py-3 px-4 text-xs flex items-center justify-center space-x-2 shadow-md group-hover:shadow-lg"
                     >
                       <span>Explore Industry</span>
-                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform motion-reduce:transform-none" />
                     </button>
                   </div>
 
@@ -258,7 +277,7 @@ export const IndustrySelectionPage: React.FC = () => {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-navy-900 py-4 text-center text-xs text-slate-400">
+      <footer className="relative z-10 py-4 text-center text-xs text-slate-500 dark:text-slate-400">
         GIANT Platform • Verified Multi-Sector Business Intelligence Engine
       </footer>
 
