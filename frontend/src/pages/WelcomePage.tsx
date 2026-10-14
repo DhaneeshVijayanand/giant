@@ -76,14 +76,14 @@ export const WelcomePage: React.FC = () => {
             )}
           </button>
 
-          {/* Glass (Get in the World) Pill */}
+          {/* Glass (GET INTO THE WORLD) Pill */}
           <button
             onClick={handleEnter}
-            aria-label="Get in the World - Proceed to industry selection"
-            className="group flex items-center space-x-2 px-4 py-2 rounded-full glass-pill font-semibold text-slate-800 dark:text-slate-100 hover:text-accent-blue dark:hover:text-accent-blue focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue transition-all"
+            aria-label="GET INTO THE WORLD - Proceed to industry selection"
+            className="group flex items-center space-x-2 px-4 py-2 rounded-full glass-pill font-bold tracking-wider text-xs text-slate-800 dark:text-slate-100 hover:text-accent-blue dark:hover:text-accent-blue focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue transition-all uppercase"
           >
             <Globe className="w-3.5 h-3.5 text-accent-blue group-hover:rotate-12 transition-transform motion-reduce:transform-none" />
-            <span>Get in the World</span>
+            <span>GET INTO THE WORLD</span>
             <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform motion-reduce:transform-none" />
           </button>
         </div>
@@ -162,15 +162,15 @@ export const WelcomePage: React.FC = () => {
             </div>
           </div>
 
-          {/* Primary CTA: Get in the World */}
+          {/* Primary CTA: GET INTO THE WORLD */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <button
               onClick={handleEnter}
-              aria-label="Get in the World - Enter Platform"
-              className="ios-btn-primary px-9 py-4 text-base font-bold flex items-center justify-center space-x-3 shadow-xl shadow-accent-blue/30 hover:shadow-accent-blue/50 active:scale-[0.98] transition-all group"
+              aria-label="GET INTO THE WORLD - Enter Platform"
+              className="ios-btn-primary px-9 py-4 text-base font-extrabold tracking-wider flex items-center justify-center space-x-3 shadow-xl shadow-accent-blue/30 hover:shadow-accent-blue/50 active:scale-[0.98] transition-all group uppercase"
             >
               <Globe className="w-5 h-5 text-white/90 group-hover:rotate-12 transition-transform motion-reduce:transform-none" />
-              <span>Get in the World</span>
+              <span>GET INTO THE WORLD</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform motion-reduce:transform-none" />
             </button>
           </div>
