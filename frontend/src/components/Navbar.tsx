@@ -4,15 +4,12 @@ import {
   Radio, 
   RefreshCw, 
   Layers, 
-  BarChart3, 
   ChevronRight,
   Building2,
   Zap,
   Smartphone,
   AlertTriangle,
-  Clock,
-  Play,
-  Pause
+  Clock
 } from 'lucide-react';
 import { LiveClock } from './LiveClock';
 
@@ -35,8 +32,6 @@ export const Navbar: React.FC<NavbarProps> = ({
   nextCheckTime,
   onRefresh,
   isRefreshing = false,
-  autoRefreshEnabled = true,
-  onToggleAutoRefresh,
   hasStaleSource = false,
 }) => {
   const navigate = useNavigate();
@@ -137,34 +132,6 @@ export const Navbar: React.FC<NavbarProps> = ({
             )}
           </div>
 
-          {/* Auto Refresh Toggle Button */}
-          {onToggleAutoRefresh && (
-            <button
-              onClick={onToggleAutoRefresh}
-              aria-label={autoRefreshEnabled ? 'Pause auto-refresh polling' : 'Enable auto-refresh polling every 30 seconds'}
-              className={`hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-full border text-xs font-semibold transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue ${
-                autoRefreshEnabled 
-                  ? 'bg-emerald-500/15 border-emerald-500/30 text-emerald-600 dark:text-emerald-300' 
-                  : 'glass-pill text-slate-600 dark:text-slate-400'
-              }`}
-              title={autoRefreshEnabled ? 'Auto-refresh active (polls every 30s)' : 'Auto-refresh paused'}
-            >
-              {autoRefreshEnabled ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3" />}
-              <span className="text-[11px]">{autoRefreshEnabled ? 'Auto (30s)' : 'Paused'}</span>
-            </button>
-          )}
-
-          {/* Power BI Page 3.1 Link */}
-          {currentIndustry && (
-            <Link
-              to={`/industry/${currentIndustry}/news-bi`}
-              aria-label="Navigate to Power BI Analytics View"
-              className="flex items-center space-x-1.5 px-3.5 py-1.5 rounded-full glass-pill border-purple-500/30 text-xs font-semibold text-accent-purple transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-purple"
-            >
-              <BarChart3 className="w-3.5 h-3.5 text-accent-purple" />
-              <span className="hidden sm:inline">Power BI View</span>
-            </Link>
-          )}
 
           {/* Manual Refresh Trigger connected to Scheduler */}
           {onRefresh && (

@@ -167,7 +167,7 @@ export const DashboardPage: React.FC = () => {
     { id: 'overview', label: 'Industry Overview', icon: <Layers className="w-3.5 h-3.5" /> },
     { id: 'news', label: 'Live Industry News', icon: <Radio className="w-3.5 h-3.5" /> },
     { id: 'market-leaders', label: 'Market Leaders', icon: <TrendingUp className="w-3.5 h-3.5" /> },
-    { id: 'competitor-tracker', label: 'Competitor Tracker', icon: <Users className="w-3.5 h-3.5" /> },
+    { id: 'competitor-tracker', label: 'Company vs Company', icon: <Users className="w-3.5 h-3.5" /> },
     { id: 'ai-analyst', label: 'AI Business Analyst', icon: <Bot className="w-3.5 h-3.5" /> },
     { id: 'churn', label: 'Customer Churn', icon: <ShieldAlert className="w-3.5 h-3.5" /> },
     ...(slug === 'telecom' ? [{ id: 'starlink', label: 'Starlink Case Study', icon: <Globe2 className="w-3.5 h-3.5" /> }] : []),
@@ -642,7 +642,7 @@ export const DashboardPage: React.FC = () => {
             >
               {tab.icon}
               <span className="text-[10px] mt-1 tracking-tight truncate max-w-[60px]">
-                {tab.id === 'competitor-tracker' ? 'Tracker' : tab.id === 'market-leaders' ? 'Leaders' : tab.label.split(' ')[0]}
+                {tab.id === 'competitor-tracker' ? 'Vs Comp' : tab.id === 'market-leaders' ? 'Leaders' : tab.label.split(' ')[0]}
               </span>
             </button>
           );
