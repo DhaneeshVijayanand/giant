@@ -9,17 +9,14 @@ import {
   Newspaper, 
   RefreshCw, 
   AlertCircle,
-  Layers,
-  Sun,
-  Moon
+  Layers
 } from 'lucide-react';
-import { useTheme } from '../context/ThemeContext';
+import { LiveClock } from '../components/LiveClock';
 import { fetchIndustryCards, triggerManualRefresh } from '../services/api';
 import { IndustryCard } from '../types';
 
 export const IndustrySelectionPage: React.FC = () => {
   const navigate = useNavigate();
-  const { theme, toggleTheme } = useTheme();
   const [cards, setCards] = useState<IndustryCard[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -112,19 +109,8 @@ export const IndustrySelectionPage: React.FC = () => {
           </Link>
 
           <div className="flex items-center space-x-2.5">
-            {/* Theme Toggle */}
-            <button
-              onClick={toggleTheme}
-              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-              className="p-2 rounded-full glass-pill text-slate-700 dark:text-slate-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue"
-              title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-            >
-              {theme === 'dark' ? (
-                <Sun className="w-4 h-4 text-amber-400" />
-              ) : (
-                <Moon className="w-4 h-4 text-indigo-600" />
-              )}
-            </button>
+            {/* Real-time Live Clock */}
+            <LiveClock />
 
             {/* Manual Sync Button */}
             <button

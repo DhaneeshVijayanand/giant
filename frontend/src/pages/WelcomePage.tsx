@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
   ArrowRight, 
@@ -7,30 +7,12 @@ import {
   Database, 
   BarChart, 
   ShieldCheck, 
-  Clock,
-  Sun,
-  Moon,
   Globe
 } from 'lucide-react';
-import { useTheme } from '../context/ThemeContext';
+import { LiveClock } from '../components/LiveClock';
 
 export const WelcomePage: React.FC = () => {
   const navigate = useNavigate();
-  const { theme, toggleTheme } = useTheme();
-  const [currentTime, setCurrentTime] = useState<string>('');
-  const [currentDate, setCurrentDate] = useState<string>('');
-
-  // Live Clock
-  useEffect(() => {
-    const updateDateTime = () => {
-      const now = new Date();
-      setCurrentTime(now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }));
-      setCurrentDate(now.toLocaleDateString([], { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' }));
-    };
-    updateDateTime();
-    const interval = setInterval(updateDateTime, 1000);
-    return () => clearInterval(interval);
-  }, []);
 
   const handleEnter = () => {
     navigate('/industries');
@@ -53,28 +35,9 @@ export const WelcomePage: React.FC = () => {
           </div>
         </div>
 
-        {/* Live Date, Theme Toggle, and Skip Pill */}
+        {/* Live Date, Time, and GET INTO THE WORLD Pill */}
         <div className="flex items-center space-x-3 text-xs">
-          <div className="hidden sm:flex items-center space-x-1.5 px-3.5 py-1.5 rounded-full glass-pill text-slate-700 dark:text-slate-200">
-            <Clock className="w-3.5 h-3.5 text-accent-blue" />
-            <span>{currentDate}</span>
-            <span className="text-slate-400">•</span>
-            <span className="font-mono font-medium">{currentTime}</span>
-          </div>
-
-          {/* Theme Mode Toggle (Light / Dark) */}
-          <button
-            onClick={toggleTheme}
-            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-            className="p-2 rounded-full glass-pill text-slate-700 dark:text-slate-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue"
-            title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
-          >
-            {theme === 'dark' ? (
-              <Sun className="w-4 h-4 text-amber-400" />
-            ) : (
-              <Moon className="w-4 h-4 text-indigo-600" />
-            )}
-          </button>
+          <LiveClock />
 
           {/* Glass (GET INTO THE WORLD) Pill */}
           <button
