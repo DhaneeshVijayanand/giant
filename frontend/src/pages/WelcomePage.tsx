@@ -9,14 +9,14 @@ import {
   ShieldCheck, 
   Clock,
   Sun,
-  Moon
+  Moon,
+  Globe
 } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
 export const WelcomePage: React.FC = () => {
   const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
-  const [secondsLeft, setSecondsLeft] = useState<number>(5);
   const [currentTime, setCurrentTime] = useState<string>('');
   const [currentDate, setCurrentDate] = useState<string>('');
 
@@ -32,26 +32,9 @@ export const WelcomePage: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // 5-second auto redirect
-  useEffect(() => {
-    if (secondsLeft <= 0) {
-      navigate('/industries');
-      return;
-    }
-    const timer = setTimeout(() => {
-      setSecondsLeft((prev) => prev - 1);
-    }, 1000);
-    return () => clearTimeout(timer);
-  }, [secondsLeft, navigate]);
-
-  const handleSkip = () => {
+  const handleEnter = () => {
     navigate('/industries');
   };
-
-  // Circular progress ring calculations (radius 20, circumference ~ 125.66)
-  const radius = 20;
-  const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference - (secondsLeft / 5) * circumference;
 
   return (
     <div className="relative min-h-screen flex flex-col justify-between p-4 sm:p-6 lg:p-8 select-none">
@@ -93,13 +76,14 @@ export const WelcomePage: React.FC = () => {
             )}
           </button>
 
-          {/* Glass Skip Pill */}
+          {/* Glass (Get in the World) Pill */}
           <button
-            onClick={handleSkip}
-            aria-label={`Skip countdown and proceed to industry selection (${secondsLeft} seconds remaining)`}
-            className="group flex items-center space-x-2 px-4 py-2 rounded-full glass-pill font-semibold text-slate-800 dark:text-slate-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue"
+            onClick={handleEnter}
+            aria-label="Get in the World - Proceed to industry selection"
+            className="group flex items-center space-x-2 px-4 py-2 rounded-full glass-pill font-semibold text-slate-800 dark:text-slate-100 hover:text-accent-blue dark:hover:text-accent-blue focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue transition-all"
           >
-            <span>Skip ({secondsLeft}s)</span>
+            <Globe className="w-3.5 h-3.5 text-accent-blue group-hover:rotate-12 transition-transform motion-reduce:transform-none" />
+            <span>Get in the World</span>
             <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform motion-reduce:transform-none" />
           </button>
         </div>
@@ -178,51 +162,17 @@ export const WelcomePage: React.FC = () => {
             </div>
           </div>
 
-          {/* Primary CTA and Circular Progress Ring */}
-          <div className="flex flex-col sm:flex-row items-center gap-6">
+          {/* Primary CTA: Get in the World */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <button
-              onClick={handleSkip}
-              aria-label="Proceed to Industry Selection"
-              className="ios-btn-primary px-8 py-3.5 text-sm flex items-center justify-center space-x-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue"
+              onClick={handleEnter}
+              aria-label="Get in the World - Enter Platform"
+              className="ios-btn-primary px-9 py-4 text-base font-bold flex items-center justify-center space-x-3 shadow-xl shadow-accent-blue/30 hover:shadow-accent-blue/50 active:scale-[0.98] transition-all group"
             >
-              <span>Proceed to Industry Selection</span>
-              <ArrowRight className="w-4 h-4" />
+              <Globe className="w-5 h-5 text-white/90 group-hover:rotate-12 transition-transform motion-reduce:transform-none" />
+              <span>Get in the World</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform motion-reduce:transform-none" />
             </button>
-
-            {/* Circular Progress Ring Around Countdown */}
-            <div className="flex items-center space-x-3" aria-live="polite">
-              <div className="relative w-11 h-11 flex items-center justify-center">
-                <svg className="w-11 h-11 transform -rotate-90">
-                  <circle
-                    cx="22"
-                    cy="22"
-                    r={radius}
-                    stroke="currentColor"
-                    strokeWidth="3"
-                    className="text-slate-300 dark:text-slate-800"
-                    fill="transparent"
-                  />
-                  <circle
-                    cx="22"
-                    cy="22"
-                    r={radius}
-                    stroke="currentColor"
-                    strokeWidth="3.5"
-                    strokeDasharray={circumference}
-                    strokeDashoffset={strokeDashoffset}
-                    strokeLinecap="round"
-                    className="text-accent-blue transition-all duration-1000 ease-linear"
-                    fill="transparent"
-                  />
-                </svg>
-                <span className="absolute font-mono text-xs font-bold tabular-nums text-slate-900 dark:text-white">
-                  {secondsLeft}s
-                </span>
-              </div>
-              <span className="text-xs text-slate-600 dark:text-slate-400">
-                Auto-advancing
-              </span>
-            </div>
           </div>
 
         </div>
