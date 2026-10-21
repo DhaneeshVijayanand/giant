@@ -571,7 +571,7 @@ export const CompetitorTrackerTab: React.FC<CompetitorTrackerTabProps> = ({ indu
                     <Lightbulb className="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" />
                     <div>
                       <span className="font-bold text-blue-300 block mb-0.5 text-[10px] uppercase tracking-wider">
-                        Business Analyst Takeaway:
+                        Strategic Takeaway:
                       </span>
                       <p className="text-slate-200 leading-relaxed">
                         {dev.business_significance}
@@ -650,7 +650,7 @@ export const CompetitorTrackerTab: React.FC<CompetitorTrackerTabProps> = ({ indu
                     <Lightbulb className="w-4 h-4 text-purple-300 flex-shrink-0 mt-0.5" />
                     <div>
                       <span className="font-bold text-purple-300 block mb-0.5 text-[10px] uppercase tracking-wider">
-                        Business Analyst Takeaway:
+                        Strategic Takeaway:
                       </span>
                       <p className="text-slate-200 leading-relaxed">
                         {dev.business_significance}

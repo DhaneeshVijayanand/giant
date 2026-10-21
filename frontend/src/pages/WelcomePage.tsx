@@ -82,9 +82,9 @@ export const WelcomePage: React.FC = () => {
           </div>
 
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight mb-4 leading-tight text-slate-900 dark:text-white">
-            HELLO,{' '}
+            WELCOME TO{' '}
             <span className="bg-gradient-to-r from-blue-600 via-sky-600 to-indigo-600 dark:from-sky-400 dark:via-cyan-300 dark:to-sky-200 bg-clip-text text-transparent font-black filter dark:drop-shadow-[0_2px_16px_rgba(56,189,248,0.35)]">
-              BUSINESS ANALYST!
+              GIANT!
             </span>
           </h1>
 

@@ -12,7 +12,6 @@ import {
   TrendingUp, 
   Users, 
   BarChart2, 
-  Bot, 
   ShieldAlert, 
   Layers, 
   ArrowUpRight,
@@ -21,7 +20,6 @@ import {
 import { Navbar } from '../components/Navbar';
 import { MarketLeadersTab } from '../components/MarketLeadersTab';
 import { CompetitorTrackerTab } from '../components/CompetitorTrackerTab';
-import { AIAnalystTab } from '../components/AIAnalystTab';
 import { CustomerChurnTab } from '../components/CustomerChurnTab';
 import { 
   fetchIndustryOverview, 
@@ -162,7 +160,6 @@ export const DashboardPage: React.FC = () => {
     { id: 'news', label: 'Live Industry News', icon: <Radio className="w-3.5 h-3.5" /> },
     { id: 'market-leaders', label: 'Market Leaders', icon: <TrendingUp className="w-3.5 h-3.5" /> },
     { id: 'competitor-tracker', label: 'Competitive Intelligence', icon: <Users className="w-3.5 h-3.5" /> },
-    { id: 'ai-analyst', label: 'AI Business Analyst', icon: <Bot className="w-3.5 h-3.5" /> },
     { id: 'churn', label: 'Customer Churn', icon: <ShieldAlert className="w-3.5 h-3.5" /> }
   ];
 
@@ -588,10 +585,6 @@ export const DashboardPage: React.FC = () => {
             </div>
           )}
 
-          {/* ================= TAB 5: AI BUSINESS ANALYST ================= */}
-          {activeTab === 'ai-analyst' && (
-            <AIAnalystTab industrySlug={slug} />
-          )}
 
           {/* ================= TAB 6: CUSTOMER CHURN INTELLIGENCE ================= */}
           {activeTab === 'churn' && (
