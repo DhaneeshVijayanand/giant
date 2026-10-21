@@ -296,11 +296,11 @@ export const DashboardPage: React.FC = () => {
                   <select
                     value={selectedCompany}
                     onChange={(e) => setSelectedCompany(e.target.value)}
-                    className="px-3.5 py-2.5 rounded-full glass-base text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-accent-blue text-xs font-medium cursor-pointer"
+                    className="px-4 py-2.5 rounded-full bg-slate-900 border border-slate-700/80 text-white focus:outline-none focus:ring-2 focus:ring-accent-blue text-xs font-semibold cursor-pointer shadow-sm"
                   >
-                    <option value="">All Companies</option>
+                    <option value="" className="bg-slate-900 text-white">All Companies</option>
                     {companies.map((c) => (
-                      <option key={c} value={c}>{c}</option>
+                      <option key={c} value={c} className="bg-slate-900 text-white">{c}</option>
                     ))}
                   </select>
 
@@ -308,11 +308,11 @@ export const DashboardPage: React.FC = () => {
                   <select
                     value={selectedTopic}
                     onChange={(e) => setSelectedTopic(e.target.value)}
-                    className="px-3.5 py-2.5 rounded-full glass-base text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-accent-blue text-xs font-medium cursor-pointer"
+                    className="px-4 py-2.5 rounded-full bg-slate-900 border border-slate-700/80 text-white focus:outline-none focus:ring-2 focus:ring-accent-blue text-xs font-semibold cursor-pointer shadow-sm"
                   >
-                    <option value="">All Topics</option>
+                    <option value="" className="bg-slate-900 text-white">All Topics</option>
                     {availableTopics.map((t) => (
-                      <option key={t} value={t}>{t}</option>
+                      <option key={t} value={t} className="bg-slate-900 text-white">{t}</option>
                     ))}
                   </select>
 
@@ -320,12 +320,12 @@ export const DashboardPage: React.FC = () => {
                   <select
                     value={selectedImpact}
                     onChange={(e) => setSelectedImpact(e.target.value)}
-                    className="px-3.5 py-2.5 rounded-full glass-base text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-accent-blue text-xs font-medium cursor-pointer"
+                    className="px-4 py-2.5 rounded-full bg-slate-900 border border-slate-700/80 text-white focus:outline-none focus:ring-2 focus:ring-accent-blue text-xs font-semibold cursor-pointer shadow-sm"
                   >
-                    <option value="">All Impact Levels</option>
-                    <option value="high">High Business Impact</option>
-                    <option value="medium">Medium Impact</option>
-                    <option value="low">Standard Feed</option>
+                    <option value="" className="bg-slate-900 text-white">All Impact Levels</option>
+                    <option value="high" className="bg-slate-900 text-white">High Business Impact</option>
+                    <option value="medium" className="bg-slate-900 text-white">Medium Impact</option>
+                    <option value="low" className="bg-slate-900 text-white">Standard Feed</option>
                   </select>
 
                   {(searchQuery || selectedCompany || selectedTopic || selectedImpact) && (

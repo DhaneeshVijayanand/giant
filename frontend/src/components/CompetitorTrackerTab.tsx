@@ -678,7 +678,7 @@ export const CompetitorTrackerTab: React.FC<CompetitorTrackerTabProps> = ({ indu
                 <select
                   value={selectedCompanyToAdd}
                   onChange={(e) => setSelectedCompanyToAdd(e.target.value)}
-                  className="w-full sm:w-56 px-3 py-2 rounded-xl glass-control text-xs text-white focus:outline-none focus:ring-1 focus:ring-ios-blue"
+                  className="w-full sm:w-56 px-3 py-2 rounded-xl bg-slate-900 border border-slate-700/80 text-xs text-white focus:outline-none focus:ring-1 focus:ring-ios-blue cursor-pointer"
                   required
                 >
                   <option value="" className="bg-slate-900 text-white">Select Entity...</option>

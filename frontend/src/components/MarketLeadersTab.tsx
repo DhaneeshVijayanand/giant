@@ -330,9 +330,9 @@ export const MarketLeadersTab: React.FC<MarketLeadersTabProps> = ({ industrySlug
             <select
               value={selectedMetricType}
               onChange={(e) => setSelectedMetricType(e.target.value)}
-              className="px-3.5 py-1.5 rounded-xl glass-control text-xs text-slate-800 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-ios-blue/40"
+              className="px-4 py-2 rounded-xl bg-slate-900 border border-slate-700/80 text-xs font-bold text-white focus:outline-none focus:ring-2 focus:ring-ios-blue cursor-pointer shadow-md"
             >
-              <option value="all">All Available Metrics</option>
+              <option value="all" className="bg-slate-900 text-white">All Available Metrics</option>
               {metricTypes.map((t) => (
                 <option key={t} value={t} className="bg-slate-900 text-white">{t.replace(/_/g, ' ').toUpperCase()}</option>
               ))}

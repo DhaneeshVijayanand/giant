@@ -71,6 +71,25 @@ html.light-theme {
   .tabular-nums {
     font-variant-numeric: tabular-nums;
   }
+
+  /* High-visibility native dropdown controls */
+  select {
+    background-color: #0f172a;
+    color: #f8fafc;
+  }
+
+  select option {
+    background-color: #0f172a;
+    color: #f8fafc;
+  }
+}
+
+/* Glass control surface (Pills, filters, select wrappers) */
+.glass-control {
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid var(--glass-border);
 }
 
 /* ================= iOS GLASS DESIGN SYSTEM ================= */
