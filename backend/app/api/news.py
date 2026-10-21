@@ -41,9 +41,11 @@ async def manual_refresh(
     db: Session = Depends(get_db)
 ):
     """
-    Manual refresh button: fetches authorized RSS feeds, deduplicates, stores in database,
-    and returns synchronization summary.
+    Manual refresh button: fetches authorized RSS feeds, rolls monthly official metrics,
+    deduplicates, stores in database, and returns synchronization summary.
     """
+    from app.services.competitor_service import ensure_monthly_metrics_up_to_date
+    ensure_monthly_metrics_up_to_date(db)
     result = await sync_all_feeds(db, target_industry=industry)
     return result
 

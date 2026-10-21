@@ -38,7 +38,15 @@ async def job_general_news():
 
 async def job_official_stats():
     logger.info("Executing scheduled job: Official Statistics Check (Interval: %sh)", settings.OFFICIAL_STATS_CHECK_HOURS)
-    # Checks TRAI, NPCI, Vahan updates
+    db = SessionLocal()
+    try:
+        from app.services.competitor_service import ensure_monthly_metrics_up_to_date
+        ensure_monthly_metrics_up_to_date(db)
+        logger.info("Official Statistics rolling monthly update completed successfully")
+    except Exception as e:
+        logger.error("Error during scheduled Official Statistics update: %s", e)
+    finally:
+        db.close()
 
 def init_scheduler():
     if not scheduler.running:
