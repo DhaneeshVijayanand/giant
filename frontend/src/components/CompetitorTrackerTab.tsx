@@ -185,6 +185,64 @@ export const CompetitorTrackerTab: React.FC<CompetitorTrackerTabProps> = ({ indu
     return list;
   }, [allCompanies]);
 
+  // Dynamic Brand Styling for Company A and B
+  const getBrandCardStyle = (companyName: string) => {
+    const name = (companyName || '').toLowerCase();
+    if (name.includes('jio')) {
+      return {
+        hex: '#3B82F6',
+        border: 'border-[#3B82F6]/50',
+        bg: 'bg-blue-950/20',
+        badge: 'bg-[#3B82F6]/20 text-[#60a5fa] border-[#3B82F6]/40',
+        metric: 'text-[#60a5fa]',
+        selectRing: 'focus:ring-[#3B82F6]',
+        selectBorder: 'border-[#3B82F6]/50'
+      };
+    } else if (name.includes('airtel')) {
+      return {
+        hex: '#A78BFA',
+        border: 'border-[#A78BFA]/50',
+        bg: 'bg-purple-950/20',
+        badge: 'bg-[#A78BFA]/20 text-[#c4b5fd] border-[#A78BFA]/40',
+        metric: 'text-[#c4b5fd]',
+        selectRing: 'focus:ring-[#A78BFA]',
+        selectBorder: 'border-[#A78BFA]/50'
+      };
+    } else if (name.includes('vodafone') || name.includes('vi')) {
+      return {
+        hex: '#FBBF24',
+        border: 'border-[#FBBF24]/50',
+        bg: 'bg-amber-950/20',
+        badge: 'bg-[#FBBF24]/20 text-[#fde68a] border-[#FBBF24]/40',
+        metric: 'text-[#fde68a]',
+        selectRing: 'focus:ring-[#FBBF24]',
+        selectBorder: 'border-[#FBBF24]/50'
+      };
+    } else if (name.includes('bsnl')) {
+      return {
+        hex: '#64748B',
+        border: 'border-[#64748B]/60',
+        bg: 'bg-slate-900/40',
+        badge: 'bg-[#64748B]/25 text-[#cbd5e1] border-[#64748B]/50',
+        metric: 'text-[#cbd5e1]',
+        selectRing: 'focus:ring-[#64748B]',
+        selectBorder: 'border-[#64748B]/60'
+      };
+    }
+    return {
+      hex: '#3B82F6',
+      border: 'border-blue-500/40',
+      bg: 'bg-blue-950/20',
+      badge: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
+      metric: 'text-blue-300',
+      selectRing: 'focus:ring-blue-400',
+      selectBorder: 'border-blue-500/40'
+    };
+  };
+
+  const brandA = getBrandCardStyle(companyA);
+  const brandB = getBrandCardStyle(companyB);
+
   return (
     <div className="space-y-6">
 
@@ -245,13 +303,13 @@ export const CompetitorTrackerTab: React.FC<CompetitorTrackerTabProps> = ({ indu
         <div className="relative grid grid-cols-1 md:grid-cols-11 gap-4 items-center">
           
           {/* Company A Selection Card (Left, 5 Cols) */}
-          <div className="md:col-span-5 p-5 rounded-2xl glass-base border-2 border-blue-500/40 bg-blue-950/20 space-y-3.5 shadow-lg relative">
+          <div className={`md:col-span-5 p-5 rounded-2xl glass-base border-2 ${brandA.border} ${brandA.bg} space-y-3.5 shadow-lg relative transition-all duration-300`}>
             <div className="flex items-center justify-between">
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-blue-500/20 text-blue-300 border border-blue-500/30">
-                Company A
+              <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider ${brandA.badge}`}>
+                Company A ({brandA.hex})
               </span>
               {metricA && (
-                <span className="text-xs font-mono font-bold text-blue-300 tabular-nums">
+                <span className={`text-xs font-mono font-bold ${brandA.metric} tabular-nums`}>
                   {metricA.value}{metricA.unit} {metricA.metric_display_name}
                 </span>
               )}
@@ -265,7 +323,7 @@ export const CompetitorTrackerTab: React.FC<CompetitorTrackerTabProps> = ({ indu
                 id="company-a-select"
                 value={companyA}
                 onChange={(e) => setCompanyA(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl bg-slate-900/90 border border-blue-500/40 text-sm font-bold text-white focus:outline-none focus:ring-2 focus:ring-blue-400 cursor-pointer transition-all"
+                className={`w-full px-4 py-3 rounded-xl bg-slate-900/90 border ${brandA.selectBorder} text-sm font-bold text-white focus:outline-none focus:ring-2 ${brandA.selectRing} cursor-pointer transition-all`}
               >
                 {allCompanies.map((c) => (
                   <option key={c} value={c} className="bg-slate-900 text-white">
@@ -297,13 +355,13 @@ export const CompetitorTrackerTab: React.FC<CompetitorTrackerTabProps> = ({ indu
           </div>
 
           {/* Company B Selection Card (Right, 5 Cols) */}
-          <div className="md:col-span-5 p-5 rounded-2xl glass-base border-2 border-purple-500/40 bg-purple-950/20 space-y-3.5 shadow-lg relative">
+          <div className={`md:col-span-5 p-5 rounded-2xl glass-base border-2 ${brandB.border} ${brandB.bg} space-y-3.5 shadow-lg relative transition-all duration-300`}>
             <div className="flex items-center justify-between">
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-purple-500/20 text-purple-300 border border-purple-500/30">
-                Company B
+              <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider ${brandB.badge}`}>
+                Company B ({brandB.hex})
               </span>
               {metricB && (
-                <span className="text-xs font-mono font-bold text-purple-300 tabular-nums">
+                <span className={`text-xs font-mono font-bold ${brandB.metric} tabular-nums`}>
                   {metricB.value}{metricB.unit} {metricB.metric_display_name}
                 </span>
               )}
@@ -317,7 +375,7 @@ export const CompetitorTrackerTab: React.FC<CompetitorTrackerTabProps> = ({ indu
                 id="company-b-select"
                 value={companyB}
                 onChange={(e) => setCompanyB(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl bg-slate-900/90 border border-purple-500/40 text-sm font-bold text-white focus:outline-none focus:ring-2 focus:ring-purple-400 cursor-pointer transition-all"
+                className={`w-full px-4 py-3 rounded-xl bg-slate-900/90 border ${brandB.selectBorder} text-sm font-bold text-white focus:outline-none focus:ring-2 ${brandB.selectRing} cursor-pointer transition-all`}
               >
                 {allCompanies.map((c) => (
                   <option key={c} value={c} className="bg-slate-900 text-white">

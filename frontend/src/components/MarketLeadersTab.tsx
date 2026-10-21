@@ -78,53 +78,58 @@ export const MarketLeadersTab: React.FC<MarketLeadersTabProps> = ({ industrySlug
     const name = companyName.toLowerCase();
     if (name.includes('jio')) {
       return {
-        gradient: 'from-blue-600 via-sky-500 to-cyan-400 dark:from-blue-600 dark:via-sky-400 dark:to-cyan-300',
-        border: 'border-cyan-300/80',
-        shadow: 'shadow-sky-500/30 group-hover:shadow-cyan-400/80',
-        badgeText: 'text-cyan-300',
-        badgeBorder: 'border-cyan-400/60',
-        dot: 'bg-cyan-400 ring-2 ring-cyan-400/30',
-        pillActive: 'bg-cyan-500 text-slate-950 font-black shadow-md shadow-cyan-500/30',
+        hex: '#3B82F6',
+        barStyle: { background: 'linear-gradient(to top, #1d4ed8, #2563eb, #3B82F6)' },
+        border: 'border-[#3B82F6]',
+        shadow: 'shadow-blue-500/30 group-hover:shadow-blue-400/80',
+        badgeText: 'text-[#60a5fa]',
+        badgeBorder: 'border-[#3B82F6]/60',
+        dot: 'bg-[#3B82F6] ring-2 ring-[#3B82F6]/30',
+        pillActive: 'bg-[#3B82F6] text-white font-black shadow-md shadow-blue-500/30',
       };
     } else if (name.includes('airtel')) {
       return {
-        gradient: 'from-red-600 via-rose-500 to-pink-400 dark:from-red-600 dark:via-rose-500 dark:to-pink-400',
-        border: 'border-rose-300/80',
-        shadow: 'shadow-rose-500/30 group-hover:shadow-rose-400/80',
-        badgeText: 'text-rose-300',
-        badgeBorder: 'border-rose-400/60',
-        dot: 'bg-rose-500 ring-2 ring-rose-500/30',
-        pillActive: 'bg-rose-500 text-white font-black shadow-md shadow-rose-500/30',
+        hex: '#A78BFA',
+        barStyle: { background: 'linear-gradient(to top, #6d28d9, #8b5cf6, #A78BFA)' },
+        border: 'border-[#A78BFA]',
+        shadow: 'shadow-purple-500/30 group-hover:shadow-violet-400/80',
+        badgeText: 'text-[#c4b5fd]',
+        badgeBorder: 'border-[#A78BFA]/60',
+        dot: 'bg-[#A78BFA] ring-2 ring-[#A78BFA]/30',
+        pillActive: 'bg-[#A78BFA] text-slate-950 font-black shadow-md shadow-purple-500/30',
       };
     } else if (name.includes('vodafone') || name.includes('vi')) {
       return {
-        gradient: 'from-amber-600 via-orange-500 to-yellow-400 dark:from-amber-600 dark:via-orange-400 dark:to-yellow-300',
-        border: 'border-amber-300/80',
-        shadow: 'shadow-orange-500/30 group-hover:shadow-amber-400/80',
-        badgeText: 'text-amber-300',
-        badgeBorder: 'border-amber-400/60',
-        dot: 'bg-amber-400 ring-2 ring-amber-400/30',
-        pillActive: 'bg-amber-500 text-slate-950 font-black shadow-md shadow-amber-500/30',
+        hex: '#FBBF24',
+        barStyle: { background: 'linear-gradient(to top, #b45309, #d97706, #FBBF24)' },
+        border: 'border-[#FBBF24]',
+        shadow: 'shadow-amber-500/30 group-hover:shadow-amber-400/80',
+        badgeText: 'text-[#fde68a]',
+        badgeBorder: 'border-[#FBBF24]/60',
+        dot: 'bg-[#FBBF24] ring-2 ring-[#FBBF24]/30',
+        pillActive: 'bg-[#FBBF24] text-slate-950 font-black shadow-md shadow-amber-500/30',
       };
     } else if (name.includes('bsnl')) {
       return {
-        gradient: 'from-emerald-600 via-teal-500 to-green-400 dark:from-emerald-600 dark:via-teal-400 dark:to-green-300',
-        border: 'border-emerald-300/80',
-        shadow: 'shadow-emerald-500/30 group-hover:shadow-emerald-400/80',
-        badgeText: 'text-emerald-300',
-        badgeBorder: 'border-emerald-400/60',
-        dot: 'bg-emerald-400 ring-2 ring-emerald-400/30',
-        pillActive: 'bg-emerald-500 text-slate-950 font-black shadow-md shadow-emerald-500/30',
+        hex: '#64748B',
+        barStyle: { background: 'linear-gradient(to top, #334155, #475569, #64748B)' },
+        border: 'border-[#64748B]',
+        shadow: 'shadow-slate-500/30 group-hover:shadow-slate-400/80',
+        badgeText: 'text-[#cbd5e1]',
+        badgeBorder: 'border-[#64748B]/70',
+        dot: 'bg-[#64748B] ring-2 ring-[#64748B]/30',
+        pillActive: 'bg-[#64748B] text-white font-black shadow-md shadow-slate-500/30',
       };
     } else {
       return {
-        gradient: 'from-indigo-600 via-purple-500 to-pink-400 dark:from-indigo-600 dark:via-purple-400 dark:to-pink-300',
-        border: 'border-purple-300/80',
-        shadow: 'shadow-purple-500/30 group-hover:shadow-purple-400/80',
-        badgeText: 'text-purple-300',
-        badgeBorder: 'border-purple-400/60',
-        dot: 'bg-purple-400 ring-2 ring-purple-400/30',
-        pillActive: 'bg-purple-500 text-white font-black shadow-md shadow-purple-500/30',
+        hex: '#818CF8',
+        barStyle: { background: 'linear-gradient(to top, #4338ca, #4f46e5, #818CF8)' },
+        border: 'border-indigo-400/80',
+        shadow: 'shadow-indigo-500/30 group-hover:shadow-indigo-400/80',
+        badgeText: 'text-indigo-300',
+        badgeBorder: 'border-indigo-400/60',
+        dot: 'bg-indigo-400 ring-2 ring-indigo-400/30',
+        pillActive: 'bg-indigo-500 text-white font-black shadow-md shadow-indigo-500/30',
       };
     }
   };
@@ -217,6 +222,7 @@ export const MarketLeadersTab: React.FC<MarketLeadersTabProps> = ({ industrySlug
                     <div key={comp} className="flex items-center space-x-1.5">
                       <span className={`w-3 h-3 rounded-full ${style.dot} shadow-sm`} />
                       <span className="text-slate-800 dark:text-slate-200 font-bold">{comp}</span>
+                      <span className="font-mono text-[10px] text-slate-400 font-semibold">({style.hex})</span>
                     </div>
                   );
                 })}
@@ -269,9 +275,9 @@ export const MarketLeadersTab: React.FC<MarketLeadersTabProps> = ({ industrySlug
 
                                     {/* Vibrant Gradient Bar */}
                                     <div 
-                                      className={`w-full rounded-t-lg bg-gradient-to-t ${style.gradient} border-t-2 border-x ${style.border} shadow-lg ${style.shadow} group-hover:brightness-125 transition-all duration-200`}
-                                      style={{ height: `${heightPct}%` }}
-                                      title={`${item.entity_name} (${item.period}): ${item.value} ${item.unit}`}
+                                      className={`w-full rounded-t-lg border-t-2 border-x ${style.border} shadow-lg ${style.shadow} group-hover:brightness-125 transition-all duration-200`}
+                                      style={{ height: `${heightPct}%`, ...style.barStyle }}
+                                      title={`${item.entity_name} (${item.period}): ${item.value} ${item.unit} [${style.hex}]`}
                                     />
                                   </div>
                                 );
@@ -298,9 +304,9 @@ export const MarketLeadersTab: React.FC<MarketLeadersTabProps> = ({ industrySlug
 
                             {/* Vibrant Gradient Bar */}
                             <div 
-                              className={`w-full max-w-[48px] rounded-t-xl bg-gradient-to-t ${style.gradient} border-t-2 border-x ${style.border} shadow-lg ${style.shadow} group-hover:brightness-125 transition-all duration-200`}
-                              style={{ height: `${heightPct}%` }}
-                              title={`${item.entity_name} (${item.period}): ${item.value} ${item.unit}`}
+                              className={`w-full max-w-[48px] rounded-t-xl border-t-2 border-x ${style.border} shadow-lg ${style.shadow} group-hover:brightness-125 transition-all duration-200`}
+                              style={{ height: `${heightPct}%`, ...style.barStyle }}
+                              title={`${item.entity_name} (${item.period}): ${item.value} ${item.unit} [${style.hex}]`}
                             />
                           </div>
                         );
