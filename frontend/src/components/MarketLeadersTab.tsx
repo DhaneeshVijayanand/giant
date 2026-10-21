@@ -74,33 +74,57 @@ export const MarketLeadersTab: React.FC<MarketLeadersTabProps> = ({ industrySlug
     return list;
   }, [sortedHistoricalMetrics]);
 
-  const getCompanyStyle = (compIndex: number) => {
-    if (compIndex === 0) {
+  const getCompanyStyle = (companyName: string) => {
+    const name = companyName.toLowerCase();
+    if (name.includes('jio')) {
       return {
         gradient: 'from-blue-600 via-sky-500 to-cyan-400 dark:from-blue-600 dark:via-sky-400 dark:to-cyan-300',
-        border: 'border-cyan-200/60',
-        shadow: 'shadow-sky-500/30 group-hover:shadow-cyan-400/60',
-        badgeText: 'text-sky-600 dark:text-cyan-300',
-        badgeBorder: 'border-sky-300 dark:border-cyan-400/40',
-        dot: 'bg-cyan-400',
+        border: 'border-cyan-300/80',
+        shadow: 'shadow-sky-500/30 group-hover:shadow-cyan-400/80',
+        badgeText: 'text-cyan-300',
+        badgeBorder: 'border-cyan-400/60',
+        dot: 'bg-cyan-400 ring-2 ring-cyan-400/30',
+        pillActive: 'bg-cyan-500 text-slate-950 font-black shadow-md shadow-cyan-500/30',
       };
-    } else if (compIndex === 1) {
+    } else if (name.includes('airtel')) {
       return {
-        gradient: 'from-purple-600 via-indigo-500 to-pink-400 dark:from-purple-600 dark:via-indigo-400 dark:to-pink-300',
-        border: 'border-pink-200/60',
-        shadow: 'shadow-purple-500/30 group-hover:shadow-pink-400/60',
-        badgeText: 'text-purple-600 dark:text-purple-300',
-        badgeBorder: 'border-purple-300 dark:border-purple-400/40',
-        dot: 'bg-purple-400',
+        gradient: 'from-red-600 via-rose-500 to-pink-400 dark:from-red-600 dark:via-rose-500 dark:to-pink-400',
+        border: 'border-rose-300/80',
+        shadow: 'shadow-rose-500/30 group-hover:shadow-rose-400/80',
+        badgeText: 'text-rose-300',
+        badgeBorder: 'border-rose-400/60',
+        dot: 'bg-rose-500 ring-2 ring-rose-500/30',
+        pillActive: 'bg-rose-500 text-white font-black shadow-md shadow-rose-500/30',
+      };
+    } else if (name.includes('vodafone') || name.includes('vi')) {
+      return {
+        gradient: 'from-amber-600 via-orange-500 to-yellow-400 dark:from-amber-600 dark:via-orange-400 dark:to-yellow-300',
+        border: 'border-amber-300/80',
+        shadow: 'shadow-orange-500/30 group-hover:shadow-amber-400/80',
+        badgeText: 'text-amber-300',
+        badgeBorder: 'border-amber-400/60',
+        dot: 'bg-amber-400 ring-2 ring-amber-400/30',
+        pillActive: 'bg-amber-500 text-slate-950 font-black shadow-md shadow-amber-500/30',
+      };
+    } else if (name.includes('bsnl')) {
+      return {
+        gradient: 'from-emerald-600 via-teal-500 to-green-400 dark:from-emerald-600 dark:via-teal-400 dark:to-green-300',
+        border: 'border-emerald-300/80',
+        shadow: 'shadow-emerald-500/30 group-hover:shadow-emerald-400/80',
+        badgeText: 'text-emerald-300',
+        badgeBorder: 'border-emerald-400/60',
+        dot: 'bg-emerald-400 ring-2 ring-emerald-400/30',
+        pillActive: 'bg-emerald-500 text-slate-950 font-black shadow-md shadow-emerald-500/30',
       };
     } else {
       return {
-        gradient: 'from-emerald-600 via-teal-500 to-cyan-400 dark:from-emerald-600 dark:via-teal-400 dark:to-cyan-300',
-        border: 'border-teal-200/60',
-        shadow: 'shadow-teal-500/30 group-hover:shadow-teal-400/60',
-        badgeText: 'text-emerald-600 dark:text-emerald-300',
-        badgeBorder: 'border-emerald-300 dark:border-emerald-400/40',
-        dot: 'bg-emerald-400',
+        gradient: 'from-indigo-600 via-purple-500 to-pink-400 dark:from-indigo-600 dark:via-purple-400 dark:to-pink-300',
+        border: 'border-purple-300/80',
+        shadow: 'shadow-purple-500/30 group-hover:shadow-purple-400/80',
+        badgeText: 'text-purple-300',
+        badgeBorder: 'border-purple-400/60',
+        dot: 'bg-purple-400 ring-2 ring-purple-400/30',
+        pillActive: 'bg-purple-500 text-white font-black shadow-md shadow-purple-500/30',
       };
     }
   };
@@ -150,46 +174,49 @@ export const MarketLeadersTab: React.FC<MarketLeadersTabProps> = ({ industrySlug
                   <div className="inline-flex rounded-xl glass-control p-1 text-xs">
                     <button
                       onClick={() => setSelectedHistoricalCompany('all')}
-                      className={`px-3 py-1 rounded-lg font-semibold transition-all ${
+                      className={`px-3 py-1.5 rounded-lg font-semibold transition-all ${
                         selectedHistoricalCompany === 'all'
                           ? 'bg-ios-blue text-white shadow-sm'
                           : 'text-slate-400 hover:text-white'
                       }`}
                     >
-                      Compare Both
+                      {historicalCompanies.length > 2 ? 'Compare All' : 'Compare Both'}
                     </button>
-                    {historicalCompanies.map((comp) => (
-                      <button
-                        key={comp}
-                        onClick={() => setSelectedHistoricalCompany(comp)}
-                        className={`px-3 py-1 rounded-lg font-semibold transition-all ${
-                          selectedHistoricalCompany === comp
-                            ? 'bg-ios-blue text-white shadow-sm'
-                            : 'text-slate-400 hover:text-white'
-                        }`}
-                      >
-                        {comp}
-                      </button>
-                    ))}
+                    {historicalCompanies.map((comp) => {
+                      const isSelected = selectedHistoricalCompany === comp;
+                      return (
+                        <button
+                          key={comp}
+                          onClick={() => setSelectedHistoricalCompany(comp)}
+                          className={`px-3 py-1.5 rounded-lg font-semibold transition-all ${
+                            isSelected
+                              ? 'bg-ios-blue text-white shadow-sm'
+                              : 'text-slate-400 hover:text-white'
+                          }`}
+                        >
+                          {comp}
+                        </button>
+                      );
+                    })}
                   </div>
                 )}
 
                 {/* Source Pill */}
-                <div className="text-[11px] font-mono text-slate-700 dark:text-slate-300 glass-control px-3 py-1 rounded-full border border-glass-border shadow-sm">
+                <div className="text-[11px] font-mono text-slate-700 dark:text-slate-300 glass-control px-3.5 py-1.5 rounded-full border border-glass-border shadow-sm">
                   Source: {sourceLabel}
                 </div>
               </div>
             </div>
 
-            {/* Legend for Multi-Company Comparison */}
+            {/* Legend for Multi-Company Comparison with Vibrant Indicators */}
             {selectedHistoricalCompany === 'all' && historicalCompanies.length > 1 && (
-              <div className="flex items-center gap-4 text-xs font-semibold px-1">
-                {historicalCompanies.map((comp, idx) => {
-                  const style = getCompanyStyle(idx);
+              <div className="flex flex-wrap items-center gap-4 text-xs font-semibold px-1">
+                {historicalCompanies.map((comp) => {
+                  const style = getCompanyStyle(comp);
                   return (
                     <div key={comp} className="flex items-center space-x-1.5">
-                      <span className={`w-2.5 h-2.5 rounded-full ${style.dot} shadow-sm`} />
-                      <span className="text-slate-700 dark:text-slate-300">{comp}</span>
+                      <span className={`w-3 h-3 rounded-full ${style.dot} shadow-sm`} />
+                      <span className="text-slate-800 dark:text-slate-200 font-bold">{comp}</span>
                     </div>
                   );
                 })}
@@ -199,9 +226,9 @@ export const MarketLeadersTab: React.FC<MarketLeadersTabProps> = ({ industrySlug
             {/* Modern Glass Bar Chart Container with Horizontal Scroll Protection */}
             <div className="rounded-2xl glass-base p-4 sm:p-6 border border-glass-border space-y-3 overflow-hidden">
               <div className="w-full overflow-x-auto min-w-0 pb-1 scrollbar-thin">
-                <div className="min-w-[540px]">
+                <div className="min-w-[620px]">
                   {/* Plotting Canvas with Reference Grid */}
-                  <div className="relative h-60 w-full flex items-end justify-between gap-3 sm:gap-6 pt-10 pb-1 px-3 border-b-2 border-slate-300/50 dark:border-white/25">
+                  <div className="relative h-64 w-full flex items-end justify-between gap-3 sm:gap-6 pt-10 pb-1 px-3 border-b-2 border-slate-300/50 dark:border-white/25">
                     
                     {/* Horizontal Guide Lines */}
                     <div className="absolute inset-x-0 top-4 border-b border-dashed border-slate-300/30 dark:border-white/10 pointer-events-none flex justify-between px-2">
@@ -223,25 +250,24 @@ export const MarketLeadersTab: React.FC<MarketLeadersTabProps> = ({ industrySlug
                         return (
                           <div 
                             key={period} 
-                            className="flex-1 flex flex-col items-center justify-end h-full z-10 min-w-[70px] max-w-[130px]"
+                            className="flex-1 flex flex-col items-center justify-end h-full z-10 min-w-[90px] max-w-[160px]"
                           >
-                            <div className="flex items-end justify-center gap-1.5 sm:gap-2.5 w-full h-full pb-0.5">
+                            <div className="flex items-end justify-center gap-1 sm:gap-1.5 w-full h-full pb-0.5">
                               {periodItems.map((item) => {
-                                const compIdx = historicalCompanies.indexOf(item.entity_name);
-                                const style = getCompanyStyle(compIdx);
-                                const heightPct = Math.min(100, Math.max(18, (item.value / maxVal) * 100));
+                                const style = getCompanyStyle(item.entity_name);
+                                const heightPct = Math.min(100, Math.max(16, (item.value / maxVal) * 100));
 
                                 return (
                                   <div 
                                     key={item.id} 
-                                    className="flex flex-col items-center justify-end h-full group cursor-pointer flex-1 max-w-[42px]"
+                                    className="flex flex-col items-center justify-end h-full group cursor-pointer flex-1 max-w-[28px] sm:max-w-[34px]"
                                   >
                                     {/* Value Badge */}
-                                    <div className={`mb-2 px-1 sm:px-1.5 py-0.5 rounded-md bg-white/95 dark:bg-slate-900/95 border ${style.badgeBorder} text-[10px] font-mono font-bold tabular-nums ${style.badgeText} shadow-md group-hover:scale-110 transition-transform whitespace-nowrap`}>
+                                    <div className={`mb-1.5 px-1 py-0.5 rounded-md bg-slate-900/95 border ${style.badgeBorder} text-[9px] sm:text-[10px] font-mono font-bold tabular-nums ${style.badgeText} shadow-md group-hover:scale-110 transition-transform whitespace-nowrap`}>
                                       {item.value}{item.unit}
                                     </div>
 
-                                    {/* Gradient Bar */}
+                                    {/* Vibrant Gradient Bar */}
                                     <div 
                                       className={`w-full rounded-t-lg bg-gradient-to-t ${style.gradient} border-t-2 border-x ${style.border} shadow-lg ${style.shadow} group-hover:brightness-125 transition-all duration-200`}
                                       style={{ height: `${heightPct}%` }}
@@ -257,9 +283,8 @@ export const MarketLeadersTab: React.FC<MarketLeadersTabProps> = ({ industrySlug
                     ) : (
                       // Single entity view (or single company in industry)
                       activeItems.map((item) => {
-                        const compIdx = historicalCompanies.indexOf(item.entity_name);
-                        const style = getCompanyStyle(compIdx >= 0 ? compIdx : 0);
-                        const heightPct = Math.min(100, Math.max(18, (item.value / maxVal) * 100));
+                        const style = getCompanyStyle(item.entity_name);
+                        const heightPct = Math.min(100, Math.max(16, (item.value / maxVal) * 100));
 
                         return (
                           <div 
@@ -267,11 +292,11 @@ export const MarketLeadersTab: React.FC<MarketLeadersTabProps> = ({ industrySlug
                             className="flex-1 flex flex-col items-center justify-end h-full z-10 group cursor-pointer max-w-[80px]"
                           >
                             {/* Value Badge */}
-                            <div className={`mb-2.5 px-2 py-0.5 rounded-lg bg-white/95 dark:bg-slate-900/95 border ${style.badgeBorder} text-[10px] sm:text-[11px] font-mono font-bold tabular-nums ${style.badgeText} shadow-md group-hover:scale-110 transition-transform whitespace-nowrap`}>
+                            <div className={`mb-2.5 px-2 py-0.5 rounded-lg bg-slate-900/95 border ${style.badgeBorder} text-[10px] sm:text-[11px] font-mono font-bold tabular-nums ${style.badgeText} shadow-md group-hover:scale-110 transition-transform whitespace-nowrap`}>
                               {item.value.toLocaleString()} {item.unit}
                             </div>
 
-                            {/* Gradient Bar */}
+                            {/* Vibrant Gradient Bar */}
                             <div 
                               className={`w-full max-w-[48px] rounded-t-xl bg-gradient-to-t ${style.gradient} border-t-2 border-x ${style.border} shadow-lg ${style.shadow} group-hover:brightness-125 transition-all duration-200`}
                               style={{ height: `${heightPct}%` }}
@@ -287,7 +312,7 @@ export const MarketLeadersTab: React.FC<MarketLeadersTabProps> = ({ industrySlug
                   <div className="flex items-start justify-between gap-3 sm:gap-6 px-3 pt-2 text-center">
                     {selectedHistoricalCompany === 'all' && historicalCompanies.length > 1 ? (
                       historicalPeriods.map((period) => (
-                        <div key={period} className="flex-1 min-w-[70px] max-w-[130px]">
+                        <div key={period} className="flex-1 min-w-[90px] max-w-[160px]">
                           <div className="text-[11px] sm:text-xs font-bold text-slate-800 dark:text-slate-200">
                             {period}
                           </div>

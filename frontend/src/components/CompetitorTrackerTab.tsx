@@ -177,9 +177,11 @@ export const CompetitorTrackerTab: React.FC<CompetitorTrackerTabProps> = ({ indu
     if (allCompanies.length < 2) return [];
     const list: Array<[string, string]> = [];
     if (allCompanies.length >= 2) list.push([allCompanies[0], allCompanies[1]]);
-    if (allCompanies.length >= 3) list.push([allCompanies[1], allCompanies[2]]);
     if (allCompanies.length >= 3) list.push([allCompanies[0], allCompanies[2]]);
     if (allCompanies.length >= 4) list.push([allCompanies[0], allCompanies[3]]);
+    if (allCompanies.length >= 3) list.push([allCompanies[1], allCompanies[2]]);
+    if (allCompanies.length >= 4) list.push([allCompanies[1], allCompanies[3]]);
+    if (allCompanies.length >= 4) list.push([allCompanies[2], allCompanies[3]]);
     return list;
   }, [allCompanies]);
 

@@ -87,6 +87,20 @@ OFFICIAL_DATA_SEEDS = [
     {"industry": "telecom", "entity_name": "Bharti Airtel", "metric_name": "historical_share", "metric_display_name": "Market Share", "value": 33.1, "unit": "%", "period": "Jun 2026", "period_date": date(2026, 6, 30), "source": "TRAI Subscription Report"},
     {"industry": "telecom", "entity_name": "Bharti Airtel", "metric_name": "historical_share", "metric_display_name": "Market Share", "value": 33.15, "unit": "%", "period": "Jul 2026", "period_date": date(2026, 7, 31), "source": "TRAI Subscription Report"},
     {"industry": "telecom", "entity_name": "Bharti Airtel", "metric_name": "historical_share", "metric_display_name": "Market Share", "value": 33.2, "unit": "%", "period": "Aug 2026", "period_date": date(2026, 8, 31), "source": "TRAI Subscription Report"},
+    
+    {"industry": "telecom", "entity_name": "Vodafone Idea", "metric_name": "historical_share", "metric_display_name": "Market Share", "value": 19.3, "unit": "%", "period": "Mar 2026", "period_date": date(2026, 3, 31), "source": "TRAI Subscription Report"},
+    {"industry": "telecom", "entity_name": "Vodafone Idea", "metric_name": "historical_share", "metric_display_name": "Market Share", "value": 19.1, "unit": "%", "period": "Apr 2026", "period_date": date(2026, 4, 30), "source": "TRAI Subscription Report"},
+    {"industry": "telecom", "entity_name": "Vodafone Idea", "metric_name": "historical_share", "metric_display_name": "Market Share", "value": 18.9, "unit": "%", "period": "May 2026", "period_date": date(2026, 5, 31), "source": "TRAI Subscription Report"},
+    {"industry": "telecom", "entity_name": "Vodafone Idea", "metric_name": "historical_share", "metric_display_name": "Market Share", "value": 18.8, "unit": "%", "period": "Jun 2026", "period_date": date(2026, 6, 30), "source": "TRAI Subscription Report"},
+    {"industry": "telecom", "entity_name": "Vodafone Idea", "metric_name": "historical_share", "metric_display_name": "Market Share", "value": 18.7, "unit": "%", "period": "Jul 2026", "period_date": date(2026, 7, 31), "source": "TRAI Subscription Report"},
+    {"industry": "telecom", "entity_name": "Vodafone Idea", "metric_name": "historical_share", "metric_display_name": "Market Share", "value": 18.6, "unit": "%", "period": "Aug 2026", "period_date": date(2026, 8, 31), "source": "TRAI Subscription Report"},
+
+    {"industry": "telecom", "entity_name": "BSNL", "metric_name": "historical_share", "metric_display_name": "Market Share", "value": 7.8, "unit": "%", "period": "Mar 2026", "period_date": date(2026, 3, 31), "source": "TRAI Subscription Report"},
+    {"industry": "telecom", "entity_name": "BSNL", "metric_name": "historical_share", "metric_display_name": "Market Share", "value": 7.8, "unit": "%", "period": "Apr 2026", "period_date": date(2026, 4, 30), "source": "TRAI Subscription Report"},
+    {"industry": "telecom", "entity_name": "BSNL", "metric_name": "historical_share", "metric_display_name": "Market Share", "value": 7.8, "unit": "%", "period": "May 2026", "period_date": date(2026, 5, 31), "source": "TRAI Subscription Report"},
+    {"industry": "telecom", "entity_name": "BSNL", "metric_name": "historical_share", "metric_display_name": "Market Share", "value": 7.7, "unit": "%", "period": "Jun 2026", "period_date": date(2026, 6, 30), "source": "TRAI Subscription Report"},
+    {"industry": "telecom", "entity_name": "BSNL", "metric_name": "historical_share", "metric_display_name": "Market Share", "value": 7.7, "unit": "%", "period": "Jul 2026", "period_date": date(2026, 7, 31), "source": "TRAI Subscription Report"},
+    {"industry": "telecom", "entity_name": "BSNL", "metric_name": "historical_share", "metric_display_name": "Market Share", "value": 7.7, "unit": "%", "period": "Aug 2026", "period_date": date(2026, 8, 31), "source": "TRAI Subscription Report"},
 
     # --- FINTECH & DIGITAL PAYMENTS (Source: NPCI Monthly UPI Product Statistics) ---
     # UPI Volume Share (%) - Aug 2026
@@ -243,14 +257,25 @@ COMPETITOR_DEVELOPMENTS_SEEDS = [
         "published_date": datetime(2026, 8, 2, 11, 30, tzinfo=timezone.utc)
     },
     {
-        "company_name": "Starlink",
+        "company_name": "Vodafone Idea",
         "industry": "telecom",
-        "category": "regulatory",
-        "headline": "DoT Security Clearance Framework and GMPCS Spectrum Allocation Roadmap",
-        "details": "Department of Telecommunications progressed guidelines regarding administrative satellite spectrum allocation in alignment with Telecommunications Act provisions.",
-        "business_significance": "Paves the way for satellite internet commercial trials in remote, maritime, and defense sectors, creating potential enterprise disruption for incumbents.",
-        "source": "DoT Official Gazette Notification",
-        "source_url": "https://dot.gov.in",
+        "category": "product_launch",
+        "headline": "Vodafone Idea Finalizes 4G Capacity Expansion & 5G Vendor Agreements",
+        "details": "Vi concluded key vendor supply agreements across 17 priority telecom circles to improve network coverage and stem monthly subscriber attrition.",
+        "business_significance": "Essential operational maneuver to stabilize its ~18.6% wireless subscriber base and defend high-ARPU urban postpaid accounts.",
+        "source": "Vi Corporate Press Release / BSE Filing",
+        "source_url": "https://www.myvi.in",
+        "published_date": datetime(2026, 8, 10, 10, 30, tzinfo=timezone.utc)
+    },
+    {
+        "company_name": "BSNL",
+        "industry": "telecom",
+        "category": "product_launch",
+        "headline": "BSNL Deploys 50,000 Indigenous 4G Towers Across Rural & Semi-Urban Circles",
+        "details": "State-owned operator scaled rollout of its homegrown 4G RAN architecture manufactured by TCS and Tejas Networks with 5G software upgrade readiness.",
+        "business_significance": "Empowers BSNL to retain price-sensitive rural subscribers following private telco tariff calibrations, securing national coverage targets.",
+        "source": "PIB / Ministry of Communications",
+        "source_url": "https://www.bsnl.co.in",
         "published_date": datetime(2026, 8, 18, 14, 0, tzinfo=timezone.utc)
     },
     # Fintech

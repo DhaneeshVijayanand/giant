@@ -50,11 +50,7 @@ INDUSTRIES_CONFIG: Dict[str, Dict[str, Any]] = {
             "Reliance Jio",
             "Bharti Airtel",
             "Vodafone Idea",
-            "BSNL",
-            "Starlink",
-            "OneWeb",
-            "Tata Communications",
-            "Indus Towers"
+            "BSNL"
         ],
         "keywords": [
             "telecom", "5g", "6g", "spectrum", "trai", "dot", "jio", "airtel", 
