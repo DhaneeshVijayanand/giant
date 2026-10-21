@@ -201,7 +201,7 @@ export const CompetitorTrackerTab: React.FC<CompetitorTrackerTabProps> = ({ indu
               <span>Head-to-Head Intelligence Radar</span>
             </div>
             <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight flex items-center gap-2">
-              Company vs Company Comparison
+              Competitive Intelligence
             </h2>
             <p className="text-xs sm:text-sm text-slate-400 mt-1">
               Select any two entities to immediately analyze what is happening between them, their tactical shifts, and analyst takeaways.
