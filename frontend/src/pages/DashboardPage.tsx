@@ -13,11 +13,8 @@ import {
   Users, 
   BarChart2, 
   Bot, 
-  FileSpreadsheet, 
   ShieldAlert, 
-  Globe2, 
   Layers, 
-  Sparkles,
   ArrowUpRight,
   Share2
 } from 'lucide-react';
@@ -25,10 +22,7 @@ import { Navbar } from '../components/Navbar';
 import { MarketLeadersTab } from '../components/MarketLeadersTab';
 import { CompetitorTrackerTab } from '../components/CompetitorTrackerTab';
 import { AIAnalystTab } from '../components/AIAnalystTab';
-import { AIRecommendationsTab } from '../components/AIRecommendationsTab';
 import { CustomerChurnTab } from '../components/CustomerChurnTab';
-import { StarlinkCaseStudyTab } from '../components/StarlinkCaseStudyTab';
-import { ReportsExportsTab } from '../components/ReportsExportsTab';
 import { 
   fetchIndustryOverview, 
   fetchNewsArticles, 
@@ -169,10 +163,7 @@ export const DashboardPage: React.FC = () => {
     { id: 'market-leaders', label: 'Market Leaders', icon: <TrendingUp className="w-3.5 h-3.5" /> },
     { id: 'competitor-tracker', label: 'Competitive Intelligence', icon: <Users className="w-3.5 h-3.5" /> },
     { id: 'ai-analyst', label: 'AI Business Analyst', icon: <Bot className="w-3.5 h-3.5" /> },
-    { id: 'churn', label: 'Customer Churn', icon: <ShieldAlert className="w-3.5 h-3.5" /> },
-    ...(slug === 'telecom' ? [{ id: 'starlink', label: 'Starlink Case Study', icon: <Globe2 className="w-3.5 h-3.5" /> }] : []),
-    { id: 'recommendations', label: 'AI Recommendations', icon: <Sparkles className="w-3.5 h-3.5" /> },
-    { id: 'reports', label: 'Reports & Exports', icon: <FileSpreadsheet className="w-3.5 h-3.5" /> },
+    { id: 'churn', label: 'Customer Churn', icon: <ShieldAlert className="w-3.5 h-3.5" /> }
   ];
 
   return (
@@ -607,62 +598,31 @@ export const DashboardPage: React.FC = () => {
             <CustomerChurnTab />
           )}
 
-          {/* ================= TAB 7: AI RECOMMENDATIONS ================= */}
-          {activeTab === 'recommendations' && (
-            <AIRecommendationsTab industrySlug={slug} />
-          )}
-
-          {/* ================= TAB 8: STARLINK CASE STUDY ================= */}
-          {activeTab === 'starlink' && slug === 'telecom' && (
-            <StarlinkCaseStudyTab />
-          )}
-
-          {/* ================= TAB 9: REPORTS AND EXPORTS ================= */}
-          {activeTab === 'reports' && (
-            <ReportsExportsTab industrySlug={slug} />
-          )}
-
         </div>
 
       </div>
 
       {/* ================= MOBILE BOTTOM TAB BAR ================= */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 glass-overlay px-2 py-2 flex items-center justify-around border-t shadow-2xl">
-        {tabs.slice(0, 5).map((tab) => {
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 glass-overlay px-1 py-1.5 flex items-center justify-around border-t shadow-2xl">
+        {tabs.map((tab) => {
           const isActive = activeTab === tab.id;
           return (
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex flex-col items-center justify-center p-2 rounded-2xl transition-all ${
+              className={`flex flex-col items-center justify-center p-1.5 rounded-2xl transition-all ${
                 isActive 
                   ? 'text-accent-blue font-bold scale-105' 
                   : 'text-slate-500 dark:text-slate-400'
               }`}
             >
               {tab.icon}
-              <span className="text-[10px] mt-1 tracking-tight truncate max-w-[60px]">
-                {tab.id === 'competitor-tracker' ? 'Intel' : tab.id === 'market-leaders' ? 'Leaders' : tab.label.split(' ')[0]}
+              <span className="text-[10px] mt-0.5 tracking-tight truncate max-w-[55px]">
+                {tab.id === 'competitor-tracker' ? 'Intel' : tab.id === 'market-leaders' ? 'Leaders' : tab.id === 'ai-analyst' ? 'Analyst' : tab.id === 'churn' ? 'Churn' : tab.label.split(' ')[0]}
               </span>
             </button>
           );
         })}
-        {/* Overflow / more trigger for remaining tabs */}
-        <button
-          onClick={() => {
-            const nextTabs = ['churn', 'recommendations', 'reports'];
-            const currentIndex = nextTabs.indexOf(activeTab);
-            setActiveTab(nextTabs[(currentIndex + 1) % nextTabs.length]);
-          }}
-          className={`flex flex-col items-center justify-center p-2 rounded-2xl text-[10px] transition-all ${
-            ['churn', 'recommendations', 'reports', 'starlink'].includes(activeTab)
-              ? 'text-accent-purple font-bold'
-              : 'text-slate-500 dark:text-slate-400'
-          }`}
-        >
-          <Sparkles className="w-3.5 h-3.5" />
-          <span className="mt-1">More...</span>
-        </button>
       </nav>
 
     </div>
