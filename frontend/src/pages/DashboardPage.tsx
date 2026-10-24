@@ -183,37 +183,37 @@ export const DashboardPage: React.FC = () => {
       <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 space-y-6">
         
         {/* Industry Banner Card */}
-        <div className="glass-raised rounded-3xl p-6 sm:p-8">
+        <div className="glass-raised rounded-3xl p-6 sm:p-8 border border-white/10">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="space-y-2">
               <div className="flex flex-wrap items-center gap-2.5">
-                <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-slate-900 dark:text-white">
+                <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-white drop-shadow-[0_2px_12px_rgba(44,52,128,0.3)]">
                   {overview?.name || slug.toUpperCase()} Intelligence
                 </h1>
-                <span className="text-xs px-3 py-1 rounded-full bg-accent-blue/15 text-accent-blue border border-accent-blue/30 font-bold">
+                <span className="text-xs px-3 py-1 rounded-full bg-[#2C3480]/40 text-white border border-[#3B46A8]/50 shadow-[0_0_12px_rgba(44,52,128,0.25)] font-bold">
                   {overview?.badge || 'Live Radar'}
                 </span>
               </div>
-              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-3xl leading-relaxed">
+              <p className="text-xs sm:text-sm text-slate-300 max-w-3xl leading-relaxed">
                 {overview?.description}
               </p>
             </div>
 
             {/* Quick Metrics Strip */}
-            <div className="flex items-center space-x-3.5 glass-base p-4 rounded-2xl text-xs self-start md:self-auto">
+            <div className="flex items-center space-x-3.5 glass-base p-4 rounded-2xl text-xs self-start md:self-auto border border-white/10">
               <div>
-                <span className="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400 block tracking-wider">Total Articles</span>
-                <span className="text-base font-black text-slate-900 dark:text-white font-mono tabular-nums">{overview?.total_articles ?? 0}</span>
+                <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">Total Articles</span>
+                <span className="text-base font-black text-white font-mono tabular-nums">{overview?.total_articles ?? 0}</span>
               </div>
-              <div className="h-8 w-px bg-slate-300 dark:bg-white/10" />
+              <div className="h-8 w-px bg-white/10" />
               <div>
-                <span className="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400 block tracking-wider">Tracked Entities</span>
-                <span className="text-base font-black text-accent-blue font-mono tabular-nums">{companies.length}</span>
+                <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">Tracked Entities</span>
+                <span className="text-base font-black text-white font-mono tabular-nums">{companies.length}</span>
               </div>
-              <div className="h-8 w-px bg-slate-300 dark:bg-white/10" />
+              <div className="h-8 w-px bg-white/10" />
               <div>
-                <span className="text-[10px] uppercase font-bold text-slate-500 dark:text-slate-400 block tracking-wider">Scheduler Engine</span>
-                <span className="text-xs font-bold text-accent-green flex items-center gap-1 mt-0.5">
+                <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">Scheduler Engine</span>
+                <span className="text-xs font-bold text-emerald-400 flex items-center gap-1 mt-0.5">
                   <CheckCircle2 className="w-3.5 h-3.5" />
                   APScheduler Active
                 </span>
@@ -224,38 +224,38 @@ export const DashboardPage: React.FC = () => {
 
         {/* Stale Source & Degradation Warning Banner */}
         {failingSources.length > 0 && (
-          <div className="glass-raised border-amber-500/40 rounded-2xl px-5 py-3 text-xs text-amber-600 dark:text-amber-300 flex items-start sm:items-center justify-between gap-3 shadow-md">
+          <div className="glass-raised border-amber-500/40 rounded-2xl px-5 py-3 text-xs text-amber-300 flex items-start sm:items-center justify-between gap-3 shadow-md">
             <div className="flex items-center space-x-2.5">
-              <AlertTriangle className="w-4 h-4 text-amber-500 flex-shrink-0" />
+              <AlertTriangle className="w-4 h-4 text-amber-400 flex-shrink-0" />
               <span>
                 <strong>Source Notice:</strong> One or more feeds ({failingSources.map(s => s.source_name).join(', ')}) reported connection issues. 
-                <strong className="text-slate-900 dark:text-white ml-1">Retaining and displaying last-known-good verified data.</strong>
+                <strong className="text-white ml-1">Retaining and displaying last-known-good verified data.</strong>
               </span>
             </div>
-            <span className="text-[10px] font-mono font-medium hidden md:inline">
+            <span className="text-[10px] font-mono font-medium hidden md:inline text-amber-300/80">
               Retrying with exponential backoff
             </span>
           </div>
         )}
 
         {/* iOS-Style Segmented Tab Bar (Desktop & Tablet) */}
-        <div className="hidden md:flex p-1.5 rounded-full glass-raised overflow-x-auto gap-1">
+        <div className="hidden md:flex p-1.5 rounded-full glass-raised overflow-x-auto gap-1 border border-white/10">
           {tabs.map((tab) => {
             const isActive = activeTab === tab.id;
             return (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center space-x-2 px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue ${
+                className={`flex items-center space-x-2 px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C6BE8] ${
                   isActive
-                    ? 'ios-btn-primary shadow-md'
-                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white/10'
+                    ? 'ios-btn-primary shadow-[0_0_18px_rgba(44,52,128,0.5)]'
+                    : 'text-slate-300 hover:text-white hover:bg-white/10'
                 }`}
               >
                 {tab.icon}
                 <span>{tab.label}</span>
                 {tab.badge && !isActive && (
-                  <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-slate-200 dark:bg-white/10 font-bold">
+                  <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-white/10 font-bold text-slate-300">
                     {tab.badge}
                   </span>
                 )}
@@ -272,7 +272,7 @@ export const DashboardPage: React.FC = () => {
             <div className="space-y-6">
               
               {/* Filter Glass Bar */}
-              <div className="glass-raised rounded-2xl p-4 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 text-xs">
+              <div className="glass-raised rounded-2xl p-4 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 text-xs border border-white/10">
                 
                 {/* Search input with rounded pill feel */}
                 <div className="relative flex-1">
@@ -282,7 +282,7 @@ export const DashboardPage: React.FC = () => {
                     placeholder="Search headlines, summaries or sources..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2.5 rounded-full glass-base text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-accent-blue transition-all text-xs"
+                    className="w-full pl-10 pr-4 py-2.5 rounded-full glass-base text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#5C6BE8] transition-all text-xs border border-white/10"
                   />
                 </div>
 
@@ -293,11 +293,11 @@ export const DashboardPage: React.FC = () => {
                   <select
                     value={selectedCompany}
                     onChange={(e) => setSelectedCompany(e.target.value)}
-                    className="px-4 py-2.5 rounded-full bg-slate-900 border border-slate-700/80 text-white focus:outline-none focus:ring-2 focus:ring-accent-blue text-xs font-semibold cursor-pointer shadow-sm"
+                    className="px-4 py-2.5 rounded-full bg-[#070914] border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-[#5C6BE8] text-xs font-semibold cursor-pointer shadow-sm hover:border-white/40 transition-colors"
                   >
-                    <option value="" className="bg-slate-900 text-white">All Companies</option>
+                    <option value="" className="bg-[#070914] text-white">All Companies</option>
                     {companies.map((c) => (
-                      <option key={c} value={c} className="bg-slate-900 text-white">{c}</option>
+                      <option key={c} value={c} className="bg-[#070914] text-white">{c}</option>
                     ))}
                   </select>
 
@@ -305,11 +305,11 @@ export const DashboardPage: React.FC = () => {
                   <select
                     value={selectedTopic}
                     onChange={(e) => setSelectedTopic(e.target.value)}
-                    className="px-4 py-2.5 rounded-full bg-slate-900 border border-slate-700/80 text-white focus:outline-none focus:ring-2 focus:ring-accent-blue text-xs font-semibold cursor-pointer shadow-sm"
+                    className="px-4 py-2.5 rounded-full bg-[#070914] border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-[#5C6BE8] text-xs font-semibold cursor-pointer shadow-sm hover:border-white/40 transition-colors"
                   >
-                    <option value="" className="bg-slate-900 text-white">All Topics</option>
+                    <option value="" className="bg-[#070914] text-white">All Topics</option>
                     {availableTopics.map((t) => (
-                      <option key={t} value={t} className="bg-slate-900 text-white">{t}</option>
+                      <option key={t} value={t} className="bg-[#070914] text-white">{t}</option>
                     ))}
                   </select>
 
@@ -317,12 +317,12 @@ export const DashboardPage: React.FC = () => {
                   <select
                     value={selectedImpact}
                     onChange={(e) => setSelectedImpact(e.target.value)}
-                    className="px-4 py-2.5 rounded-full bg-slate-900 border border-slate-700/80 text-white focus:outline-none focus:ring-2 focus:ring-accent-blue text-xs font-semibold cursor-pointer shadow-sm"
+                    className="px-4 py-2.5 rounded-full bg-[#070914] border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-[#5C6BE8] text-xs font-semibold cursor-pointer shadow-sm hover:border-white/40 transition-colors"
                   >
-                    <option value="" className="bg-slate-900 text-white">All Impact Levels</option>
-                    <option value="high" className="bg-slate-900 text-white">High Business Impact</option>
-                    <option value="medium" className="bg-slate-900 text-white">Medium Impact</option>
-                    <option value="low" className="bg-slate-900 text-white">Standard Feed</option>
+                    <option value="" className="bg-[#070914] text-white">All Impact Levels</option>
+                    <option value="high" className="bg-[#070914] text-white">High Business Impact</option>
+                    <option value="medium" className="bg-[#070914] text-white">Medium Impact</option>
+                    <option value="low" className="bg-[#070914] text-white">Standard Feed</option>
                   </select>
 
                   {(searchQuery || selectedCompany || selectedTopic || selectedImpact) && (
@@ -333,7 +333,7 @@ export const DashboardPage: React.FC = () => {
                         setSelectedTopic('');
                         setSelectedImpact('');
                       }}
-                      className="px-3 py-2 rounded-full glass-pill text-accent-blue hover:text-blue-600 font-semibold text-xs"
+                      className="px-3 py-2 rounded-full glass-pill text-white hover:text-white font-semibold text-xs border border-white/20"
                     >
                       Reset
                     </button>
@@ -347,14 +347,14 @@ export const DashboardPage: React.FC = () => {
               {loadingNews ? (
                 <div className="space-y-4">
                   {[1, 2, 3, 4].map(n => (
-                    <div key={n} className="p-6 rounded-3xl glass-raised animate-pulse h-36" />
+                    <div key={n} className="p-6 rounded-3xl glass-raised animate-pulse h-36 border border-white/10" />
                   ))}
                 </div>
               ) : articles.length === 0 ? (
-                <div className="p-12 text-center rounded-3xl glass-raised">
-                  <AlertTriangle className="w-10 h-10 text-amber-500 mx-auto mb-3" />
-                  <h3 className="text-base font-bold text-slate-900 dark:text-white mb-1">No articles found matching filters</h3>
-                  <p className="text-xs text-slate-600 dark:text-slate-300 max-w-md mx-auto mb-4">
+                <div className="p-12 text-center rounded-3xl glass-raised border border-white/10">
+                  <AlertTriangle className="w-10 h-10 text-amber-400 mx-auto mb-3" />
+                  <h3 className="text-base font-bold text-white mb-1">No articles found matching filters</h3>
+                  <p className="text-xs text-slate-300 max-w-md mx-auto mb-4">
                     No verified items match the current search or filters. Click below to reset or run a live sync.
                   </p>
                   <button
@@ -368,26 +368,26 @@ export const DashboardPage: React.FC = () => {
                 <div className="space-y-4">
                   {articles.map((article) => {
                     const impactStyle = 
-                      article.business_impact === 'high' ? 'bg-rose-500/15 text-rose-600 dark:text-rose-300 border-rose-500/30' :
-                      article.business_impact === 'medium' ? 'bg-amber-500/15 text-amber-600 dark:text-amber-300 border-amber-500/30' :
-                      'glass-base text-slate-600 dark:text-slate-300';
+                      article.business_impact === 'high' ? 'bg-rose-500/20 text-rose-300 border-rose-500/40' :
+                      article.business_impact === 'medium' ? 'bg-amber-500/20 text-amber-300 border-amber-500/40' :
+                      'glass-base text-slate-300 border-white/10';
 
                     const sentimentColor =
-                      article.sentiment === 'positive' ? 'text-accent-green' :
-                      article.sentiment === 'negative' ? 'text-accent-red' : 'text-slate-500 dark:text-slate-400';
+                      article.sentiment === 'positive' ? 'text-emerald-400' :
+                      article.sentiment === 'negative' ? 'text-rose-400' : 'text-slate-400';
 
                     const clusterCount = article.cluster_sources ? article.cluster_sources.length : 1;
 
                     return (
                       <article
                         key={article.id}
-                        className="glass-raised rounded-3xl p-6 hover:-translate-y-1 transition-all duration-300 flex flex-col md:flex-row md:items-start justify-between gap-6"
+                        className="glass-raised rounded-3xl p-6 hover:-translate-y-1 transition-all duration-300 flex flex-col md:flex-row md:items-start justify-between gap-6 border border-white/10 hover:border-white/25 hover:shadow-[0_15px_30px_rgba(44,52,128,0.2)]"
                       >
                         <div className="flex-1 space-y-2.5">
                           
                           {/* Tags & Metadata header */}
                           <div className="flex flex-wrap items-center gap-2 text-[11px]">
-                            <span className="font-bold text-accent-blue px-3 py-0.5 rounded-full bg-accent-blue/15 border border-accent-blue/30">
+                            <span className="font-bold text-white px-3 py-0.5 rounded-full bg-[#2C3480]/40 border border-[#3B46A8]/50 shadow-sm">
                               {article.source}
                             </span>
 
@@ -395,22 +395,22 @@ export const DashboardPage: React.FC = () => {
                               {article.business_impact} Impact
                             </span>
 
-                            <span className="text-slate-300 dark:text-slate-700">•</span>
+                            <span className="text-slate-600">•</span>
 
                             <span className={`font-semibold capitalize ${sentimentColor}`}>
                               {article.sentiment} Sentiment
                             </span>
 
-                            <span className="text-slate-300 dark:text-slate-700">•</span>
+                            <span className="text-slate-600">•</span>
 
-                            <span className="text-accent-green flex items-center gap-1 font-semibold">
+                            <span className="text-emerald-400 flex items-center gap-1 font-semibold">
                               <CheckCircle2 className="w-3.5 h-3.5" />
                               {article.verification_status}
                             </span>
 
                             {/* Multi-source Event Clustering Badge */}
                             {clusterCount > 1 && (
-                              <span className="px-3 py-0.5 rounded-full bg-purple-500/15 text-accent-purple border border-purple-500/30 text-[10px] font-bold flex items-center gap-1">
+                              <span className="px-3 py-0.5 rounded-full bg-purple-500/15 text-purple-300 border border-purple-500/30 text-[10px] font-bold flex items-center gap-1">
                                 <Share2 className="w-3 h-3" />
                                 Clustered Event ({clusterCount} Sources)
                               </span>
@@ -418,31 +418,31 @@ export const DashboardPage: React.FC = () => {
                           </div>
 
                           {/* Title with link */}
-                          <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white hover:text-accent-blue transition-colors leading-snug">
+                          <h2 className="text-base sm:text-lg font-bold text-white hover:text-[#5C6BE8] transition-colors leading-snug">
                             <a href={article.url} target="_blank" rel="noopener noreferrer" className="flex items-start gap-1.5 group">
                               <span>{article.title}</span>
-                              <ArrowUpRight className="w-4 h-4 text-slate-400 group-hover:text-accent-blue transition-transform flex-shrink-0 mt-1" />
+                              <ArrowUpRight className="w-4 h-4 text-slate-400 group-hover:text-[#5C6BE8] transition-transform flex-shrink-0 mt-1" />
                             </a>
                           </h2>
 
                           {/* Summary */}
                           {article.summary && (
-                            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-3">
+                            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed line-clamp-3">
                               {article.summary}
                             </p>
                           )}
 
                           {/* Clustered Secondary Sources Links if merged */}
                           {article.cluster_sources && article.cluster_sources.length > 1 && (
-                            <div className="p-3 rounded-2xl glass-base text-[11px] text-slate-500 dark:text-slate-400">
-                              <span className="text-slate-800 dark:text-slate-200 font-bold mr-1.5">Additional Source Reports:</span>
+                            <div className="p-3 rounded-2xl glass-base text-[11px] text-slate-400 border border-white/10">
+                              <span className="text-slate-200 font-bold mr-1.5">Additional Source Reports:</span>
                               {article.cluster_sources.slice(1).map((s, idx) => (
                                 <a
                                   key={idx}
                                   href={s.url}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="text-accent-blue hover:underline inline-flex items-center gap-1 mr-3"
+                                  className="text-[#5C6BE8] hover:underline inline-flex items-center gap-1 mr-3"
                                 >
                                   <span>{s.source}</span>
                                   <ExternalLink className="w-2.5 h-2.5" />
@@ -454,12 +454,12 @@ export const DashboardPage: React.FC = () => {
                           {/* Tagged Companies & Topics */}
                           <div className="flex flex-wrap items-center gap-1.5 pt-1">
                             {(article.companies || []).map((comp) => (
-                              <span key={comp} className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold glass-pill text-slate-800 dark:text-slate-200">
+                              <span key={comp} className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold glass-pill text-white border border-white/10">
                                 🏢 {comp}
                               </span>
                             ))}
                             {(article.topics || []).map((top) => (
-                              <span key={top} className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold glass-base text-slate-500 dark:text-slate-400">
+                              <span key={top} className="px-2.5 py-0.5 rounded-full text-[10px] font-semibold glass-base text-slate-300 border border-white/10">
                                 #{top}
                               </span>
                             ))}
@@ -468,23 +468,23 @@ export const DashboardPage: React.FC = () => {
                         </div>
 
                         {/* Right Timestamp Box with All Separate Timestamps */}
-                        <div className="md:w-56 p-4 rounded-2xl glass-base flex flex-col justify-between text-[11px] text-slate-500 dark:text-slate-400 space-y-2.5 flex-shrink-0">
+                        <div className="md:w-56 p-4 rounded-2xl glass-base flex flex-col justify-between text-[11px] text-slate-400 space-y-2.5 flex-shrink-0 border border-white/10">
                           <div>
                             <div className="flex items-center space-x-1.5 mb-0.5">
-                              <Calendar className="w-3.5 h-3.5 text-accent-blue" />
-                              <span className="font-semibold">Published Time:</span>
+                              <Calendar className="w-3.5 h-3.5 text-[#5C6BE8]" />
+                              <span className="font-semibold text-slate-300">Published Time:</span>
                             </div>
-                            <div className="font-mono text-slate-900 dark:text-slate-100 font-bold tabular-nums">
+                            <div className="font-mono text-white font-bold tabular-nums">
                               {formatDateTime(article.published_at)}
                             </div>
                           </div>
 
-                          <div className="pt-2 border-t border-slate-200/40 dark:border-white/10">
+                          <div className="pt-2 border-t border-white/10">
                             <div className="flex items-center space-x-1.5 mb-0.5">
-                              <Clock className="w-3.5 h-3.5 text-accent-green" />
-                              <span className="font-semibold">Retrieved By App:</span>
+                              <Clock className="w-3.5 h-3.5 text-emerald-400" />
+                              <span className="font-semibold text-slate-300">Retrieved By App:</span>
                             </div>
-                            <div className="font-mono text-slate-700 dark:text-slate-300 tabular-nums">
+                            <div className="font-mono text-slate-300 tabular-nums">
                               {formatDateTime(article.retrieved_at)}
                             </div>
                           </div>
@@ -493,7 +493,7 @@ export const DashboardPage: React.FC = () => {
                             href={article.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="mt-2 inline-flex items-center justify-center space-x-1.5 py-2 px-3 rounded-full glass-pill text-accent-blue text-[11px] font-bold"
+                            className="mt-2 inline-flex items-center justify-center space-x-1.5 py-2 px-3 rounded-full bg-[#2C3480]/30 hover:bg-[#2C3480]/60 border border-[#3B46A8]/50 text-white text-[11px] font-bold transition-all shadow-sm"
                           >
                             <span>Original Article</span>
                             <ExternalLink className="w-3 h-3" />
@@ -530,47 +530,47 @@ export const DashboardPage: React.FC = () => {
             <div className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 
-                <div className="p-6 sm:p-7 rounded-3xl glass-raised">
-                  <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-3.5 flex items-center gap-2">
-                    <Building2 className="w-4 h-4 text-accent-blue" />
+                <div className="p-6 sm:p-7 rounded-3xl glass-raised border border-white/10">
+                  <h3 className="text-sm font-bold text-white mb-3.5 flex items-center gap-2">
+                    <Building2 className="w-4 h-4 text-[#5C6BE8]" />
                     Tracked Sector Entities
                   </h3>
                   <div className="flex flex-wrap gap-2">
                     {companies.map((c) => (
-                      <span key={c} className="px-3 py-1 rounded-full glass-base text-xs font-semibold text-slate-800 dark:text-slate-200">
+                      <span key={c} className="px-3 py-1 rounded-full glass-base text-xs font-semibold text-white border border-white/10">
                         {c}
                       </span>
                     ))}
                   </div>
                 </div>
 
-                <div className="p-6 sm:p-7 rounded-3xl glass-raised">
-                  <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-3.5 flex items-center gap-2">
-                    <Radio className="w-4 h-4 text-accent-green" />
+                <div className="p-6 sm:p-7 rounded-3xl glass-raised border border-white/10">
+                  <h3 className="text-sm font-bold text-white mb-3.5 flex items-center gap-2">
+                    <Radio className="w-4 h-4 text-emerald-400" />
                     Ingestion Health & Source Auditing
                   </h3>
-                  <div className="space-y-3 text-xs text-slate-600 dark:text-slate-300">
-                    <div className="flex justify-between pb-2 border-b border-slate-200/40 dark:border-white/10">
+                  <div className="space-y-3 text-xs text-slate-300">
+                    <div className="flex justify-between pb-2 border-b border-white/10">
                       <span>Total Ingested Articles:</span>
-                      <span className="font-mono font-black text-slate-900 dark:text-white tabular-nums">{overview?.total_articles ?? 0}</span>
+                      <span className="font-mono font-black text-white tabular-nums">{overview?.total_articles ?? 0}</span>
                     </div>
-                    <div className="flex justify-between pb-2 border-b border-slate-200/40 dark:border-white/10">
+                    <div className="flex justify-between pb-2 border-b border-white/10">
                       <span>Last Verified Sync:</span>
-                      <span className="font-mono text-slate-800 dark:text-slate-200 tabular-nums">{formatDateTime(overview?.last_sync_time || null)}</span>
+                      <span className="font-mono text-slate-200 tabular-nums">{formatDateTime(overview?.last_sync_time || null)}</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Next Scheduled Check:</span>
-                      <span className="font-mono text-accent-blue font-bold tabular-nums">{formatDateTime(nextCheckTimestamp)}</span>
+                      <span className="font-mono text-[#5C6BE8] font-bold tabular-nums">{formatDateTime(nextCheckTimestamp)}</span>
                     </div>
                   </div>
                 </div>
 
-                <div className="p-6 sm:p-7 rounded-3xl glass-raised">
-                  <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-3.5 flex items-center gap-2">
-                    <BarChart2 className="w-4 h-4 text-accent-purple" />
+                <div className="p-6 sm:p-7 rounded-3xl glass-raised border border-white/10">
+                  <h3 className="text-sm font-bold text-white mb-3.5 flex items-center gap-2">
+                    <BarChart2 className="w-4 h-4 text-purple-400" />
                     Business Intelligence Directives
                   </h3>
-                  <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
+                  <p className="text-xs text-slate-300 leading-relaxed mb-4">
                     This intelligence dashboard extracts competitive signals, regulatory shifts, and pricing models directly from authorized RSS and official portal sources.
                   </p>
                   <button
@@ -585,8 +585,7 @@ export const DashboardPage: React.FC = () => {
             </div>
           )}
 
-
-          {/* ================= TAB 6: CUSTOMER CHURN INTELLIGENCE ================= */}
+          {/* ================= TAB 5: CUSTOMER CHURN INTELLIGENCE ================= */}
           {activeTab === 'churn' && (
             <CustomerChurnTab />
           )}
@@ -596,7 +595,7 @@ export const DashboardPage: React.FC = () => {
       </div>
 
       {/* ================= MOBILE BOTTOM TAB BAR ================= */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 glass-overlay px-1 py-1.5 flex items-center justify-around border-t shadow-2xl">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 glass-overlay px-1 py-1.5 flex items-center justify-around border-t border-white/10 shadow-2xl">
         {tabs.map((tab) => {
           const isActive = activeTab === tab.id;
           return (
@@ -605,13 +604,13 @@ export const DashboardPage: React.FC = () => {
               onClick={() => setActiveTab(tab.id)}
               className={`flex flex-col items-center justify-center p-1.5 rounded-2xl transition-all ${
                 isActive 
-                  ? 'text-accent-blue font-bold scale-105' 
-                  : 'text-slate-500 dark:text-slate-400'
+                  ? 'text-white font-bold scale-105 drop-shadow-[0_0_10px_rgba(92,107,232,0.8)]' 
+                  : 'text-slate-400'
               }`}
             >
               {tab.icon}
               <span className="text-[10px] mt-0.5 tracking-tight truncate max-w-[55px]">
-                {tab.id === 'competitor-tracker' ? 'Intel' : tab.id === 'market-leaders' ? 'Leaders' : tab.id === 'ai-analyst' ? 'Analyst' : tab.id === 'churn' ? 'Churn' : tab.label.split(' ')[0]}
+                {tab.id === 'competitor-tracker' ? 'Intel' : tab.id === 'market-leaders' ? 'Leaders' : tab.id === 'churn' ? 'Churn' : tab.label.split(' ')[0]}
               </span>
             </button>
           );

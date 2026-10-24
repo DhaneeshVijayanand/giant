@@ -39,7 +39,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const getIndustryIcon = () => {
     switch (currentIndustry) {
       case 'telecom':
-        return <Smartphone className="w-3.5 h-3.5 text-accent-blue" />;
+        return <Smartphone className="w-3.5 h-3.5 text-[#828FEF]" />;
       case 'fintech':
         return <Zap className="w-3.5 h-3.5 text-accent-green" />;
       case 'ev':
@@ -61,18 +61,18 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <div className="sticky top-3 z-50 px-3 sm:px-6 max-w-7xl mx-auto w-full mb-6">
-      <header className="glass-raised rounded-2xl sm:rounded-full px-4 sm:px-6 py-2.5 flex items-center justify-between transition-all">
+      <header className="glass-raised rounded-2xl sm:rounded-full px-4 sm:px-6 py-2.5 flex items-center justify-between border border-white/15 transition-all">
         
         {/* Brand & Industry Breadcrumb */}
         <div className="flex items-center space-x-2 sm:space-x-3">
           <Link to="/" className="flex items-center space-x-2.5 group">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-accent-blue via-indigo-500 to-accent-purple flex items-center justify-center font-black text-white text-base tracking-wider shadow-md shadow-accent-blue/25 group-hover:scale-105 transition-transform">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#2C3480] via-[#3742A3] to-[#5C6BE8] flex items-center justify-center font-black text-white text-base tracking-wider shadow-md shadow-[#2C3480]/40 border border-white/20 group-hover:scale-105 transition-transform">
               G
             </div>
             <div className="flex flex-col">
-              <span className="font-black text-sm tracking-wide text-slate-900 dark:text-white flex items-center gap-1.5">
+              <span className="font-black text-sm tracking-wide text-white flex items-center gap-1.5">
                 GIANT
-                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-accent-blue/15 text-accent-blue border border-accent-blue/30 uppercase tracking-wider">
+                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-[#2C3480]/40 text-[#828FEF] border border-[#5C6BE8]/50 uppercase tracking-wider">
                   RADAR
                 </span>
               </span>
@@ -81,15 +81,15 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {currentIndustry && (
             <div className="flex items-center space-x-1.5 text-xs">
-              <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+              <ChevronRight className="w-3.5 h-3.5 text-slate-500" />
               <button
                 onClick={() => navigate('/industries')}
-                className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full glass-pill text-slate-800 dark:text-slate-100 font-semibold"
+                className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full glass-pill text-white font-semibold hover:border-[#5C6BE8]/50"
                 title="Switch selected industry"
               >
                 {getIndustryIcon()}
                 <span>{industryName || currentIndustry.toUpperCase()}</span>
-                <span className="text-[10px] text-accent-blue font-bold uppercase ml-1">Switch</span>
+                <span className="text-[10px] text-[#828FEF] font-bold uppercase ml-1">Switch</span>
               </button>
             </div>
           )}
@@ -103,28 +103,28 @@ export const Navbar: React.FC<NavbarProps> = ({
 
           {/* Stale Warning Indicator */}
           {hasStaleSource && (
-            <div className="hidden lg:flex items-center space-x-1.5 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-[11px] font-medium text-amber-500 dark:text-amber-300">
+            <div className="hidden lg:flex items-center space-x-1.5 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-[11px] font-medium text-amber-300">
               <AlertTriangle className="w-3.5 h-3.5" />
               <span>Source Degraded (Showing Last-Good)</span>
             </div>
           )}
 
           {/* Separate Timestamps: Last Sync & Next Scheduled Check */}
-          <div className="hidden lg:flex items-center space-x-2.5 px-3.5 py-1.5 rounded-full glass-base text-xs">
+          <div className="hidden lg:flex items-center space-x-2.5 px-3.5 py-1.5 rounded-full glass-base text-xs border border-white/10">
             <div className="flex items-center space-x-1.5">
               <Radio className="w-3 h-3 text-accent-green animate-pulse motion-reduce:animate-none" />
-              <span className="text-slate-500 dark:text-slate-400">Last Sync:</span>
-              <span className="font-mono text-slate-900 dark:text-slate-100 font-semibold tabular-nums">
+              <span className="text-slate-400">Last Sync:</span>
+              <span className="font-mono text-white font-semibold tabular-nums">
                 {formatTimeOnly(lastSyncTime)}
               </span>
             </div>
             {nextCheckTime && (
               <>
-                <span className="text-slate-300 dark:text-slate-700">•</span>
+                <span className="text-slate-600">•</span>
                 <div className="flex items-center space-x-1.5">
-                  <Clock className="w-3 h-3 text-accent-blue" />
-                  <span className="text-slate-500 dark:text-slate-400">Next Check:</span>
-                  <span className="font-mono text-slate-800 dark:text-slate-200 font-semibold tabular-nums">
+                  <Clock className="w-3 h-3 text-[#828FEF]" />
+                  <span className="text-slate-400">Next Check:</span>
+                  <span className="font-mono text-slate-200 font-semibold tabular-nums">
                     {formatTimeOnly(nextCheckTime)}
                   </span>
                 </div>
@@ -132,14 +132,13 @@ export const Navbar: React.FC<NavbarProps> = ({
             )}
           </div>
 
-
           {/* Manual Refresh Trigger connected to Scheduler */}
           {onRefresh && (
             <button
               onClick={onRefresh}
               disabled={isRefreshing}
               aria-label="Refresh latest RSS and official data feeds"
-              className="ios-btn-primary flex items-center space-x-1.5 px-3.5 py-1.5 text-xs font-semibold disabled:opacity-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-blue"
+              className="ios-btn-primary flex items-center space-x-1.5 px-3.5 py-1.5 text-xs font-semibold disabled:opacity-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5C6BE8]"
               title="Poll latest RSS and official feeds now"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin' : ''}`} />
