@@ -52,12 +52,14 @@ allowed_origins = list(settings.CORS_ORIGINS) if settings.CORS_ORIGINS else [
     "http://127.0.0.1:5173"
 ]
 
+is_wildcard = "*" in allowed_origins
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
-    allow_origin_regex=r"https?://(localhost|127\.0\.0\.1)(:\d+)?",
-    allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+    allow_origin_regex=r"https?://(localhost|127\.0\.0\.1)(:\d+)?" if not is_wildcard else None,
+    allow_credentials=not is_wildcard,
+    allow_methods=["*"],
     allow_headers=["*"],
 )
 

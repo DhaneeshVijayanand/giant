@@ -2,6 +2,7 @@ from typing import List, Dict, Any, Union
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from pydantic import Field, field_validator
 import os
+import json
 
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
@@ -12,21 +13,27 @@ class Settings(BaseSettings):
     HOST: str = "127.0.0.1"
     PORT: int = 8000
     DATABASE_URL: str = "sqlite:///./giant.db"
-    CORS_ORIGINS: List[str] = [
+    CORS_ORIGINS: Union[List[str], str] = [
         "http://localhost:5173",
         "http://127.0.0.1:5173",
         "http://localhost:3000",
         "http://127.0.0.1:3000"
     ]
 
-    @field_validator('CORS_ORIGINS', mode='before')
+    @field_validator('CORS_ORIGINS')
     @classmethod
-    def parse_cors_origins(cls, v: Any) -> Any:
+    def parse_cors_origins(cls, v: Any) -> List[str]:
         if isinstance(v, str):
             stripped = v.strip()
-            if not stripped.startswith('['):
-                return [item.strip() for item in stripped.split(',') if item.strip()]
-        return v
+            if stripped.startswith('[') and stripped.endswith(']'):
+                try:
+                    return json.loads(stripped)
+                except Exception:
+                    pass
+            return [item.strip() for item in stripped.split(',') if item.strip()]
+        if isinstance(v, (list, tuple, set)):
+            return [str(item) for item in v]
+        return [str(v)]
 
     # Check intervals
     BREAKING_NEWS_INTERVAL_MINUTES: int = 5
