@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: giant-backend
+    runtime: docker
+    plan: free
+    dockerContext: .
+    dockerfilePath: Dockerfile
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: DEBUG
+        value: "false"
+      - key: DATABASE_URL
+        value: sqlite:///./giant.db
+      - key: CORS_ORIGINS
+        value: "*"
