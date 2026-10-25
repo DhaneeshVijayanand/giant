@@ -1,0 +1,11 @@
+.git
+.pytest_cache
+frontend
+node_modules
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.env
+giant.db-shm
+giant.db-wal
