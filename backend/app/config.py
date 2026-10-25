@@ -1,6 +1,6 @@
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Union
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from pydantic import Field
+from pydantic import Field, field_validator
 import os
 
 class Settings(BaseSettings):
@@ -18,6 +18,15 @@ class Settings(BaseSettings):
         "http://localhost:3000",
         "http://127.0.0.1:3000"
     ]
+
+    @field_validator('CORS_ORIGINS', mode='before')
+    @classmethod
+    def parse_cors_origins(cls, v: Any) -> Any:
+        if isinstance(v, str):
+            stripped = v.strip()
+            if not stripped.startswith('['):
+                return [item.strip() for item in stripped.split(',') if item.strip()]
+        return v
 
     # Check intervals
     BREAKING_NEWS_INTERVAL_MINUTES: int = 5
@@ -101,18 +110,18 @@ INDUSTRIES_CONFIG: Dict[str, Dict[str, Any]] = {
         ],
         "rss_feeds": [
             {
-                "name": "ET BFSI",
-                "url": "https://bfsi.economictimes.indiatimes.com/rss/topstories",
+                "name": "ET BFSI / Fintech",
+                "url": "https://bfsi.economictimes.indiatimes.com/rss/fintech",
                 "category": "breaking"
             },
             {
-                "name": "LiveMint Banking & Finance",
-                "url": "https://www.livemint.com/rss/money",
+                "name": "Inc42 Fintech",
+                "url": "https://inc42.com/category/buzz/feed/",
                 "category": "general"
             },
             {
-                "name": "Inc42 Fintech",
-                "url": "https://inc42.com/category/fintech/feed/",
+                "name": "YourStory Fintech",
+                "url": "https://yourstory.com/feed",
                 "category": "general"
             }
         ]
