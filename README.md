@@ -1,251 +1,288 @@
-# GIANT: Real-Time Industry Intelligence and Customer Churn Prediction Platform
+# GIANT: Real-Time Industry Intelligence & Customer Churn Prediction Platform
 
-[![CI/CD Pipeline](https://github.com/DhaneeshVijayanand/giant/actions/workflows/ci.yml/badge.svg)](https://github.com/DhaneeshVijayanand/giant/actions/workflows/ci.yml)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688.svg?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
-[![React](https://img.shields.io/badge/React-18.2+-61DAFB.svg?logo=react&logoColor=black)](https://react.dev)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.2+-3178C6.svg?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16+-4169E1.svg?logo=postgresql&logoColor=white)](https://www.postgresql.org)
-[![Python Tests](https://img.shields.io/badge/Pytest-47%20Passed-brightgreen.svg?logo=pytest)](https://pytest.org)
+[![Live App](https://img.shields.io/badge/Live%20App-Vercel-black.svg?style=for-the-badge&logo=vercel&logoColor=white)](https://giant-virid.vercel.app/)
+[![API Status](https://img.shields.io/badge/API-Render%20Live-46E3B7.svg?style=for-the-badge&logo=render&logoColor=white)](https://giant-74pu.onrender.com/health)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688.svg?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+[![React](https://img.shields.io/badge/React-18.2+-61DAFB.svg?style=for-the-badge&logo=react&logoColor=black)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.2+-3178C6.svg?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Pytest](https://img.shields.io/badge/Pytest-47%20Passed-brightgreen.svg?style=for-the-badge&logo=pytest&logoColor=white)](https://pytest.org)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4+-38B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
 
-**Giant** is an enterprise-grade platform tailored for **Business Analysts, Product Managers, and Strategy Executives**. It unifies real-time industry intelligence across **Telecom**, **Fintech & Digital Payments**, and **Electric Vehicles (EV)** in India with calibrated Machine Learning for **Customer Churn Prediction** and deep **Microsoft Power BI** embedded visualizations.
+**Giant** is an enterprise-grade competitive intelligence platform engineered for **Strategy Executives, Product Leaders, and Industry Analysts**. It unifies verified real-time sector feeds across **Telecom**, **Fintech & Digital Payments**, and **Electric Vehicles (EV)** in India with calibrated Machine Learning for **Customer Churn Prediction** and deep **Microsoft Power BI** reporting.
 
 ---
 
-## 1. System Architecture
+## 🌐 Live Production Deployments
+
+| Component | Production URL | Status | Description |
+| :--- | :--- | :--- | :--- |
+| **Frontend Application** | [https://giant-virid.vercel.app/](https://giant-virid.vercel.app/) | ![Vercel](https://img.shields.io/badge/Vercel-Deployed-black?logo=vercel) | React 18 + Vite SPA with luxury Cobalt / Obsidian Glass UI |
+| **Backend API Server** | [https://giant-74pu.onrender.com/](https://giant-74pu.onrender.com/) | ![Render](https://img.shields.io/badge/Render-Active-46E3B7?logo=render) | FastAPI + APScheduler automated polling engine |
+| **Interactive API Docs** | [https://giant-74pu.onrender.com/docs](https://giant-74pu.onrender.com/docs) | ![Swagger](https://img.shields.io/badge/Swagger-UI-85EA2D?logo=swagger) | Interactive OpenAPI / Swagger interface |
+| **Health Probe** | [https://giant-74pu.onrender.com/health](https://giant-74pu.onrender.com/health) | ![Health](https://img.shields.io/badge/Health-200%20OK-brightgreen) | Real-time database, scheduler, and uptime telemetry |
+
+---
+
+## 🏛️ System Architecture
 
 ```mermaid
 flowchart TD
-    subgraph Frontend ["Presentation Layer (React 18 + TypeScript + Tailwind)"]
-        P1["Page 1: Welcome & Landing"]
-        P2["Page 2: Industry Selector"]
-        P3["Page 3: Industry Intelligence Dashboard"]
-        P31["Page 3.1: Microsoft Power BI Embedded"]
-        P3 --> Tabs["8 Tabs: News, Leaders, Radar, AI Analyst, Recommendations, Churn ML, Starlink, Reports"]
+    subgraph Client ["Client Presentation Layer (Vercel)"]
+        UI["React 18 + TypeScript + Tailwind"]
+        UI --> W["Welcome & Clock Screen (/)"]
+        UI --> S["Industry Selector (/industries)"]
+        UI --> D["Intelligence Dashboard (/industry/:slug)"]
+        UI --> BI["Power BI Analytics (/industry/:slug/news-bi)"]
+        D --> Tabs["Tabs: News Radar | Market Leaders | Competitive Intel | Churn Studio"]
     end
 
-    subgraph Security ["Security & Hardening Layer (Milestone 6)"]
-        H["Security Headers (OWASP)"]
+    subgraph Security ["Security & Hardening Layer"]
+        SH["OWASP Security Headers (CSP, Frame Options, HSTS)"]
         RL["In-Memory Rate Limiter (Token Bucket)"]
-        SSRF["SSRF Domain & IP Allowlist"]
-        FI["Formula Injection Sanitizer"]
-        FU["Binary & Null-Byte Upload Defense"]
+        SSRF["SSRF Guard & RFC1918 Private IP Filter"]
+        CSVSEC["OWASP Formula Injection Defense"]
+        FSEC["CSV Sanitization & Null-Byte Detector"]
     end
 
-    subgraph Backend ["Application Layer (FastAPI + Python 3.13)"]
-        API["REST Endpoints (/api/v1)"]
-        SCH["APScheduler (5m/15m/Daily Polling)"]
-        RAG["Grounded AI Engine (4-Part Verification)"]
-        ML["Churn ML Engine (Scikit-Learn Logistic Regression & RF)"]
-        REP["ReportLab PDF & CSV Export Generator"]
-        PBI["Power BI DirectQuery Feed & Embed Token Manager"]
+    subgraph Server ["Application Engine (Render Container)"]
+        API["FastAPI Backend (/api/v1)"]
+        SCHED["APScheduler (5m Breaking / 15m General / 24h Regulatory)"]
+        ML["Churn ML Engine (Scikit-Learn Logistic Regression & Random Forest)"]
+        DEDUP["News Clustering & Deduplication Engine"]
+        EXPO["ReportLab PDF & Safe CSV Generators"]
+        PBI_SRV["Power BI DirectQuery & Embed Token Manager"]
     end
 
-    subgraph DataLayer ["Data & External Providers"]
-        DB[("PostgreSQL / SQLite Database")]
+    subgraph Persistence ["Data Sources & Telemetry"]
+        DB[("SQLite / PostgreSQL Database")]
         RSS["Authorized RSS Feeds (ET Telecom, LiveMint, Inc42, RushLane)"]
-        REG["Regulators & Official Portals (TRAI, NPCI, MoRTH Vahan)"]
-        AAD["Microsoft Entra ID (Azure AD)"]
-        PBIS["Power BI Service"]
+        REG["Official Published Reports (TRAI, NPCI, MoRTH Vahan)"]
+        AZURE["Microsoft Entra ID (Azure AD)"]
+        PBISVC["Microsoft Power BI Service"]
     end
 
-    Frontend --> Security --> API
+    Client --> Security --> API
     API --> DB
-    API --> RAG
     API --> ML
-    API --> REP
-    API --> PBI
-    SCH --> RSS
-    SCH --> REG
-    PBI --> AAD --> PBIS
+    API --> DEDUP
+    API --> EXPO
+    API --> PBI_SRV
+    SCHED --> RSS
+    SCHED --> REG
+    PBI_SRV --> AZURE --> PBISVC
 ```
 
 ---
 
-## 2. Core Capabilities & Page Flow
+## ✨ Core Platform Capabilities
 
-### Page 1: Welcome & Landing (`/`)
-- 5-second automatic countdown with interactive "Skip" button.
-- Live system clock and date synchronization.
-- High-contrast enterprise branding compliant with WCAG AA accessibility standards.
+### 1. Multi-Sector Real-Time Intelligence Radars
+- **Telecom**: Real-time coverage of 5G rollouts, ARPU shifts, satcom spectrum debates, and TRAI telecom guidelines.
+- **Fintech & Digital Banking**: Real-time updates on UPI volume, digital lending regulations, soundbox rollouts, and RBI notifications.
+- **Electric Vehicles (EV)**: 2W/3W/4W registrations, battery gigafactories, charging infrastructure, and Vahan database trends.
+- **Deduplication & Clustering**: Multi-source event grouping aggregates identical news stories across publishers into a single clustered card, listing all reporting outlets.
+- **Four Independent Timestamps**: Explicit audit trail for every story:
+  1. *Published At* (Article timestamp from original publisher)
+  2. *Retrieved At* (When Giant ingested the article)
+  3. *Last Verified Sync* (When the feed was last polled)
+  4. *Next Scheduled Check* (APScheduler next execution time)
 
-### Page 2: Industry Selection (`/industries`)
-- Database-backed cards for:
-  1. **Telecom** (Cellular, 5G, FTTH, Satellite Spectrum, TRAI updates)
-  2. **Fintech & Digital Payments** (UPI volume, merchant transactions, RBI circulars)
-  3. **Electric Vehicles (EV)** (2W/3W/4W adoption, Vahan registration trends, battery safety)
-- Displays active article counts, top tracked companies, and direct routing.
+### 2. Market Leaders & Regulatory Benchmarks
+- Sourced from official published filings:
+  - **TRAI Monthly Reports**: Wireline and wireless subscriber counts, VLR active subscriber percentages, broadband market share.
+  - **NPCI Monthly Volume**: UPI transaction counts and gross rupee value.
+  - **MoRTH Vahan Registry**: Electric vehicle retail sales counts.
+- **6-Month Historical Progression**: Responsive grouped bar visualizer with continuous trend lines and verified filing periods.
+- **Brand Identity Palette**: Preserves official brand guidelines across charts:
+  - **Reliance Jio**: `#3B82F6` (Electric Blue)
+  - **Bharti Airtel**: `#A78BFA` (Vibrant Purple)
+  - **Vodafone Idea**: `#FBBF24` (Amber Gold)
+  - **BSNL**: `#64748B` (Steel Slate)
 
-### Page 3: Industry Intelligence Dashboard (`/industry/:slug`)
-Comprises eight integrated analyst modules:
-- **Section A: Live News Radar**: Authentic RSS articles with full deduplication clustering, duplicate counts, canonical source links, and 4 separate timestamps (Original Published, Platform Ingested, Last Scheduler Poll, and Next Check). Degraded source health alerts automatically display if an external feed fails.
-- **Section B: Market Leaders & Benchmarks**: Real quarterly and monthly figures from official regulators (TRAI subscriber counts, NPCI UPI monthly transactions, MoRTH Vahan registrations).
-- **Section C: Competitor Radar & Watchlist**: Full company monitoring matrix with persistent watchlist pinning stored in `localStorage`.
-- **Section D: Grounded AI Business Analyst**: Chat assistant answering strictly from stored articles and official data using a 4-part grounded format:
-  1. *Verified Facts* (with explicit article citations and URLs)
-  2. *Strategic Implications*
-  3. *Actionable Next Steps*
-  4. *Evidence Gaps & Caveats*
-  Equipped with spend caps, prompt injection sanitization, and deterministic fallbacks.
-- **Section E: Strategic AI Recommendations**: High, Medium, and Low priority business recommendations with expected impact and evidence references.
-- **Section F: Customer Churn Intelligence**: Calibrated Machine Learning module utilizing Logistic Regression and Random Forest classifiers. Features:
-  - Benchmark IBM Telco demonstration dataset (strictly labeled **Demo data**).
-  - Custom CSV dataset upload with MIME, size (10 MB), path traversal, and null-byte defenses.
-  - Strict leakage prevention: Target column isolated, hold-out test evaluation, zero synthetic test inflation.
-  - ROC-AUC, Precision, Recall, and F1-score evaluation metrics.
-  - Feature Driver ranking (e.g. Month-to-Month contracts, Fiber optic tech, Tenancy).
-  - Risk Distribution tiers (Low, Medium, High risk customer segments).
-  - Privacy and data purge control (`DELETE /api/v1/churn/dataset`).
-- **Section G: Featured Starlink Case Study ("Will Starlink Disrupt India's Telecom Market?")**:
-  - 12 verified regulatory and commercial topics with official TRAI, DoT, and IN-SPACe citations.
-  - 3 structured disruption scenarios:
-    1. *High Disruption (Enterprise & Rural Monopoly)*
-    2. *Moderate Coexistence (Backhaul Partner & Niche Luxury)*
-    3. *Constrained Entry (High Terminal Cost & Strict Security Vetting)*
-  - Transparent assumptions calculator with dynamic evidence feed.
-- **Section H: Executive Reports & Exports**:
-  - Multi-page PDF generation via ReportLab (executive summary, benchmarks, churn statistics, evidence tables).
-  - CSV report export equipped with **OWASP Formula Injection Protection** (prepends single-quotes to dangerous `=,+,-,@` triggers).
+### 3. Head-to-Head Competitive Intelligence
+- **Interactive Matchup Radar**: Select any two competitors (e.g. Jio vs. Airtel, PhonePe vs. Google Pay, Tata vs. Mahindra) to generate direct comparative analysis.
+- **Tactical Development Categorization**: Filter competitor moves by Product Launch, Pricing Change, Regulatory Filing, or Strategic Partnership.
+- **Persistent Watchlists**: Save and pin monitored entities with custom analyst notes, persisted across sessions.
 
-### Page 3.1: Microsoft Power BI Embedded Analytics (`/industry/:slug/news-bi`)
-- Built for enterprise Microsoft Power BI environments.
-- Direct JSON and CSV reporting feed at `/api/v1/powerbi/data-feed` strictly sanitized of customer PII and secrets.
-- Azure AD Service Principal embed token generation with automatic token renewal before expiration.
-- Real dataset refresh timestamps displayed directly from Power BI Service.
-- If credentials are not yet configured, cleanly renders an interactive setup prerequisite guide alongside a high-fidelity native fallback dashboard.
+### 4. Calibrated Customer Churn Prediction Studio
+- **Principle of Customer-Level Modeling**: Recognizes that public macro news cannot predict individual customer churn; individual churn prediction requires customer-level operational telemetry.
+- **Dual ML Architectures**:
+  - *Baseline*: Regularized Logistic Regression (Interpretable odds ratios).
+  - *Primary Calibrated*: Random Forest Classifier (Non-linear multi-feature interactions).
+- **Leakage Prevention**: Customer identifiers stripped, 80/20 stratified train/test split, zero synthetic test inflation.
+- **Key Metrics**: Accuracy, Precision, Recall, and ROC-AUC curve scores.
+- **Feature Importance Drivers**: Identifies top churn indicators (Month-to-Month contracts, Tenancy duration, Fiber Tech, Electronic Check).
+- **Risk Distribution Tiers**: Quantifies customer distribution across Low (<30%), Medium (30–60%), and High (>60%) churn risk.
+- **Interactive Data Studio**:
+  - Test on the verified **IBM Telco Benchmark** dataset (watermarked as *Demo data*).
+  - Upload custom operational CSVs with automated schema detection, cleaning, and sanitization.
+  - Full data privacy purge button (`DELETE /api/v1/churn/dataset`) instantly clearing raw records and model weights.
 
----
+### 5. Microsoft Power BI Embedded & Native Fallback Studio
+- **Dual Operating Modes**:
+  - **Authenticated Embed**: Generates short-lived Azure AD Service Principal embed tokens with automatic proactive renewal 5 minutes prior to expiration.
+  - **Native BI Fallback**: Operates without Azure credentials by compiling real database metrics into native sentiment, business impact, and entity distribution charts.
+- **Live Direct Data Feeds**: Exposes sanitized JSON and CSV data streams (`/api/v1/powerbi/data-feed`) ready for Power BI Desktop Web Ingestion without exposing customer PII.
+- **Interactive Setup Guide**: Comprehensive prerequisites checklist for Microsoft Entra ID app registration, Workspace ID, and Semantic Model configuration.
 
-## 3. Security, Hardening & Quality Controls (Milestone 6)
-
-| Security Category | Implementation Details | Verification Test |
-|---|---|---|
-| **Security Headers** | `X-Content-Type-Options: nosniff`, `X-Frame-Options: SAMEORIGIN`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy`, and strict CSP allowing Power BI framing. | `test_security_headers_present` |
-| **Rate Limiting** | In-memory sliding-window token bucket. Public API: 120 req/min; AI Chat: 30 req/min; Uploads: 15 req/min. Returns HTTP 429 with `Retry-After: 60`. | `test_rate_limiter_exceed_limit` |
-| **SSRF Defense** | URL protocol verification (HTTP/HTTPS only), private RFC1918/loopback address rejection (`127.0.0.1`, `localhost`, `10.0.0.0/8`, `192.168.0.0/16`, `169.254.169.254`), and strict RSS domain allowlist enforcement. | `test_ssrf_protection_blocks_internal_and_private_ips` |
-| **File Upload Safety** | Enforces `.csv` extension, MIME validation, 10 MB limit, path traversal defense, and binary null-byte (`\x00`) executable payload detection. | `test_upload_security_rejects_binary_file` |
-| **Formula Injection** | Sanitizes dangerous CSV triggers (`=`, `+`, `-`, `@`, `\t`, `\r`) with single-quote escaping across all export endpoints. | `test_formula_injection_defense` |
-| **Health Monitoring** | `/health` verifies database roundtrip, background scheduler state, job counts, and platform uptime. | `test_enhanced_health_check_endpoint` |
-| **Accessibility** | WCAG AA compliance with visible keyboard focus rings (`focus:ring-2`), ARIA labels, `aria-live` countdowns, and `prefers-reduced-motion` support. | Verified via UI inspection |
-| **Container Security** | Non-root container user (`appuser`), multi-stage builds, and minimized Alpine attack surfaces. | `Dockerfile` inspection |
+### 6. Starlink India Strategic Disruption Engine
+- Analyzes potential market disruption from satellite Low Earth Orbit (LEO) mega-constellations.
+- Models 3 distinct market entry scenarios:
+  1. *High Disruption*: Direct enterprise, maritime, defense, and rural high-speed monopoly.
+  2. *Moderate Coexistence*: Cellular backhaul partner to telcos with niche luxury consumer adoption.
+  3. *Constrained Entry*: High user terminal hardware costs ($350+) limiting penetration to remote enterprise sites.
+- 12 verified regulatory citations spanning TRAI, DoT, and IN-SPACe spectrum guidelines.
 
 ---
 
-## 4. Environment Variables Reference
+## 🎨 Luxury Obsidian & Cobalt Design System
 
-| Variable | Type | Default | Description |
-|---|---|---|---|
-| `ENVIRONMENT` | string | `development` | Deployment environment (`development` / `production`) |
-| `DEBUG` | boolean | `true` | Debug flag (set to `false` in production) |
-| `DATABASE_URL` | string | `sqlite:///./giant.db` | Database connection string (PostgreSQL in production) |
-| `CORS_ORIGINS` | string | `http://localhost:5173,...` | Comma-separated list of permitted CORS frontend origins |
-| `BREAKING_NEWS_INTERVAL_MINUTES` | int | `5` | Scheduled polling interval for breaking feeds |
-| `GENERAL_NEWS_INTERVAL_MINUTES` | int | `15` | Scheduled polling interval for standard industry feeds |
-| `OFFICIAL_STATS_CHECK_HOURS` | int | `24` | Interval for TRAI / NPCI / Vahan benchmark syncs |
-| `GEMINI_API_KEY` | string | `""` | Optional Google Gemini API key for live AI synthesis |
-| `ANTHROPIC_API_KEY` | string | `""` | Optional Anthropic API key |
-| `LLM_SPEND_CAP_USD` | float | `10.0` | Maximum spend cap ceiling for AI usage |
-| `POWERBI_CLIENT_ID` | string | `""` | Azure AD Service Principal Application ID |
-| `POWERBI_CLIENT_SECRET` | string | `""` | Azure AD Service Principal Client Secret |
-| `POWERBI_TENANT_ID` | string | `""` | Microsoft Entra Directory (Tenant) ID |
-| `POWERBI_WORKSPACE_ID` | string | `""` | Power BI Premium/Fabric Workspace GUID |
-| `POWERBI_REPORT_ID` | string | `""` | Published Power BI Report GUID |
-| `POWERBI_DATASET_ID` | string | `""` | Power BI Semantic Model GUID |
+The platform features an executive **Obsidian Black**, **Cobalt Blue Deep**, and **Pure White** aesthetic with physical glassmorphism:
+
+| Token | Value | Applied To |
+| :--- | :--- | :--- |
+| **Obsidian Base** | `#000000` | Canvas base with subtle gradient glow mesh |
+| **Pure White** | `#FFFFFF` | Primary headings, prominent KPIs, active badges |
+| **Cobalt Blue Deep** | `#2C3480` | Signature brand accents, buttons, glowing pill borders |
+| **Electric Cobalt** | `#5C6BE8` | Focused states, high-contrast links, interactive controls |
+| **Slate Tint** | `#CBD5E1` / `#94A3B8` | Secondary body text and structural borders (`border-white/10`) |
+
+### Glassmorphism Depth Levels
+1. **`glass-base` (Depth 1)**: `backdrop-filter: blur(20px)` with translucent fill for data cards, chips, and sub-panels.
+2. **`glass-raised` (Depth 2)**: `backdrop-filter: blur(28px)` with subtle outer top border highlight for main section containers and headers.
+3. **`glass-overlay` (Depth 3)**: `backdrop-filter: blur(40px)` for floating top navigation capsules, modals, and mobile tab bars.
+4. **Tabular Numerics**: Strict `tabular-nums` formatting across all financial metrics, timestamps, and percentages for vertical alignment.
 
 ---
 
-## 5. Quickstart & Local Setup
+## 🛡️ Enterprise Security & Hardening Controls
+
+Giant implements defenses across every ingestion and export vector:
+
+| Defense Vector | Implementation | Verification Test |
+| :--- | :--- | :--- |
+| **OWASP Security Headers** | `X-Content-Type-Options: nosniff`, `X-Frame-Options: SAMEORIGIN`, `Referrer-Policy: strict-origin-when-cross-origin`, strict Content-Security-Policy (CSP) allowing Power BI iframe integration. | `test_security_headers_present` |
+| **In-Memory Rate Limiting** | Sliding-window token bucket: 120 req/min for general API, 30 req/min for AI analysis, 15 req/min for CSV uploads. Returns HTTP 429 with `Retry-After: 60`. | `test_rate_limiter_exceed_limit` |
+| **SSRF Attack Guard** | Rejects non-HTTP protocols, private RFC1918 subnets (`10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`), link-local IPs (`169.254.169.254`), loopbacks (`127.0.0.1`), and enforces an authorized RSS feed allowlist. | `test_ssrf_protection_blocks_internal_and_private_ips` |
+| **CSV Upload Defense** | Strict `.csv` extension verification, MIME type validation, 10 MB payload limit, path traversal defense, and binary null-byte (`\x00`) executable payload detection. | `test_upload_security_rejects_binary_file` |
+| **Formula Injection Guard** | Prepends single quotes (`'`) to dangerous spreadsheet formula triggers (`=`, `+`, `-`, `@`, `\t`, `\r`) on all CSV export endpoints. | `test_formula_injection_defense` |
+| **Flexible CORS Engine** | Handles wildcard `*`, single domains, and comma-separated origin lists without Pydantic JSON deserialization errors. | `test_api_endpoints.py` |
+| **Container Hardening** | Runs on `python:3.11-slim` with non-root user permissions and dynamic `$PORT` routing for serverless container hosts. | `Dockerfile` inspection |
+
+---
+
+## ⚙️ Environment Variables Reference
+
+```ini
+# Server Settings
+ENVIRONMENT=production
+DEBUG=false
+HOST=0.0.0.0
+PORT=8000
+
+# Database Connection (SQLite default, PostgreSQL supported)
+DATABASE_URL=sqlite:///./giant.db
+# DATABASE_URL=postgresql://user:password@hostname:5432/dbname
+
+# CORS Allowed Origins (Comma-separated or * for public APIs)
+CORS_ORIGINS=*
+
+# Automated Polling Intervals
+BREAKING_NEWS_INTERVAL_MINUTES=5
+GENERAL_NEWS_INTERVAL_MINUTES=15
+OFFICIAL_STATS_CHECK_HOURS=24
+
+# Optional: AI Analyst (If unset, deterministic grounded synthesis is used)
+GEMINI_API_KEY=
+ANTHROPIC_API_KEY=
+LLM_SPEND_CAP_USD=10.0
+
+# Optional: Microsoft Power BI Embedded (If unset, native fallback activates)
+POWERBI_CLIENT_ID=
+POWERBI_CLIENT_SECRET=
+POWERBI_TENANT_ID=
+POWERBI_WORKSPACE_ID=
+POWERBI_REPORT_ID=
+POWERBI_DATASET_ID=
+```
+
+---
+
+## 🚀 Local Development Setup
 
 ### Prerequisites
-- Python 3.11+ (Python 3.13 supported)
-- Node.js 18+ & npm
+- Python 3.11+
+- Node.js 18+ and npm
 - Git
 
-### 1. Backend Setup
+### 1. Clone the Repository
+```bash
+git clone https://github.com/DhaneeshVijayanand/giant.git
+cd giant
+```
+
+### 2. Backend Setup
 ```bash
 cd backend
 python -m pip install -r requirements.txt
 python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload
 ```
-API docs will be available at: `http://127.0.0.1:8000/docs`.
+- API Docs: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+- Health Check: [http://127.0.0.1:8000/health](http://127.0.0.1:8000/health)
 
-### 2. Frontend Setup
+### 3. Frontend Setup
 ```bash
-cd frontend
+cd ../frontend
 npm install
 npm run dev
 ```
-Web application will be accessible at: `http://localhost:5173`.
-
-### 3. Docker Compose Setup
-```bash
-cp .env.example .env
-docker compose up -d --build
-```
-- Frontend: `http://localhost:3000`
-- Backend API: `http://localhost:8000`
-- PostgreSQL: `localhost:5432`
+- Local Application: [http://localhost:5173](http://localhost:5173)
 
 ---
 
-## 5. iOS-Style Glass Design System & Style Guide
+## 🧪 Automated Testing & Verification
 
-The Giant interface features a modern translucent frosted-glass aesthetic inspired by iOS design language, prioritizing visual calmness, clarity, and layered spatial depth.
-
-### Design Principles & Visual Hierarchy
-- **Layered Glass Depths**: Frosted glass surfaces float over a subtle, hardware-accelerated gradient mesh background with deep navy, blue, violet, and teal tones.
-  - `glass-base` (Depth 1): `backdrop-filter: blur(20px)` with 8–10% white in dark mode, 55% in light mode (data cards, chips, standard rows).
-  - `glass-raised` (Depth 2): `backdrop-filter: blur(32px)` with 12–15% white in dark mode, 70% in light mode (main containers, tab shells, segmented controls).
-  - `glass-overlay` (Depth 3): `backdrop-filter: blur(40px)` with 18–22% white in dark mode, 85% in light mode (modals, floating navbar capsule, sheets).
-- **Continuous Curvature**: Generous rounded corners matching modern Apple hardware standards (`rounded-2xl`: 20px, `rounded-3xl`: 26px, `rounded-4xl`: 32px).
-- **Translucent Borders & Inner Highlights**: 1px delicate translucent boundary (`rgba(255, 255, 255, 0.12)`) paired with faint top highlights for realistic physical refraction.
-- **Tabular Figures**: All numerical data, timestamps, KPI metrics, subscriber figures, and monetary values strictly utilize `tabular-nums` for precise column alignment.
-- **Micro-Interactions**: Spring-damped hover and active states (`active:scale-[0.98]`, subtle shadow enlargement).
-
-### Theme & Accessibility Support
-- **Light & Dark Mode**: Seamless support for both themes with automatic system detection (`prefers-color-scheme`) and manual toggle stored in `localStorage`.
-- **Contrast Ratios**: Verified WCAG AA contrast for text, labels, and icons across both light and dark surfaces.
-- **Accessibility Fallbacks**:
-  - Fallback solid backgrounds for browsers lacking `backdrop-filter` support.
-  - `@media (prefers-reduced-transparency: reduce)` increases surface opacity to 92%+ for improved readability.
-  - `@media (prefers-reduced-motion: reduce)` automatically suspends gradient mesh and orb animations.
-
----
-
-## 6. Automated Testing & Verification Results
-
-### Backend Test Suite (Pytest)
+### Backend Pytest Suite
 ```bash
 cd backend
 py -m pytest --cov=app tests/
 ```
-**Results:**
-- **47 Passed**, **0 Failed**
-- **79% Overall Code Coverage**
-- 100% coverage on core security, Power BI, Starlink, and export modules.
+```text
+============================= test session starts =============================
+platform win32 -- Python 3.13.1, pytest-9.1.1, pluggy-1.6.0
+collected 47 items
+
+tests\test_api_endpoints.py .....                                        [ 10%]
+tests\test_milestone2.py ........                                        [ 27%]
+tests\test_milestone3.py ........                                        [ 44%]
+tests\test_milestone4.py .......                                         [ 59%]
+tests\test_milestone5.py ......                                          [ 72%]
+tests\test_milestone6.py .........                                       [ 91%]
+tests\test_rss_and_news.py ....                                          [100%]
+======================== 47 passed, 1 warning in 6.93s ========================
+```
 
 ### Frontend Typecheck & Build
 ```bash
 cd frontend
 npm run build
 ```
-**Results:**
-- **0 TypeScript errors**
-- Clean manual chunking: Vendor bundle, Power BI bundle, and Main application bundle.
+```text
+✓ 1500 modules transformed.
+dist/index.html                    1.07 kB │ gzip:  0.57 kB
+dist/assets/index-DKXaWIEU.css    59.28 kB │ gzip: 10.50 kB
+dist/assets/index-CEB4vtW8.js    116.95 kB │ gzip: 24.88 kB
+dist/assets/vendor-DFdD60e4.js   181.43 kB │ gzip: 56.87 kB
+dist/assets/powerbi-DWeTH1gA.js  233.26 kB │ gzip: 40.31 kB
+✓ built in 6.90s
+```
 
 ---
 
-## 7. Transparent Limitations & Known Assumptions
+## 👤 Author & Maintainer
 
-1. **Power BI Licensing**: Live iframe embedding requires a genuine Power BI Pro/PPU license, an active Fabric or Azure Embedded capacity, and an Azure AD Service Principal registered in Microsoft Entra. If unconfigured, the platform displays the setup guide and the native fallback dashboard.
-2. **Customer Churn Generalization**: Churn predictions are generated on customer account and usage metrics (tenure, contract type, billing, services), never from broad industry news headlines alone. Demo data is clearly watermarked as **Demo data**.
-3. **Starlink Market Impact**: Projections are based on current regulatory disclosures (administrative spectrum allocation guidelines, security compliance vetting) and transparent scenario modeling. Real customer churn to satellite broadband will depend on consumer terminal pricing and urban vs. rural speed parity.
-4. **LLM Spending Controls**: Real AI calls to Gemini/Claude require user-provided API keys and respect the configured `LLM_SPEND_CAP_USD`. If keys are unset, high-precision grounded deterministic synthesis is used.
-
----
-
-## 8. Author & Identity
-
-- **Engineer & Architect**: Dhaneesh Vijayanand
+- **Developer & Architect**: **Dhaneesh Vijayanand**
 - **GitHub**: [@DhaneeshVijayanand](https://github.com/DhaneeshVijayanand)
+- **Repository**: [https://github.com/DhaneeshVijayanand/giant](https://github.com/DhaneeshVijayanand/giant)
 - **Email**: `216114899+DhaneeshVijayanand@users.noreply.github.com`
-- **Repository**: [Giant Platform](https://github.com/DhaneeshVijayanand/giant)
+- **License**: MIT
